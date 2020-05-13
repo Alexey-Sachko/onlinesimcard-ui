@@ -1,0 +1,16 @@
+FROM node:12.3.1-alpine
+
+EXPOSE 3000
+
+RUN mkdir -p /usr/bin/front
+WORKDIR /usr/bin/front
+
+COPY ./package-lock.json /usr/bin/front/
+
+RUN npm install
+
+COPY . /usr/bin/front/
+
+RUN npm run build
+
+CMD [ "npm", "start" ]

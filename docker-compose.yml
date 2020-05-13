@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  front:
+    build: ./
+    image: 23091996/onlinesim_uuitfdsssmlcjkfjjdjnrjhhdu
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
