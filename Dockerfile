@@ -5,7 +5,7 @@ EXPOSE 3000
 RUN mkdir -p /usr/bin/front
 WORKDIR /usr/bin/front
 
-COPY ./package-lock.json /usr/bin/front/
+COPY ./package.json /usr/bin/front/
 
 RUN npm install
 
