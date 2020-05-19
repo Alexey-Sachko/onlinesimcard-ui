@@ -6,7 +6,7 @@ RUN mkdir -p /usr/bin/front
 WORKDIR /usr/bin/front
 
 COPY ./package.json /usr/bin/front/
-COPY ./yarn.json /usr/bin/front/
+COPY ./yarn.lock /usr/bin/front/
 
 RUN yarn install
 
