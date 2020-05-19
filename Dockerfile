@@ -6,8 +6,9 @@ RUN mkdir -p /usr/bin/front
 WORKDIR /usr/bin/front
 
 COPY ./package.json /usr/bin/front/
+COPY ./yarn.json /usr/bin/front/
 
-RUN npm install
+RUN yarn install
 
 COPY . /usr/bin/front/
 
