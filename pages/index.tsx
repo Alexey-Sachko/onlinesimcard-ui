@@ -1,13 +1,14 @@
 import React from "react";
 import Head from "next/head";
 
+import Header from "../components/Header";
+import MainSection from "../components/MainSection";
+
 const Home = () => (
   <div>
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/static/favicon.ico" />
-    </Head>
-    <h1>Onlinesimcard.ru</h1>
+    <Head>{/* <title>Home</title> */}</Head>
+    <Header />
+    <MainSection />
   </div>
 );
 
