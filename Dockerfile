@@ -6,9 +6,9 @@ RUN mkdir -p /usr/bin/front
 WORKDIR /usr/bin/front
 
 COPY ./package.json /usr/bin/front/
-COPY ./yarn.lock /usr/bin/front/
+COPY ./package-lock.json /usr/bin/front/
 
-RUN yarn install
+RUN npm install
 
 COPY . /usr/bin/front/
 
