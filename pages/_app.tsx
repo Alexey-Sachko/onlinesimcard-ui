@@ -3,6 +3,7 @@ import Head from "next/head";
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
+import { YMInitializer } from "react-yandex-metrika";
 import { THEME } from "../theme";
 // import { ThemeProvider } from 'styled-components'
 // const theme = {
@@ -27,11 +28,11 @@ export default class App extends NextApp {
             name="description"
             content="Descr"
           /> */}
-          {/* <link
+          <link
             rel="shortcut icon"
             type="image/x-icon"
             href="/static/favicon.ico"
-          /> */}
+          />
           <title>Виртуальный номер для приема СМС</title>
           <link
             rel="stylesheet"
@@ -39,6 +40,7 @@ export default class App extends NextApp {
           />
         </Head>
 
+        <YMInitializer accounts={[62981725]} />
         <CssBaseline />
         <Component {...pageProps} />
       </MuiThemeProvider>

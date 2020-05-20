@@ -6,7 +6,9 @@ import { Button, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // minWidth: "500px",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
     borderRadius: "5px",
     backgroundColor: "#F2F2F2",
     color: "#4A4A4A",
@@ -17,14 +19,21 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     fontSize: "32px",
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "24px",
+    },
   },
   body: {
+    flexGrow: 1,
     padding: "20px 20px 20px 34px",
   },
   price: {
     fontSize: "32px",
     color: "#FC7E2F",
     marginBottom: "20px",
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "24px",
+    },
   },
   feature: {
     display: "flex",
@@ -34,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
   featureText: {
     fontSize: "22px",
     fontWeight: 300,
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "16px",
+    },
   },
   listMark: {
     width: "10px",
@@ -47,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "20px",
     borderTopRightRadius: "0",
     borderTopLeftRadius: "0",
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "16px",
+    },
   },
 }));
 

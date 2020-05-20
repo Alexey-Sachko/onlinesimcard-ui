@@ -9,21 +9,36 @@ import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh",
+    minHeight: "100vh",
     background: "url(/static/bg-first-section.jpg) center no-repeat",
     backgroundSize: "cover",
   },
   overlay: {
-    paddingTop: "calc(80px + 64px)",
+    paddingTop: "calc(20px + 64px)",
+    paddingBottom: "30px",
     width: "100%",
     height: "100%",
+    minHeight: "100vh",
     background:
       "radial-gradient(33.2% 130.09% at 72.5% 35.88%, rgba(196, 196, 196, 0) 0%, rgba(0, 0, 0, 0.5) 89.74%, rgba(0, 0, 0, 0.7) 100%)",
+    // [theme.breakpoints.up("xs")]: {
+    //   paddingTop: "calc(10px + 64px)",
+    // },
+    [theme.breakpoints.up("sm")]: {
+      paddingTop: "calc(50px + 64px)",
+    },
+    [theme.breakpoints.up("lg")]: {
+      paddingTop: "calc(70px + 64px)",
+    },
   },
   title: {
-    fontSize: "48px",
+    fontSize: "36px",
     fontWeight: 500,
-    marginBottom: "40px",
+    marginBottom: "25px",
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "48px",
+      marginBottom: "40px",
+    },
   },
   textBlock: {
     color: "#fff",
@@ -31,7 +46,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "40px",
   },
   description: {
-    fontSize: "24px",
+    fontSize: "16px",
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "20px",
+    },
   },
   products: {
     display: "flex",
@@ -56,9 +74,8 @@ const MainSection = () => {
               подтверждений онлайн.
             </Typography>
           </div>
-          {/* <div className={classes.products}> */}
           <Grid container spacing={2}>
-            <Grid item md={6} lg={5} xl={5}>
+            <Grid item xs={12} sm={6} md={5} lg={4}>
               <ProductCard
                 title="Одноразовые номера"
                 price="от 1₽ / номер"
@@ -69,7 +86,7 @@ const MainSection = () => {
                 ]}
               />
             </Grid>
-            <Grid item md={6} lg={5} xl={5}>
+            <Grid item xs={12} sm={6} md={5} lg={4}>
               <ProductCard
                 title="Номера для аренды"
                 price="от 30₽ / день"
@@ -81,7 +98,6 @@ const MainSection = () => {
               />
             </Grid>
           </Grid>
-          {/* </div> */}
         </CustomContainer>
       </div>
     </Box>

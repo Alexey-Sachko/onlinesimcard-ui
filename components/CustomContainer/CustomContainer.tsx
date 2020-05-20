@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("xs")]: {
       margin: "0 20px",
     },
     [theme.breakpoints.up("md")]: {

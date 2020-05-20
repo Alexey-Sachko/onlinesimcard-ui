@@ -12,6 +12,10 @@ export const THEME = createMuiTheme({
     primary: {
       main: "#1E71FF",
     },
+    secondary: {
+      main: "#F0864A",
+      contrastText: "#fff",
+    },
   },
   // overrides: {
   //   MuiCssBaseline: {
