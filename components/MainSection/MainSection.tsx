@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
-import { Grid } from "@material-ui/core";
+import ChooseServiceModal from "../ChooseServiceModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
 
 const MainSection = () => {
   const classes = useStyles();
+  const [isOpeChooseService, setIsOpeChooseService] = useState(false);
+
   return (
     <Box className={classes.root}>
       <div className={classes.overlay}>
@@ -84,6 +87,7 @@ const MainSection = () => {
                   "номер активен 20 минут",
                   "более 20 стран в наличии",
                 ]}
+                onActionClick={() => setIsOpeChooseService(true)}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={5} lg={4}>
@@ -95,10 +99,15 @@ const MainSection = () => {
                   "безлимитный прием смс",
                   "срок аренды до 180 дней и продление",
                 ]}
+                onActionClick={() => setIsOpeChooseService(true)}
               />
             </Grid>
           </Grid>
         </CustomContainer>
+        <ChooseServiceModal
+          open={isOpeChooseService}
+          onClose={() => setIsOpeChooseService(false)}
+        />
       </div>
     </Box>
   );

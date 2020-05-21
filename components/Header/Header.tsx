@@ -1,15 +1,16 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 import CustomContainer from "../CustomContainer";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import Hidden from "@material-ui/core/Hidden";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import clsx from "clsx";
+// import IconButton from "@material-ui/core/IconButton";
+// import MenuIcon from "@material-ui/icons/Menu";
+// import Hidden from "@material-ui/core/Hidden";
+// import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+// import { List, ListItem, ListItemText } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,25 +48,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+type Props = {
+  blueBg?: boolean;
+};
+
+const Header = ({ blueBg }: Props) => {
   const classes = useStyles();
   const [isBlueHead, setIsBlueHead] = useState(false);
-  const [drawerAnchor, setDrawerAnchor] = useState(false);
+  // const [drawerAnchor, setDrawerAnchor] = useState(false);
 
-  const toggleDrawer = (open: boolean) => (
-    event: React.KeyboardEvent | React.MouseEvent
-  ) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      ((event as React.KeyboardEvent).key === "Tab" ||
-        (event as React.KeyboardEvent).key === "Shift")
-    ) {
-      return;
-    }
+  // const toggleDrawer = (open: boolean) => (
+  //   event: React.KeyboardEvent | React.MouseEvent
+  // ) => {
+  //   if (
+  //     event &&
+  //     event.type === "keydown" &&
+  //     ((event as React.KeyboardEvent).key === "Tab" ||
+  //       (event as React.KeyboardEvent).key === "Shift")
+  //   ) {
+  //     return;
+  //   }
 
-    setDrawerAnchor(open);
-  };
+  //   setDrawerAnchor(open);
+  // };
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -86,16 +91,16 @@ const Header = () => {
     };
   }, [isBlueHead]);
 
-  const rootClasses = [classes.root];
-  if (isBlueHead) {
-    rootClasses.push(classes.rootBlueBg);
-  }
-
   return (
-    <AppBar className={rootClasses.join(" ")} position="fixed">
+    <AppBar
+      className={clsx(classes.root, {
+        [classes.rootBlueBg]: isBlueHead || blueBg,
+      })}
+      position="fixed"
+    >
       <CustomContainer>
         <Toolbar disableGutters>
-          <Hidden smUp implementation="css">
+          {/* <Hidden smUp implementation="css">
             <IconButton
               edge="start"
               className={classes.menuButton}
@@ -122,23 +127,29 @@ const Header = () => {
                 </List>
               </div>
             </SwipeableDrawer>
-          </Hidden>
-          <div className={classes.title}>
-            <img
-              className={classes.logoImg}
-              src="/static/logo.svg"
-              alt="OnlineSIMCARD"
-            />
-          </div>
+          </Hidden> */}
+          <Link href="/">
+            <a className={classes.title}>
+              <img
+                className={classes.logoImg}
+                src="/static/logo.svg"
+                alt="OnlineSIMCARD"
+              />
+            </a>
+          </Link>
           {/* <Button color="inherit">Главная</Button> */}
           {/* <Button color="inherit">Контакты</Button> */}
-          <Hidden xsDown>
+          {/* <Hidden xsDown>
             <Button color="inherit">Цены</Button>
             <Button color="inherit">Вход</Button>
-          </Hidden>
-          <Button color="secondary" variant="contained">
-            Регистрация
-          </Button>
+          </Hidden> */}
+          <Link href="/signup">
+            <a style={{ textDecoration: "none" }}>
+              <Button color="secondary" variant="contained">
+                Регистрация
+              </Button>
+            </a>
+          </Link>
         </Toolbar>
       </CustomContainer>
     </AppBar>
