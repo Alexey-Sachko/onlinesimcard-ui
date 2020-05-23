@@ -34,9 +34,17 @@ export default class App extends NextApp {
             href="/static/favicon.ico"
           />
           <title>Виртуальный номер для приема СМС</title>
-          <link
+          {/* <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          /> */}
+          <link
+            href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap"
+            rel="stylesheet"
           />
         </Head>
 

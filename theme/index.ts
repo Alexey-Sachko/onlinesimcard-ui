@@ -6,7 +6,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 
 export const THEME = createMuiTheme({
   typography: {
-    // fontFamily: `"Lato"`,
+    fontFamily: `"Montserrat", sans-serif`,
   },
   palette: {
     primary: {

@@ -10,7 +10,6 @@ import ChooseServiceModal from "../ChooseServiceModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minHeight: "100vh",
     background: "url(/static/bg-first-section.jpg) center no-repeat",
     backgroundSize: "cover",
   },
@@ -19,12 +18,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "30px",
     width: "100%",
     height: "100%",
-    minHeight: "100vh",
     background:
       "radial-gradient(33.2% 130.09% at 72.5% 35.88%, rgba(196, 196, 196, 0) 0%, rgba(0, 0, 0, 0.5) 89.74%, rgba(0, 0, 0, 0.7) 100%)",
-    // [theme.breakpoints.up("xs")]: {
-    //   paddingTop: "calc(10px + 64px)",
-    // },
+
     [theme.breakpoints.up("sm")]: {
       paddingTop: "calc(50px + 64px)",
     },
@@ -35,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: "36px",
     fontWeight: 500,
+    fontFamily: "'Comfortaa', cursive",
     marginBottom: "25px",
     [theme.breakpoints.up("lg")]: {
       fontSize: "48px",
@@ -78,7 +75,7 @@ const MainSection = () => {
             </Typography>
           </div>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={5} lg={4}>
+            <Grid item zeroMinWidth xs={12} sm={6} md={5} lg="auto">
               <ProductCard
                 title="Одноразовые номера"
                 price="от 1₽ / номер"
@@ -90,7 +87,7 @@ const MainSection = () => {
                 onActionClick={() => setIsOpeChooseService(true)}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={5} lg={4}>
+            <Grid item zeroMinWidth xs={12} sm={6} md={5} lg="auto">
               <ProductCard
                 title="Номера для аренды"
                 price="от 30₽ / день"
