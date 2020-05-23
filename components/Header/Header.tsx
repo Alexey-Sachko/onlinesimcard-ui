@@ -6,6 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import CustomContainer from "../CustomContainer";
 import clsx from "clsx";
+import Logo from "../Logo";
 // import IconButton from "@material-ui/core/IconButton";
 // import MenuIcon from "@material-ui/icons/Menu";
 // import Hidden from "@material-ui/core/Hidden";
@@ -23,25 +24,14 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(1),
   },
-  title: {
+  logoContainer: {
     flexGrow: 1,
-    display: "flex",
-    alignItems: "center",
   },
   logoImg: {
     maxHeight: "25px",
-    // [theme.breakpoints.up("xs")]: {
-    //   maxHeight: "40px",
-    // },
-    // [theme.breakpoints.up("md")]: {
-    //   maxHeight: "40px",
-    // },
     [theme.breakpoints.up("lg")]: {
       maxHeight: "35px",
     },
-    // [theme.breakpoints.up("xl")]: {
-    //   maxHeight: "40px",
-    // },
   },
   drawerList: {
     minWidth: "250px",
@@ -128,7 +118,7 @@ const Header = ({ blueBg }: Props) => {
               </div>
             </SwipeableDrawer>
           </Hidden> */}
-          <Link href="/">
+          {/* <Link href="/">
             <a className={classes.title}>
               <img
                 className={classes.logoImg}
@@ -136,7 +126,10 @@ const Header = ({ blueBg }: Props) => {
                 alt="OnlineSIMCARD"
               />
             </a>
-          </Link>
+          </Link> */}
+          <div className={classes.logoContainer}>
+            <Logo />
+          </div>
           {/* <Button color="inherit">Главная</Button> */}
           {/* <Button color="inherit">Контакты</Button> */}
           {/* <Hidden xsDown>
