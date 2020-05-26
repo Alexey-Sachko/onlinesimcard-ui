@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   gridContainer: {
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column-reverse",
     },
   },
