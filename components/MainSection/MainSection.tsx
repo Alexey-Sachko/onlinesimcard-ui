@@ -6,7 +6,6 @@ import Grid from "@material-ui/core/Grid";
 
 import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
-import ChooseServiceModal from "../ChooseServiceModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,9 +53,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainSection = () => {
+type Props = {
+  onActionClick: () => void;
+};
+
+const MainSection = ({ onActionClick }: Props) => {
   const classes = useStyles();
-  const [isOpeChooseService, setIsOpeChooseService] = useState(false);
 
   return (
     <Box className={classes.root}>
@@ -84,7 +86,7 @@ const MainSection = () => {
                   "номер активен 20 минут",
                   "более 20 стран в наличии",
                 ]}
-                onActionClick={() => setIsOpeChooseService(true)}
+                onActionClick={onActionClick}
               />
             </Grid>
             <Grid item zeroMinWidth xs={12} sm={6} md={5} lg="auto">
@@ -96,15 +98,11 @@ const MainSection = () => {
                   "безлимитный прием смс",
                   "срок аренды до 180 дней и продление",
                 ]}
-                onActionClick={() => setIsOpeChooseService(true)}
+                onActionClick={onActionClick}
               />
             </Grid>
           </Grid>
         </CustomContainer>
-        <ChooseServiceModal
-          open={isOpeChooseService}
-          onClose={() => setIsOpeChooseService(false)}
-        />
       </div>
     </Box>
   );
