@@ -17,6 +17,7 @@ import clsx from "clsx";
 
 import Copyright from "../components/Copyright/Copyright";
 import Header from "../components/Header";
+import { ApiService } from "../services/api/api.service";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,15 +59,9 @@ const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Некорректный Email").required("Поле обязательное"),
   password: Yup.string()
     .required("Поле обязательное")
-    .min(4, "Пароль должен быть не менее 4 символов")
-    .max(15, "Пароль должен быть не более 15 символов"),
-  // .test(
-  //   "password",
-  //   "Пароль должен состоять из латинских букв, цифр и символов -",
-  //   function (value) {
-  //     return !/[^a-zA-Z]/.test(value);
-  //   }
-  // ),
+    .min(8, "Пароль должен быть не менее 8 символов")
+    .max(20, "Пароль должен быть не более 20 символов"),
+
   // .matches(/[a-zA-Z]/, "Пароль должен включать в себя латинские буквы"),
   repassword: Yup.string()
     // .required("Пароли должны совпадать")
@@ -78,10 +73,20 @@ const SignupSchema = Yup.object().shape({
 export default function SignUp() {
   const classes = useStyles();
   const [isSignuped, setIsSignuped] = useState(false);
+  const [emailError, setEmailError] = useState("");
 
-  const submitHandler = (values: Values) => {
-    console.log(values);
-    setIsSignuped(true);
+  const submitHandler = async ({ email, password }: Values) => {
+    setEmailError("");
+    try {
+      await ApiService.signup({ email, password });
+      setIsSignuped(true);
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 409) {
+          setEmailError("Пользователь с таким email уже зарегистрирован");
+        }
+      }
+    }
   };
 
   return (
@@ -137,8 +142,8 @@ export default function SignUp() {
                               label="Email Адрес"
                               autoComplete="email"
                               autoFocus
-                              error={Boolean(errors.email)}
-                              helperText={errors.email}
+                              error={Boolean(errors.email || emailError)}
+                              helperText={errors.email || emailError}
                               {...field}
                             />
                           );
