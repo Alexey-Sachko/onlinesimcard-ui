@@ -17,7 +17,7 @@ import clsx from "clsx";
 
 import Copyright from "../components/Copyright/Copyright";
 import Header from "../components/Header";
-import { ApiService } from "../services/api/api.service";
+import * as AuthService from "../services/auth/auth.service";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -77,15 +77,13 @@ export default function SignUp() {
 
   const submitHandler = async ({ email, password }: Values) => {
     setEmailError("");
-    try {
-      await ApiService.signup({ email, password });
+    const { ok, conflict } = await AuthService.signup({ email, password });
+    if (ok) {
       setIsSignuped(true);
-    } catch (error) {
-      if (error.response) {
-        if (error.response.status === 409) {
-          setEmailError("Пользователь с таким email уже зарегистрирован");
-        }
-      }
+    } else if (conflict) {
+      setEmailError("Пользователь с таким email уже зарегистрирован");
+    } else {
+      // Error
     }
   };
 

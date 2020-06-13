@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { Formik, Form, Field, FieldProps } from "formik";
 import Avatar from "@material-ui/core/Avatar";
@@ -14,6 +15,7 @@ import Link from "@material-ui/core/Link";
 
 import Copyright from "../components/Copyright/Copyright";
 import Header from "../components/Header";
+import * as AuthService from "../services/auth/auth.service";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -28,9 +30,6 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
-  },
-  avatarSuccess: {
-    backgroundColor: theme.palette.success.main,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -52,7 +51,19 @@ type Values = {
 
 export default function SigninPage() {
   const classes = useStyles();
-  const submitHandler = ({}: Values) => {};
+  const router = useRouter();
+  const [ivalidError, setInvalidError] = useState(false);
+  const submitHandler = async ({ email, password }: Values) => {
+    setInvalidError(false);
+    const { ok, invalid } = await AuthService.login({ email, password });
+    if (ok) {
+      router.push("/admin");
+    } else if (invalid) {
+      setInvalidError(true);
+    } else {
+      // error
+    }
+  };
 
   return (
     <>
@@ -65,6 +76,7 @@ export default function SigninPage() {
           <Typography component="h1" variant="h5">
             Вход
           </Typography>
+          {ivalidError && "ivalidError credentials TODO"}
           <Formik
             initialValues={{ email: "", password: "" }}
             // validationSchema={SignupSchema}
