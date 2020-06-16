@@ -1,12 +1,31 @@
 import React from "react";
 import { NextPage } from "next";
 
-const AdminPage: NextPage = () => {
-  return <div>AdminPage</div>;
+import { privatePage, AuthProps } from "../hocs/privatePage";
+
+type Props = AuthProps;
+
+const AdminPage: NextPage<Props> = ({ auth }) => {
+  return (
+    <div>
+      AdminPage
+      <p>
+        <strong>user</strong>: {auth.decodedToken.email}
+      </p>
+      <p>
+        <strong>isValid</strong>: {auth.isValid.toString()}
+      </p>
+      <p>
+        <strong>isExpired</strong>: {auth.isExpired.toString()}
+      </p>
+      <p>
+        <strong>authorizationString</strong>: {auth.authorizationString}
+      </p>
+      <p>
+        <strong>expiresAt</strong>: {auth.expiresAt.toString()}
+      </p>
+    </div>
+  );
 };
 
-AdminPage.getInitialProps = async ({ res, req }) => {
-  // const cookies = req ? req.headers.cookie : undefined
-};
-
-export default AdminPage;
+export default privatePage(AdminPage);

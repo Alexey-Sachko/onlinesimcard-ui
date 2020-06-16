@@ -193,9 +193,9 @@ export default function SignUp() {
                   </Button>
                   <Grid container justify="flex-end">
                     <Grid item>
-                      <Link href="/signin" variant="body2" component={NextLink}>
+                      <NextLink href="/signin">
                         <a>Уже зарегистрированы? Войти</a>
-                      </Link>
+                      </NextLink>
                     </Grid>
                   </Grid>
                 </Form>

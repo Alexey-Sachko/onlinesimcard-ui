@@ -55,10 +55,8 @@ export default function SigninPage() {
   const [ivalidError, setInvalidError] = useState(false);
   const submitHandler = async ({ email, password }: Values) => {
     setInvalidError(false);
-    const { ok, invalid } = await AuthService.login({ email, password });
-    if (ok) {
-      router.push("/admin");
-    } else if (invalid) {
+    const { invalid } = await AuthService.login({ email, password });
+    if (invalid) {
       setInvalidError(true);
     } else {
       // error
@@ -135,9 +133,9 @@ export default function SigninPage() {
                 </Button>
                 <Grid container justify="flex-end">
                   <Grid item>
-                    <Link href="/signup" variant="body2" component={NextLink}>
+                    <NextLink href="/signup">
                       <a>Еще нет аккаунта? Регистрация</a>
-                    </Link>
+                    </NextLink>
                   </Grid>
                 </Grid>
               </Form>

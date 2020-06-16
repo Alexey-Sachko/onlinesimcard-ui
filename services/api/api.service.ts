@@ -34,15 +34,15 @@ class ApiServiceCls {
   }
 
   async get(url: string, config?: AxiosRequestConfig) {
-    return Axios.get(url, config);
+    return this.Api.get(url, config);
   }
 
   async post(url: string, data?: any, config?: AxiosRequestConfig) {
-    return Axios.post(url, data, config);
+    return this.Api.post(url, data, config);
   }
 
   async delete(url: string, config?: AxiosRequestConfig) {
-    return Axios.delete(url, config);
+    return this.Api.delete(url, config);
   }
 
   private matchErrorByStatus(error: AxiosError) {
