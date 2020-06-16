@@ -53,13 +53,14 @@ export default function SigninPage() {
   const classes = useStyles();
   const router = useRouter();
   const [ivalidError, setInvalidError] = useState(false);
+  const [error, setError] = useState(false);
   const submitHandler = async ({ email, password }: Values) => {
     setInvalidError(false);
-    const { invalid } = await AuthService.login({ email, password });
+    const { invalid, ok } = await AuthService.login({ email, password });
     if (invalid) {
       setInvalidError(true);
-    } else {
-      // error
+    } else if (!ok) {
+      setError(true);
     }
   };
 
@@ -75,6 +76,7 @@ export default function SigninPage() {
             Вход
           </Typography>
           {ivalidError && "ivalidError credentials TODO"}
+          {error && "Somthing went wrong TODO"}
           <Formik
             initialValues={{ email: "", password: "" }}
             // validationSchema={SignupSchema}

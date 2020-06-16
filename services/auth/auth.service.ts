@@ -17,7 +17,7 @@ export const login = async (userCredentials: UserCredentials) => {
   if (err instanceof UnauthorizedException) {
     return { ok: false, invalid: true };
   }
-  throw err;
+  return { ok: false };
 };
 
 export const signup = async (userCredentials: UserCredentials) => {
