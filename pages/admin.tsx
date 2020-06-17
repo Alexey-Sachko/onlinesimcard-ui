@@ -2,6 +2,7 @@ import React from "react";
 import { NextPage } from "next";
 
 import { privatePage, AuthProps } from "../hocs/privatePage";
+import { Permissions } from "../services/auth/permissions.enum";
 
 type Props = AuthProps;
 
@@ -28,4 +29,4 @@ const AdminPage: NextPage<Props> = ({ auth }) => {
   );
 };
 
-export default privatePage(AdminPage);
+export default privatePage(AdminPage, { permissions: [Permissions.ReadUsers] });

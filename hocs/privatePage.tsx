@@ -2,12 +2,21 @@ import { NextPageContext } from "next";
 import React, { Component } from "react";
 import { AuthToken } from "../services/auth/auth.token";
 import { isomorphicRedirect } from "../services/redirect/isomorphicRedirect";
+import { Permissions } from "../services/auth/permissions.enum";
+import Forbidden from "../components/Forbidden";
 
 export type AuthProps = {
   auth: AuthToken;
 };
 
-export function privatePage(WrappedComponent: any) {
+type PrivatePageOptions = {
+  permissions?: [Permissions];
+};
+
+export function privatePage(
+  WrappedComponent: any,
+  options?: PrivatePageOptions
+) {
   return class PrivatePageHoc extends Component<AuthProps> {
     state = {
       auth: new AuthToken(this.props.auth.token),
@@ -39,10 +48,29 @@ export function privatePage(WrappedComponent: any) {
       this.setState({ auth: new AuthToken(this.props.auth.token) });
     }
 
+    shouldShowPage() {
+      if (!options?.permissions) {
+        return true;
+      }
+
+      const role = this.props.auth.role;
+      if (!role) {
+        return false;
+      }
+      return options.permissions.every((permission) =>
+        role.permissions.includes(permission)
+      );
+    }
+
     render() {
       // we want to hydrate the WrappedComponent with a full instance method of
       // AuthToken, the existing props.auth is a flattened auth, we want to use
       // the state instance of auth that has been rehydrated in browser after mount
+
+      if (!this.shouldShowPage()) {
+        return <Forbidden />;
+      }
+
       const { auth, ...propsWithoutAuth } = this.props;
       return <WrappedComponent auth={this.state.auth} {...propsWithoutAuth} />;
     }

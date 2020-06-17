@@ -3,10 +3,12 @@ import Router from "next/router";
 import jwtDecode from "jwt-decode";
 import { NextPageContext } from "next";
 import { parseCookie } from "../../utils/parseCookie";
+import { UserRole } from "./user-role.type";
 
 export type DecodedToken = {
   readonly email: string;
   readonly exp: number;
+  readonly role: UserRole | null;
 };
 
 const TOKEN_STORAGE_KEY = "myApp.authToken";
@@ -30,11 +32,15 @@ export class AuthToken {
   }
 
   constructor(readonly token?: string) {
-    this.decodedToken = { email: "", exp: 0 };
+    this.decodedToken = { email: "", exp: 0, role: null };
 
     try {
       if (token) this.decodedToken = jwtDecode(token);
     } catch (e) {}
+  }
+
+  get role() {
+    return this.decodedToken.role;
   }
 
   get authorizationString() {
