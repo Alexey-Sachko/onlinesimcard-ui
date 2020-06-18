@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import CustomContainer from "../CustomContainer";
 import clsx from "clsx";
 import Logo from "../Logo";
+import { useTypedSelector } from "../../redux";
 // import IconButton from "@material-ui/core/IconButton";
 // import MenuIcon from "@material-ui/icons/Menu";
 // import Hidden from "@material-ui/core/Hidden";
@@ -45,6 +46,8 @@ type Props = {
 const Header = ({ blueBg }: Props) => {
   const classes = useStyles();
   const [isBlueHead, setIsBlueHead] = useState(false);
+  const { email } = useTypedSelector((s) => s.user);
+  const store = useTypedSelector((s) => s);
   // const [drawerAnchor, setDrawerAnchor] = useState(false);
 
   // const toggleDrawer = (open: boolean) => (
@@ -136,6 +139,7 @@ const Header = ({ blueBg }: Props) => {
             <Button color="inherit">Цены</Button>
             <Button color="inherit">Вход</Button>
           </Hidden> */}
+          {email}
           <Link href="/signup">
             <a style={{ textDecoration: "none" }}>
               <Button color="secondary" variant="contained">

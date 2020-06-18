@@ -2,17 +2,16 @@ import { configureStore, combineReducers, AnyAction } from "@reduxjs/toolkit";
 import { NextPageContext, NextComponentType } from "next";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { MakeStore, createWrapper, Context } from "next-redux-wrapper";
-import * as reducers from "./reducers";
-
-const rootReducer = combineReducers(reducers);
+import { reconcilationReducer } from "./reconcilation";
+import { rootReducer } from "./reducers";
 
 export const makeStore = (context) => {
   return configureStore({
-    reducer: rootReducer,
+    reducer: reconcilationReducer,
   });
 };
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
-export const wrapper = createWrapper<RootState>(makeStore, { debug: false });
+export const wrapper = createWrapper<RootState>(makeStore, { debug: true });
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppDispatch = AppStore["dispatch"];

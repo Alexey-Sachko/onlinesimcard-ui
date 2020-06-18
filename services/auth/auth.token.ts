@@ -31,7 +31,7 @@ export class AuthToken {
     return new AuthToken(token);
   }
 
-  constructor(readonly token?: string) {
+  constructor(readonly token: string | undefined) {
     this.decodedToken = { email: "", exp: 0, role: null };
 
     try {

@@ -6,10 +6,15 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import { YMInitializer } from "react-yandex-metrika";
 import { THEME } from "../theme";
 import { wrapper } from "../redux/index";
+import { AuthToken } from "../services/auth/auth.token";
+import { loginSuccess } from "../redux/features/user/index";
 
 class MyApp extends App<AppInitialProps> {
   public static getInitialProps = async ({ Component, ctx }: AppContext) => {
-    // ctx.store.dispatch({ type: "TOE", payload: "was set in _app" });
+    const auth = AuthToken.fromNext(ctx);
+    if (auth.isValid) {
+      ctx.store.dispatch(loginSuccess(auth.token));
+    }
 
     return {
       pageProps: {

@@ -10,6 +10,7 @@ import { ConflictException } from "../../../exceptions/conflict.exception";
 
 type UserState = {
   email: string;
+  accessToken: string | null;
   role: UserRole | null;
   isAuthorized: boolean;
   login: {
@@ -28,10 +29,12 @@ type SignupErrorType = string | null;
 type LoginSuccessPayload = {
   email: string;
   role: UserRole | null;
+  accessToken: string;
 };
 
 const initialState: UserState = {
   email: "",
+  accessToken: null,
   role: null,
   isAuthorized: false,
   login: { loading: false, error: null },
@@ -56,10 +59,13 @@ const userSlice = createSlice({
     },
     loginReqSuccess: (
       state,
-      { payload: { email, role } }: PayloadAction<LoginSuccessPayload>
+      {
+        payload: { email, role, accessToken },
+      }: PayloadAction<LoginSuccessPayload>
     ) => {
       state.login.loading = false;
       state.email = email;
+      state.accessToken = accessToken;
       state.role = role;
       state.isAuthorized = true;
     },
@@ -88,6 +94,13 @@ const {
   signupReqSuccess,
 } = userSlice.actions;
 
+export const loginSuccess = (accessToken: string) => {
+  const {
+    decodedToken: { email, role },
+  } = new AuthToken(accessToken);
+  return loginReqSuccess({ email, role, accessToken });
+};
+
 export const loginUser = (userCredentials: UserCredentials): AppThunk => async (
   dispatch
 ) => {
@@ -96,11 +109,8 @@ export const loginUser = (userCredentials: UserCredentials): AppThunk => async (
 
   if (!err) {
     const accessToken = res.data.data.accessToken;
-    const {
-      decodedToken: { email, role },
-    } = new AuthToken();
+    dispatch(loginSuccess(accessToken));
     await AuthToken.storeToken(accessToken);
-    dispatch(loginReqSuccess({ email, role }));
     return;
   }
 
