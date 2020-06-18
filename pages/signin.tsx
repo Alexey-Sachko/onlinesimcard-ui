@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
+import React from "react";
+import { useDispatch } from "react-redux";
 import NextLink from "next/link";
 import { Formik, Form, Field, FieldProps } from "formik";
 import Avatar from "@material-ui/core/Avatar";
@@ -16,6 +16,8 @@ import Link from "@material-ui/core/Link";
 import Copyright from "../components/Copyright/Copyright";
 import Header from "../components/Header";
 import * as AuthService from "../services/auth/auth.service";
+import { useTypedSelector } from "../redux";
+import { loginUser } from "../redux/features/user";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -50,18 +52,12 @@ type Values = {
 };
 
 export default function SigninPage() {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const router = useRouter();
-  const [ivalidError, setInvalidError] = useState(false);
-  const [error, setError] = useState(false);
-  const submitHandler = async ({ email, password }: Values) => {
-    setInvalidError(false);
-    const { invalid, ok } = await AuthService.login({ email, password });
-    if (invalid) {
-      setInvalidError(true);
-    } else if (!ok) {
-      setError(true);
-    }
+  const { error, loading } = useTypedSelector((s) => s.user.login);
+
+  const submitHandler = ({ email, password }: Values) => {
+    dispatch(loginUser({ email, password }));
   };
 
   return (
@@ -75,8 +71,8 @@ export default function SigninPage() {
           <Typography component="h1" variant="h5">
             Вход
           </Typography>
-          {ivalidError && "ivalidError credentials TODO"}
-          {error && "Somthing went wrong TODO"}
+          {loading && "Загрузка"}
+          {error}
           <Formik
             initialValues={{ email: "", password: "" }}
             // validationSchema={SignupSchema}
