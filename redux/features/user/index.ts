@@ -6,6 +6,7 @@ import { ApiService } from "../../../services/api/api.service";
 import { UnauthorizedException } from "../../../exceptions/unauthorized.exception";
 import { AuthToken } from "../../../services/auth/auth.token";
 import { UserRole } from "../../../services/auth/user-role.type";
+import { ConflictException } from "../../../exceptions/conflict.exception";
 
 type UserState = {
   email: string;
@@ -15,7 +16,14 @@ type UserState = {
     loading: boolean;
     error: string | null;
   };
+  signup: {
+    done: boolean;
+    loading: boolean;
+    error: SignupErrorType;
+  };
 };
+
+type SignupErrorType = string | null;
 
 type LoginSuccessPayload = {
   email: string;
@@ -27,6 +35,7 @@ const initialState: UserState = {
   role: null,
   isAuthorized: false,
   login: { loading: false, error: null },
+  signup: { done: false, loading: false, error: null },
 };
 
 const userSlice = createSlice({
@@ -54,12 +63,30 @@ const userSlice = createSlice({
       state.role = role;
       state.isAuthorized = true;
     },
+    signupReqStart: (state) => {
+      state.signup.loading = true;
+      state.signup.error = null;
+    },
+    signupReqError: (state, { payload }: PayloadAction<SignupErrorType>) => {
+      state.signup.loading = false;
+      state.signup.error = payload;
+    },
+    signupReqSuccess: (state) => {
+      state.signup.loading = false;
+      state.signup.done = true;
+    },
   },
 });
 
 export const userReducer = userSlice.reducer;
-export const { unauthUser } = userSlice.actions;
-const { loginReqError, loginReqStart, loginReqSuccess } = userSlice.actions;
+const {
+  loginReqError,
+  loginReqStart,
+  loginReqSuccess,
+  signupReqError,
+  signupReqStart,
+  signupReqSuccess,
+} = userSlice.actions;
 
 export const loginUser = (userCredentials: UserCredentials): AppThunk => async (
   dispatch
@@ -78,8 +105,24 @@ export const loginUser = (userCredentials: UserCredentials): AppThunk => async (
   }
 
   if (err instanceof UnauthorizedException) {
-    dispatch(loginReqError("Неправильный логин или пароль"));
+    dispatch(loginReqError(""));
   } else {
     dispatch(loginReqError("Что то пошло не так, попробуйте заного"));
+  }
+};
+
+export const signupUser = (
+  userCredentials: UserCredentials
+): AppThunk => async (dispatch) => {
+  dispatch(signupReqStart());
+  const [err] = await to(ApiService.post("/users/signup", userCredentials));
+  if (!err) {
+    dispatch(signupReqSuccess());
+    return;
+  }
+  if (err instanceof ConflictException) {
+    dispatch(signupReqError("Пользователь с таким email уже существует."));
+  } else {
+    dispatch(signupReqError("Произошла ошибка, попробуйте снова"));
   }
 };

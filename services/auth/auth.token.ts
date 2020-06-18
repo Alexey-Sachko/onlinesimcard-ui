@@ -18,7 +18,7 @@ export class AuthToken {
 
   static async storeToken(token: string) {
     Cookie.set(TOKEN_STORAGE_KEY, token);
-    await Router.push("/admin");
+    await Router.push("/dashboard");
   }
 
   static fromNext({ req }: NextPageContext): AuthToken {

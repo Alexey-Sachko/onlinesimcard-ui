@@ -9,7 +9,7 @@ import { wrapper } from "../redux/index";
 
 class MyApp extends App<AppInitialProps> {
   public static getInitialProps = async ({ Component, ctx }: AppContext) => {
-    ctx.store.dispatch({ type: "TOE", payload: "was set in _app" });
+    // ctx.store.dispatch({ type: "TOE", payload: "was set in _app" });
 
     return {
       pageProps: {

@@ -8,6 +8,7 @@ import { UnauthorizedException } from "../../exceptions/unauthorized.exception";
 import { ForbiddenException } from "../../exceptions/forbidden.exception";
 import { ServerException } from "../../exceptions/server.exception";
 import { NetworkException } from "../../exceptions/network.exception";
+import { ConflictException } from "../../exceptions/conflict.exception";
 
 // const apiBaseUrl = "https://onlinesimcard.ru/api";
 const apiBaseUrl = "http://localhost:4500";
@@ -52,6 +53,8 @@ class ApiServiceCls {
         throw new UnauthorizedException();
       case 403:
         throw new ForbiddenException();
+      case 409:
+        throw new ConflictException();
       default:
         throw new ServerException();
     }

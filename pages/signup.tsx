@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import NextLink from "next/link";
 import { Formik, Form, Field, FieldProps } from "formik";
 import Avatar from "@material-ui/core/Avatar";
@@ -17,7 +18,8 @@ import clsx from "clsx";
 
 import Copyright from "../components/Copyright/Copyright";
 import Header from "../components/Header";
-import * as AuthService from "../services/auth/auth.service";
+import { useTypedSelector } from "../redux";
+import { signupUser } from "../redux/features/user/index";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -71,20 +73,12 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function SignUp() {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const [isSignuped, setIsSignuped] = useState(false);
-  const [emailError, setEmailError] = useState("");
+  const { error, loading, done } = useTypedSelector((s) => s.user.signup);
 
   const submitHandler = async ({ email, password }: Values) => {
-    setEmailError("");
-    const { ok, conflict } = await AuthService.signup({ email, password });
-    if (ok) {
-      setIsSignuped(true);
-    } else if (conflict) {
-      setEmailError("Пользователь с таким email уже зарегистрирован");
-    } else {
-      // Error
-    }
+    dispatch(signupUser({ email, password }));
   };
 
   return (
@@ -94,15 +88,15 @@ export default function SignUp() {
         <div className={classes.paper}>
           <Avatar
             className={clsx(classes.avatar, {
-              [classes.avatarSuccess]: isSignuped,
+              [classes.avatarSuccess]: done,
             })}
           >
-            {isSignuped ? <DoneOutlineIcon /> : <LockOutlinedIcon />}
+            {done ? <DoneOutlineIcon /> : <LockOutlinedIcon />}
           </Avatar>
           <Typography component="h1" variant="h5">
-            {isSignuped ? "Вы зарегистрированы" : "Регистрация"}
+            {done ? "Вы зарегистрированы" : "Регистрация"}
           </Typography>
-          {isSignuped && (
+          {done && (
             <Box mt={4}>
               <Typography variant="h6" className={classes.successMessage}>
                 На вашу почту отправлено письмо для подтвержения.
@@ -118,7 +112,8 @@ export default function SignUp() {
               </Box>
             </Box>
           )}
-          {!isSignuped && (
+          {error}
+          {!done && (
             <Formik
               initialValues={{ email: "", password: "", repassword: "" }}
               validationSchema={SignupSchema}
@@ -140,8 +135,8 @@ export default function SignUp() {
                               label="Email Адрес"
                               autoComplete="email"
                               autoFocus
-                              error={Boolean(errors.email || emailError)}
-                              helperText={errors.email || emailError}
+                              error={Boolean(errors.email)}
+                              helperText={errors.email}
                               {...field}
                             />
                           );
