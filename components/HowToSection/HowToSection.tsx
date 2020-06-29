@@ -76,7 +76,7 @@ const HowToSection = ({ onActionClick }: Props) => {
                 image="/static/fourth-step.jpg"
               />
             </Box>
-            <Box display="flex" justifyContent="center">
+            {/* <Box display="flex" justifyContent="center">
               <Button
                 color="secondary"
                 variant="contained"
@@ -85,7 +85,7 @@ const HowToSection = ({ onActionClick }: Props) => {
               >
                 Заказать номер
               </Button>
-            </Box>
+            </Box> */}
           </Grid>
         </Grid>
       </CustomContainer>

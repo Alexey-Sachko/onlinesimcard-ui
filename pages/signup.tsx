@@ -82,126 +82,127 @@ export default function SignUp() {
   };
 
   return (
-    <>
-      <Header blueBg />
-      <Container component="main" maxWidth="xs">
-        <div className={classes.paper}>
-          <Avatar
-            className={clsx(classes.avatar, {
-              [classes.avatarSuccess]: done,
-            })}
-          >
-            {done ? <DoneOutlineIcon /> : <LockOutlinedIcon />}
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            {done ? "Вы зарегистрированы" : "Регистрация"}
-          </Typography>
-          {done && (
-            <Box mt={4}>
-              <Typography variant="h6" className={classes.successMessage}>
-                На вашу почту отправлено письмо для подтвержения.
-              </Typography>
-              <Box mt={3}>
-                <Link href="/" component={NextLink}>
-                  <a style={{ textDecoration: "none" }}>
-                    <Button color="primary" fullWidth variant="contained">
-                      Хорошо
-                    </Button>
-                  </a>
-                </Link>
-              </Box>
-            </Box>
-          )}
-          {error}
-          {!done && (
-            <Formik
-              initialValues={{ email: "", password: "", repassword: "" }}
-              validationSchema={SignupSchema}
-              validateOnChange={false}
-              validateOnBlur={false}
-              onSubmit={submitHandler}
-            >
-              {({ errors }) => (
-                <Form className={classes.form} noValidate>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Field name="email">
-                        {({ field }: FieldProps) => {
-                          return (
-                            <TextField
-                              variant="outlined"
-                              required
-                              fullWidth
-                              label="Email Адрес"
-                              autoComplete="email"
-                              autoFocus
-                              error={Boolean(errors.email)}
-                              helperText={errors.email}
-                              {...field}
-                            />
-                          );
-                        }}
-                      </Field>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field name="password">
-                        {({ field }: FieldProps) => (
-                          <TextField
-                            variant="outlined"
-                            required
-                            fullWidth
-                            label="Пароль"
-                            type="password"
-                            autoComplete="current-password"
-                            error={Boolean(errors.password)}
-                            helperText={errors.password}
-                            {...field}
-                          />
-                        )}
-                      </Field>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field name="repassword">
-                        {({ field }: FieldProps) => (
-                          <TextField
-                            variant="outlined"
-                            required
-                            fullWidth
-                            label="Повторите Пароль"
-                            type="password"
-                            error={Boolean(errors.repassword)}
-                            helperText={errors.repassword}
-                            {...field}
-                          />
-                        )}
-                      </Field>
-                    </Grid>
-                  </Grid>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                  >
-                    Зарегистрироваться
-                  </Button>
-                  <Grid container justify="flex-end">
-                    <Grid item>
-                      <NextLink href="/signin">
-                        <a>Уже зарегистрированы? Войти</a>
-                      </NextLink>
-                    </Grid>
-                  </Grid>
-                </Form>
-              )}
-            </Formik>
-          )}
-        </div>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
-      </Container>
-    </>
+    // <>
+    //   <Header blueBg />
+    //   <Container component="main" maxWidth="xs">
+    //     <div className={classes.paper}>
+    //       <Avatar
+    //         className={clsx(classes.avatar, {
+    //           [classes.avatarSuccess]: done,
+    //         })}
+    //       >
+    //         {done ? <DoneOutlineIcon /> : <LockOutlinedIcon />}
+    //       </Avatar>
+    //       <Typography component="h1" variant="h5">
+    //         {done ? "Вы зарегистрированы" : "Регистрация"}
+    //       </Typography>
+    //       {done && (
+    //         <Box mt={4}>
+    //           <Typography variant="h6" className={classes.successMessage}>
+    //             На вашу почту отправлено письмо для подтвержения.
+    //           </Typography>
+    //           <Box mt={3}>
+    //             <Link href="/" component={NextLink}>
+    //               <a style={{ textDecoration: "none" }}>
+    //                 <Button color="primary" fullWidth variant="contained">
+    //                   Хорошо
+    //                 </Button>
+    //               </a>
+    //             </Link>
+    //           </Box>
+    //         </Box>
+    //       )}
+    //       {error}
+    //       {!done && (
+    //         <Formik
+    //           initialValues={{ email: "", password: "", repassword: "" }}
+    //           validationSchema={SignupSchema}
+    //           validateOnChange={false}
+    //           validateOnBlur={false}
+    //           onSubmit={submitHandler}
+    //         >
+    //           {({ errors }) => (
+    //             <Form className={classes.form} noValidate>
+    //               <Grid container spacing={2}>
+    //                 <Grid item xs={12}>
+    //                   <Field name="email">
+    //                     {({ field }: FieldProps) => {
+    //                       return (
+    //                         <TextField
+    //                           variant="outlined"
+    //                           required
+    //                           fullWidth
+    //                           label="Email Адрес"
+    //                           autoComplete="email"
+    //                           autoFocus
+    //                           error={Boolean(errors.email)}
+    //                           helperText={errors.email}
+    //                           {...field}
+    //                         />
+    //                       );
+    //                     }}
+    //                   </Field>
+    //                 </Grid>
+    //                 <Grid item xs={12}>
+    //                   <Field name="password">
+    //                     {({ field }: FieldProps) => (
+    //                       <TextField
+    //                         variant="outlined"
+    //                         required
+    //                         fullWidth
+    //                         label="Пароль"
+    //                         type="password"
+    //                         autoComplete="current-password"
+    //                         error={Boolean(errors.password)}
+    //                         helperText={errors.password}
+    //                         {...field}
+    //                       />
+    //                     )}
+    //                   </Field>
+    //                 </Grid>
+    //                 <Grid item xs={12}>
+    //                   <Field name="repassword">
+    //                     {({ field }: FieldProps) => (
+    //                       <TextField
+    //                         variant="outlined"
+    //                         required
+    //                         fullWidth
+    //                         label="Повторите Пароль"
+    //                         type="password"
+    //                         error={Boolean(errors.repassword)}
+    //                         helperText={errors.repassword}
+    //                         {...field}
+    //                       />
+    //                     )}
+    //                   </Field>
+    //                 </Grid>
+    //               </Grid>
+    //               <Button
+    //                 type="submit"
+    //                 fullWidth
+    //                 variant="contained"
+    //                 color="primary"
+    //                 className={classes.submit}
+    //               >
+    //                 Зарегистрироваться
+    //               </Button>
+    //               <Grid container justify="flex-end">
+    //                 <Grid item>
+    //                   <NextLink href="/signin">
+    //                     <a>Уже зарегистрированы? Войти</a>
+    //                   </NextLink>
+    //                 </Grid>
+    //               </Grid>
+    //             </Form>
+    //           )}
+    //         </Formik>
+    //       )}
+    //     </div>
+    //     <Box mt={5}>
+    //       <Copyright />
+    //     </Box>
+    //   </Container>
+    // </>
+    null
   );
 }
