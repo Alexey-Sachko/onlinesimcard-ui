@@ -46,7 +46,7 @@ type Props = {
 const Header = ({ blueBg }: Props) => {
   const classes = useStyles();
   const [isBlueHead, setIsBlueHead] = useState(false);
-  const { email } = useTypedSelector((s) => s.user);
+  // const { email } = useTypedSelector((s) => s.user);
   const store = useTypedSelector((s) => s);
   // const [drawerAnchor, setDrawerAnchor] = useState(false);
 
@@ -139,14 +139,14 @@ const Header = ({ blueBg }: Props) => {
             <Button color="inherit">Цены</Button>
             <Button color="inherit">Вход</Button>
           </Hidden> */}
-          {email}
-          <Link href="/signup">
+          {/* {email} */}
+          {/* <Link href="/signup">
             <a style={{ textDecoration: "none" }}>
               <Button color="secondary" variant="contained">
                 Регистрация
               </Button>
             </a>
-          </Link>
+          </Link> */}
         </Toolbar>
       </CustomContainer>
     </AppBar>

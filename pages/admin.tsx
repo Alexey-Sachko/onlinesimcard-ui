@@ -29,4 +29,5 @@ const AdminPage: NextPage<Props> = ({ auth }) => {
   );
 };
 
-export default privatePage(AdminPage, { permissions: [Permissions.ReadUsers] });
+// export default privatePage(AdminPage, { permissions: [Permissions.ReadUsers] });
+export default AdminPage;
