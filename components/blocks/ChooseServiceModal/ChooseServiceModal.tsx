@@ -11,7 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import { services } from "../../data/services";
+import { services } from "../../../data/services";
 
 type Props = {
   open: boolean;

@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
 
 type Props = {
   title: React.ReactNode;
-  price: React.ReactNode;
+  price?: React.ReactNode;
   features: React.ReactNode[];
   onActionClick?: () => void;
 };
@@ -91,7 +91,8 @@ const ProductCard = ({ title, price, features, onActionClick }: Props) => {
         {title}
       </Typography>
       <div className={classes.body}>
-        <div className={classes.price}>{price}</div>
+        {price && <div className={classes.price}>{price}</div>}
+
         {features.map((feature, idx) => (
           <div key={idx} className={classes.feature}>
             <div className={classes.listMark} />
