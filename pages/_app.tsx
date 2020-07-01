@@ -5,6 +5,7 @@ import { ApolloProvider } from "@apollo/client";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { YMInitializer } from "react-yandex-metrika";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { THEME } from "../theme";
 import withApollo, { WithApollo } from "../lib/withApollo";
 import { ErrorsProvider } from "../lib/errors";
