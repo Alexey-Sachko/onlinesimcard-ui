@@ -1,31 +1,45 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { NextPage } from "next";
+import { gql, useQuery } from "@apollo/client";
+import { CircularProgress } from "@material-ui/core";
+import { useErrors } from "../lib/errors";
 
-import { privatePage, AuthProps } from "../hocs/privatePage";
-import { Permissions } from "../services/auth/permissions.enum";
+// import { privatePage, AuthProps } from "../hocs/privatePage";
+// import { Permissions } from "../services/auth/permissions.enum";
 
-type Props = AuthProps;
+const GET_ARTICLES_QUERY = gql`
+  query GetArticles {
+    articles {
+      id
+    }
+  }
+`;
 
-const AdminPage: NextPage<Props> = ({ auth }) => {
+const AdminPage: NextPage = () => {
+  // Нужно знать что хук был вызван на сервере 1 раз и положить ошибку в контекст ошибок
+  const { data, loading, error } = useQuery(GET_ARTICLES_QUERY);
+  const err = useErrors("Articles", error);
+
+  let contentJSX: ReactNode = null;
+
+  if (err) {
+    contentJSX = err.message;
+  } else if (loading && !data) {
+    contentJSX = <CircularProgress />;
+  } else {
+    contentJSX = <pre>{JSON.stringify(data, null, 2)}</pre>;
+  }
+
+  console.log("Error", err);
+  console.log("Data", data);
+  console.log("Loading", loading);
+
   return (
-    <div>
-      AdminPage
-      <p>
-        <strong>user</strong>: {auth.decodedToken.email}
-      </p>
-      <p>
-        <strong>isValid</strong>: {auth.isValid.toString()}
-      </p>
-      <p>
-        <strong>isExpired</strong>: {auth.isExpired.toString()}
-      </p>
-      <p>
-        <strong>authorizationString</strong>: {auth.authorizationString}
-      </p>
-      <p>
-        <strong>expiresAt</strong>: {auth.expiresAt.toString()}
-      </p>
-    </div>
+    <>
+      {/* <Header blueBg /> */}
+      <h3>AdminPage</h3>
+      <div>{contentJSX}</div>
+    </>
   );
 };
 

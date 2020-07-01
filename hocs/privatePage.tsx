@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { AuthToken } from "../services/auth/auth.token";
 import { isomorphicRedirect } from "../services/redirect/isomorphicRedirect";
 import { Permissions } from "../services/auth/permissions.enum";
-import Forbidden from "../components/Forbidden";
+import Forbidden from "../components/blocks/Forbidden";
 
 export type AuthProps = {
   auth: AuthToken;
