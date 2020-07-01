@@ -29,9 +29,10 @@ const Logo = ({ variant = "light" }: Props) => {
         <img
           className={classes.logoImg}
           src={
-            variant === "light"
-              ? "/static/logo.svg"
-              : "/static/logo-light-bg.svg"
+            // variant === "light"
+            // ?
+            "/static/logo.png"
+            // : "/static/logo-light-bg.svg"
           }
           alt="OnlineSIMCARD"
         />
