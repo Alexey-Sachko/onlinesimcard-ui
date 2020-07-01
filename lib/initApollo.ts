@@ -6,7 +6,6 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 import { NextPageContext } from "next";
-import {} from "isomorphic-unfetch";
 
 const apiUri = "https://onlinesimcard.ru/api/v1/graphql";
 // const apiUri = "http://localhost:4500/api/v1/graphql";
