@@ -1,40 +1,23 @@
-import App, { AppInitialProps, AppContext } from "next/app";
+import App, { AppInitialProps } from "next/app";
 import Head from "next/head";
 import React from "react";
+import { ApolloProvider } from "@apollo/client";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { YMInitializer } from "react-yandex-metrika";
 import { THEME } from "../theme";
-import { wrapper } from "../redux/index";
-import { AuthToken } from "../services/auth/auth.token";
-import { loginSuccess } from "../redux/features/user/index";
+import withApollo, { WithApollo } from "../lib/withApollo";
+import { ErrorsProvider } from "../lib/errors";
 
-class MyApp extends App<AppInitialProps> {
-  public static getInitialProps = async ({ Component, ctx }: AppContext) => {
-    const auth = AuthToken.fromNext(ctx);
-    if (auth.isValid) {
-      ctx.store.dispatch(loginSuccess(auth.token));
-    }
-
-    return {
-      pageProps: {
-        // Call page-level getInitialProps
-        ...(Component.getInitialProps
-          ? await Component.getInitialProps(ctx)
-          : {}),
-        // Some custom thing for all pages
-        pathname: ctx.pathname,
-      },
-    };
-  };
-
+class MyApp extends App<AppInitialProps & WithApollo> {
   componentDidMount() {
     const jssStyles = document.querySelector("#jss-server-side");
-    if (jssStyles && jssStyles.parentNode)
+    if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
+    }
   }
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, apolloClient } = this.props;
     return (
       <MuiThemeProvider theme={THEME}>
         <Head>
@@ -68,13 +51,14 @@ class MyApp extends App<AppInitialProps> {
             rel="stylesheet"
           />
         </Head>
-
-        <YMInitializer accounts={[62981725]} />
-        <CssBaseline />
-        <Component {...pageProps} />
+        <ApolloProvider client={apolloClient}>
+          <YMInitializer accounts={[62981725]} />
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ApolloProvider>
       </MuiThemeProvider>
     );
   }
 }
 
-export default wrapper.withRedux(MyApp);
+export default withApollo(MyApp);

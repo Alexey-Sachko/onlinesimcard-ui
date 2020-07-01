@@ -16,8 +16,8 @@ import Container from "@material-ui/core/Container";
 import * as Yup from "yup";
 import clsx from "clsx";
 
-import Copyright from "../components/Copyright/Copyright";
-import Header from "../components/Header";
+import Copyright from "../components/blocks/Copyright";
+import Header from "../components/blocks/Header";
 import { useTypedSelector } from "../redux";
 import { signupUser } from "../redux/features/user/index";
 

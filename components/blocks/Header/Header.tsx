@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import CustomContainer from "../CustomContainer";
 import clsx from "clsx";
 import Logo from "../../layout/Logo";
-import { useTypedSelector } from "../../../redux";
+// import { useTypedSelector } from "../../../redux";
 // import IconButton from "@material-ui/core/IconButton";
 // import MenuIcon from "@material-ui/icons/Menu";
 // import Hidden from "@material-ui/core/Hidden";
@@ -48,7 +47,6 @@ const Header: React.FC<Props> = ({ blueBg }) => {
   const classes = useStyles();
   const [isBlueHead, setIsBlueHead] = useState(false);
   // const { email } = useTypedSelector((s) => s.user);
-  const store = useTypedSelector((s) => s);
   // const [drawerAnchor, setDrawerAnchor] = useState(false);
 
   // const toggleDrawer = (open: boolean) => (
