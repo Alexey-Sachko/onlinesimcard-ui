@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 
 import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
-import { Title, Description, RightCapture } from "./main-section.styled";
+import { RightCapture } from "./main-section.styled";
 
 type Props = {
   onActionClick: () => void;
@@ -18,16 +18,21 @@ const MainSection = ({ onActionClick }: Props) => {
       <Grid container>
         <Grid item xs={6}>
           <Box m="auto">
-            <Title>
+            <Typography variant="h2">
               Виртуальный номер
               <br /> для приема СМС
-            </Title>
-            <Description>
-              Onlinesimcard.ru - сервис по приему SMS-сообщений на виртуальные
-              номера. Мы имеем временные бесплатные, а также приватные номера
-              разных стран мира для получения кодов активаций и смс
-              подтверждений онлайн.
-            </Description>
+            </Typography>
+            <Box mt={6}>
+              <Typography variant="subtitle1">
+                Onlinesimcard.ru - сервис по приему SMS-сообщений на виртуальные
+                номера.
+                <Box mt={3}>
+                  Мы имеем временные бесплатные, а также приватные номера разных
+                  стран мира для получения кодов активаций и смс подтверждений
+                  онлайн.
+                </Box>
+              </Typography>
+            </Box>
           </Box>
         </Grid>
         <Grid item xs={6}>
