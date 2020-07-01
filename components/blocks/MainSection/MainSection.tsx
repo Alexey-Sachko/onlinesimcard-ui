@@ -18,7 +18,7 @@ const MainSection = ({ onActionClick }: Props) => {
       <Grid container>
         <Grid item xs={5}>
           <Box m="auto">
-            <Typography variant="h2">
+            <Typography variant="h1">
               Виртуальный номер
               <br /> для приема СМС
             </Typography>

@@ -8,30 +8,29 @@ export const THEME = createMuiTheme({
   typography: {
     h1: {
       fontWeight: "bold",
-      fontSize: "54.9px",
-      lineHeight: "63px",
-      color: "#383838",
-      fontFamily: `'Libre Baskerville', sans-serif`,
-    },
-    h2: {
-      fontWeight: "bold",
       fontSize: "43.9px",
       lineHeight: "50px",
       color: "#383838",
       fontFamily: `'Libre Baskerville', sans-serif`,
     },
-    h3: {
-      fontWeight: "normal",
+    h2: {
+      fontWeight: "bold",
       fontSize: "35.1px",
       lineHeight: "40px",
       color: "#383838",
       fontFamily: `'Libre Baskerville', sans-serif`,
     },
-
-    h4: {
+    h3: {
       fontWeight: "normal",
       fontSize: "28.1px",
       lineHeight: "32px",
+      color: "#383838",
+      fontFamily: `'Libre Baskerville', sans-serif`,
+    },
+    h4: {
+      fontWeight: "bold",
+      fontSize: "22.5px",
+      lineHeight: "26px",
       color: "#383838",
       fontFamily: `'Libre Baskerville', sans-serif`,
     },
