@@ -55,13 +55,6 @@ export const THEME = createMuiTheme({
       color: "#383838",
       fontFamily: `Open Sans, sans-serif`,
     },
-    p: {
-      fontWeight: "normal",
-      fontSize: "14.4px",
-      lineHeight: "18px",
-      color: "#383838",
-      fontFamily: `Open Sans, sans-serif`,
-    },
   },
   palette: {
     primary: {

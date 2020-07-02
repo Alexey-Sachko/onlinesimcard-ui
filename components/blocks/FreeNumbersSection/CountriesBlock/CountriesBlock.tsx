@@ -2,13 +2,14 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 
 import { Container, Title } from "./countries-block.styled";
-import { Countries } from "../FreeNumbersSection/types";
+import { Countries } from "../types";
 
 type Props = {
   image: string;
   label: string;
   selected: boolean;
-  code: Countries;
+  code: number;
+  onSelectCountry: (code: number) => void;
 };
 
 const CountriesBlock: React.FC<Props> = ({
