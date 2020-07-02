@@ -13,7 +13,7 @@ const MessageItem: React.FC<Props> = ({ text, data_humans }) => {
   return (
     <Container>
       <Box display="flex">
-        <Typography variant="h4">Мегафон</Typography> <Pin />
+        <Typography variant="h4"></Typography> <Pin />
         <DataHumans variant="subtitle2">{data_humans}</DataHumans>
       </Box>
       <Box mt={2}>
