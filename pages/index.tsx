@@ -24,10 +24,10 @@ const Home = () => {
       <MainSection onActionClick={openModalHandler} />
       {/* <HowToSection onActionClick={openModalHandler} /> */}
       <FreeNumbersSection />
-      <ChooseServiceModal
+      {/* <ChooseServiceModal
         open={isOpenChooseService}
         onClose={() => setIsOpenChooseService(false)}
-      />
+      /> */}
       <Footer />
     </div>
   );

@@ -15,11 +15,12 @@ import Logo from "../../layout/Logo";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "rgba(30, 113, 255, 0.5)",
-    transition: "background-color 0.3s ease",
+    backgroundColor: "#fff",
+    boxShadow: "none",
+    // transition: "background-color 0.3s ease",
   },
   rootBlueBg: {
-    backgroundColor: "rgba(30, 113, 255)",
+    backgroundColor: "#fff",
   },
   menuButton: {
     marginRight: theme.spacing(1),
@@ -29,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
   },
   logoImg: {
     maxHeight: "25px",
-    [theme.breakpoints.up("lg")]: {
-      maxHeight: "35px",
-    },
+    // [theme.breakpoints.up("lg")]: {
+    //   maxHeight: "35px",
+    // },
   },
   drawerList: {
     minWidth: "250px",
@@ -42,7 +43,7 @@ type Props = {
   blueBg?: boolean;
 };
 
-const Header = ({ blueBg }: Props) => {
+const Header: React.FC<Props> = ({ blueBg }) => {
   const classes = useStyles();
   const [isBlueHead, setIsBlueHead] = useState(false);
   // const { email } = useTypedSelector((s) => s.user);

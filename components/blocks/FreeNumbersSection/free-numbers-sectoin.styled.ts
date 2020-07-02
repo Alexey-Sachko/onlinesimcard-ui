@@ -1,11 +1,12 @@
-import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import { styled } from "@material-ui/core/styles";
 
-export const Title = styled(Grid)({
-  fontSize: "48px",
-  lineHeight: "60px",
-  textAlign: "center",
-  paddingTop: "60px",
+export const Wrapper = styled(Box)({
+  background: "#EBF2FF",
 });
 
-export const Wrapper = styled("div")({});
+export const CountryContainer = styled(Box)({
+  borderRadius: "5px",
+  background: "#fff",
+  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
+});

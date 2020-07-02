@@ -38,12 +38,16 @@ class MyApp extends App<AppInitialProps & WithApollo> {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           /> */}
-          <link
+          {/* <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap"
+            rel="stylesheet"
+          /> */}
+          {/* <link
             href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap"
             rel="stylesheet"
-          />
+          /> */}
           <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
             rel="stylesheet"
           />
         </Head>
