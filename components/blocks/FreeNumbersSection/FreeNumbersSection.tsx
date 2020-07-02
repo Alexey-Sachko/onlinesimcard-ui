@@ -13,7 +13,6 @@ import NumbersList from "./NumbersList";
 import MessageList from "./MessageList";
 import { Wrapper, CountryContainer } from "./free-numbers-sectoin.styled";
 import countryData from "./country-data";
-import Countries from "./types";
 
 type Props = {
   onActionClick?: () => void;
@@ -21,8 +20,8 @@ type Props = {
 
 const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
   const [selectedCountry, setSelectedCountry] = useState(7);
-  const [dataNumbers, setDataNumbers] = useState({});
-  const [dataMessages, setDataMessages] = useState({});
+  const [dataNumbers, setDataNumbers] = useState<any>({});
+  const [dataMessages, setDataMessages] = useState<any>({});
   const [selectedNumber, setSelectedNumber] = useState(0);
   const [page, setPage] = useState(1);
   const [reloadNumbers, setReloadNumbers] = useState(false);
@@ -102,12 +101,11 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
           </Box>
           <Box display="flex" flexWrap="wrap">
             <CountryContainer display="flex" mx="auto">
-              {countryData.map(({ label, name, image, code }) => (
+              {countryData.map(({ label, image, code }) => (
                 <CountriesBlock
-                  key={name}
+                  key={code}
                   label={label}
                   image={image}
-                  name={name}
                   code={code}
                   selected={selectedCountry === code}
                   onSelectCountry={onSelectCountry}
