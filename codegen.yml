@@ -1,0 +1,16 @@
+overwrite: true
+schema: "https://onlinesimcard.ru/api/v1/graphql"
+documents:
+  - "pages/**/*.tsx"
+  - "components/**/*.tsx"
+generates:
+  lib/types.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      reactApolloVersion: 3
+      withHOC: false
+      withComponent: false
+      withHooks: true
