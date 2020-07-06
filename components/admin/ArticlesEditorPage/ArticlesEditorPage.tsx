@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
@@ -18,10 +18,12 @@ const Editor = dynamic<EditorProps>(
 export const CREATE_ARTICLE = gql`
   mutation CreateArticle($createArticleDto: CreateArticleDto!) {
     createArticle(createArticleDto: $createArticleDto) {
-      id
-      alias
-      title
-      text
+      path
+      message
+      constraints {
+        type
+        message
+      }
     }
   }
 `;
@@ -29,7 +31,12 @@ export const CREATE_ARTICLE = gql`
 const ArticlesEditorPage = () => {
   const history = useHistory();
   const [createArticle, { data, loading, error }] = useCreateArticleMutation({
-    onCompleted: () => history.push("/articles"),
+    // В случае успеха вернет null, иначе массив ошибок
+    onCompleted: (_data) => {
+      if (!data.createArticle) {
+        history.push("/admin/articles");
+      }
+    },
   });
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -62,19 +69,38 @@ const ArticlesEditorPage = () => {
     });
   };
 
+  const errors = data.createArticle;
+  let clientErrorsJSX: ReactNode = null;
+  let serverErrorsJSX: ReactNode = null;
+  if (error) {
+    serverErrorsJSX = <Typography>{error.message}</Typography>;
+  }
+  if (errors?.length > 0) {
+    clientErrorsJSX = errors.map((err, idx) => (
+      <div key={idx}>
+        {err.message}
+        {err.constraints?.map((con, conIdx) => (
+          <div key={conIdx}>{con.message}</div>
+        ))}
+      </div>
+    ));
+  }
+
   return (
     <div>
       <Box mt={1} mb={2} px={2}>
         <Typography variant="h3">Добавить статью</Typography>
 
-        {error && (
-          <Box mt={1}>
-            <Alert severity="error">
-              <AlertTitle>Произошла ошибка:</AlertTitle>
-              <Typography>{error.message}</Typography>
-            </Alert>
-          </Box>
-        )}
+        {clientErrorsJSX ||
+          (serverErrorsJSX && (
+            <Box mt={1}>
+              <Alert severity="error">
+                <AlertTitle>Произошла ошибка:</AlertTitle>
+                {serverErrorsJSX}
+                {clientErrorsJSX}
+              </Alert>
+            </Box>
+          ))}
       </Box>
       <Box mb={1}>
         <Paper>

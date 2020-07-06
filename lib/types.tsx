@@ -20,7 +20,7 @@ export type Query = {
   freeMessages: FreeMessagesType;
   articles: Array<ArticleType>;
   articlesCount: Scalars['Float'];
-  article: ArticleType;
+  article?: Maybe<ArticleType>;
 };
 
 
@@ -36,7 +36,7 @@ export type QueryFreeMessagesArgs = {
 
 
 export type QueryArticleArgs = {
-  alias: Scalars['String'];
+  id: Scalars['Float'];
 };
 
 export type FreeCountryType = {
@@ -88,7 +88,21 @@ export type ArticleType = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createArticle: ArticleType;
+  login: AuthResponseType;
+  register?: Maybe<RegisterPayloadType>;
+  createArticle?: Maybe<Array<ErrorType>>;
+  updateArticle?: Maybe<Array<ErrorType>>;
+  deleteArticle?: Maybe<ErrorType>;
+};
+
+
+export type MutationLoginArgs = {
+  authCredentialsDto: AuthCredentialsDto;
+};
+
+
+export type MutationRegisterArgs = {
+  userSignupDto: UserSignupDto;
 };
 
 
@@ -96,10 +110,61 @@ export type MutationCreateArticleArgs = {
   createArticleDto: CreateArticleDto;
 };
 
+
+export type MutationUpdateArticleArgs = {
+  updateArticleDto: UpdateArticleDto;
+};
+
+
+export type MutationDeleteArticleArgs = {
+  id: Scalars['Float'];
+};
+
+export type AuthCredentialsDto = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type AuthResponseType = {
+  __typename?: 'AuthResponseType';
+  accessToken: Scalars['String'];
+};
+
+export type UserSignupDto = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type RegisterPayloadType = {
+  __typename?: 'RegisterPayloadType';
+  result?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Array<ErrorType>>;
+};
+
+export type ErrorType = {
+  __typename?: 'ErrorType';
+  path: Scalars['String'];
+  message: Scalars['String'];
+  constraints?: Maybe<Array<Constraint>>;
+};
+
+export type Constraint = {
+  __typename?: 'Constraint';
+  type?: Maybe<Scalars['String']>;
+  message: Scalars['String'];
+};
+
 export type CreateArticleDto = {
   alias: Scalars['String'];
   title: Scalars['String'];
   text: Scalars['String'];
+};
+
+export type UpdateArticleDto = {
+  alias: Scalars['String'];
+  title: Scalars['String'];
+  text: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 export type GetArticlesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -120,10 +185,14 @@ export type CreateArticleMutationVariables = Exact<{
 
 export type CreateArticleMutation = (
   { __typename?: 'Mutation' }
-  & { createArticle: (
-    { __typename?: 'ArticleType' }
-    & Pick<ArticleType, 'id' | 'alias' | 'title' | 'text'>
-  ) }
+  & { createArticle?: Maybe<Array<(
+    { __typename?: 'ErrorType' }
+    & Pick<ErrorType, 'path' | 'message'>
+    & { constraints?: Maybe<Array<(
+      { __typename?: 'Constraint' }
+      & Pick<Constraint, 'type' | 'message'>
+    )>> }
+  )>> }
 );
 
 
@@ -165,10 +234,12 @@ export type GetArticlesQueryResult = ApolloReactCommon.QueryResult<GetArticlesQu
 export const CreateArticleDocument = gql`
     mutation CreateArticle($createArticleDto: CreateArticleDto!) {
   createArticle(createArticleDto: $createArticleDto) {
-    id
-    alias
-    title
-    text
+    path
+    message
+    constraints {
+      type
+      message
+    }
   }
 }
     `;
