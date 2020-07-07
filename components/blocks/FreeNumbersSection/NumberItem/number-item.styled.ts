@@ -26,6 +26,10 @@ export const Container = styled(Box)(({ selected }: Props) => ({
   "&:last-child": {
     borderBottom: "none",
   },
+
+  "&:hover": {
+    background: selected ? "#E0E0E0" : "#f0f0f0",
+  },
 }));
 
 export const OpenInNewIcon = styled(OpenInNewIconMaterial)(

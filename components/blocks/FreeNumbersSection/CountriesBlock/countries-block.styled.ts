@@ -21,6 +21,10 @@ export const Container = styled(Box)(({ selected }: Props) => ({
   "&:last-child": {
     border: "none",
   },
+
+  "&:hover": {
+    background: selected ? "#85B1FF" : "#f0f0f0",
+  },
 }));
 
 export const Title = styled(Typography)(({ selected }: Props) => ({
