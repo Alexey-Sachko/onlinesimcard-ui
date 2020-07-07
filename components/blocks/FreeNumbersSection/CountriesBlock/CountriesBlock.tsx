@@ -21,13 +21,15 @@ const CountriesBlock: React.FC<Props> = ({
 }) => {
   return (
     <Container selected={selected} onClick={() => onSelectCountry(code)}>
-      <Box>
-        <img src={image} />
-      </Box>
-      <Box>
-        <Title selected={selected} variant="h3">
-          {label}
-        </Title>
+      <Box m="auto">
+        <Box>
+          <img src={image} />
+        </Box>
+        <Box>
+          <Title selected={selected} variant="h5">
+            {label}
+          </Title>
+        </Box>
       </Box>
     </Container>
   );

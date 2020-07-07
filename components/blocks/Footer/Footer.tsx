@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   description: {
-    fontSize: "22.5px",
-    lineHeight: "28px",
+    fontSize: "18px",
+    lineHeight: "22px",
     fontFamily: `'Open Sans', sans-serif`,
     maxWidth: "400px",
     marginBottom: "30px",
@@ -29,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   email: {
-    fontSize: "28.1px",
+    fontSize: "18px",
     fontWeight: "bold",
     fontFamily: `'Libre Baskerville', sans-serif`,
-    lineHeight: "32px",
-    color: "#000000",
+    lineHeight: "22px",
+    color: "#1E71FF",
     [theme.breakpoints.down("xs")]: {
       fontSize: "13px",
     },
@@ -57,7 +57,7 @@ const Footer = () => {
           className={classes.gridContainer}
         >
           <Grid item>
-            <Typography variant="subtitle1" className={classes.description}>
+            <Typography variant="subtitle2" className={classes.description}>
               Cервис по приему SMS-сообщений на виртуальные номера.
             </Typography>
             <Typography className={classes.email}>

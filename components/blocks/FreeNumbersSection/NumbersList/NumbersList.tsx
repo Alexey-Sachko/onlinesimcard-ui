@@ -2,10 +2,14 @@ import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 
 import NumberItem from "../NumberItem";
-import { CachedIcon, NumbersContainer } from "./numbers-list.styled";
+import {
+  CachedIcon,
+  NumbersContainer,
+  TypographySpacing,
+  ResetButton,
+} from "./numbers-list.styled";
 import numbersData from "./numbers-data";
 
 type Props = {
@@ -24,14 +28,14 @@ const NumbersList: React.FC<Props> = ({
   return (
     <Box>
       <Box ml={4} display="flex">
-        <Typography variant="h4">cписок номеров</Typography>
-        <Box ml={2}>
-          <IconButton size="small" onClick={onReloadNumbers}>
+        <TypographySpacing variant="h4">СПИСОК НОМЕРОВ</TypographySpacing>
+        <Box ml={3}>
+          <ResetButton size="small" onClick={onReloadNumbers}>
             <CachedIcon />
-          </IconButton>
+          </ResetButton>
         </Box>
       </Box>
-      <NumbersContainer mt={6}>
+      <NumbersContainer mt={5}>
         {data?.map(({ full_number, number }, idx) => (
           <NumberItem
             key={idx}
