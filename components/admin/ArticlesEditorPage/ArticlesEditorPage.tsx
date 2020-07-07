@@ -7,7 +7,7 @@ import { EditorProps } from "react-draft-wysiwyg";
 import { Paper, Box, TextField, Button, Grid } from "@material-ui/core";
 import { gql } from "@apollo/client";
 import Typography from "@material-ui/core/Typography";
-import { Alert, AlertTitle } from "@material-ui/lab";
+import { Alert } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
 import { useCreateArticleMutation } from "../../../lib/types";
 import { formatErrors } from "../../../utils/formatErrors";
@@ -33,7 +33,7 @@ type FormValues = {
 
 const ArticlesEditorPage = () => {
   const history = useHistory();
-  const [createArticle, { data, loading, error }] = useCreateArticleMutation();
+  const [createArticle, { loading, error }] = useCreateArticleMutation();
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
@@ -77,15 +77,12 @@ const ArticlesEditorPage = () => {
           <Form>
             <Box mt={1} mb={2} px={2}>
               <Typography variant="h3">Добавить статью</Typography>
-
-              {error && (
-                <Box mt={1}>
-                  <Alert severity="error">
-                    <AlertTitle>Произошла ошибка</AlertTitle>
-                  </Alert>
-                </Box>
-              )}
             </Box>
+            {error && (
+              <Box mb={2}>
+                <Alert severity="error">Произошла ошибка</Alert>
+              </Box>
+            )}
             <Box mb={1}>
               <Paper>
                 <Box p={2}>
