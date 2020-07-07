@@ -69,7 +69,7 @@ const ArticlesEditorPage = () => {
     });
   };
 
-  const errors = data.createArticle;
+  const errors = data?.createArticle;
   let clientErrorsJSX: ReactNode = null;
   let serverErrorsJSX: ReactNode = null;
   if (error) {
