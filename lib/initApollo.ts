@@ -15,7 +15,7 @@ const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
   const httpLink = new HttpLink({
     headers: ctx?.req?.headers,
     uri: apiUri,
-    // credentials: "include",
+    credentials: "include", // TODO same-origin on production
     fetch: async (input, init) => {
       let url = "";
 
