@@ -24,6 +24,7 @@ class MyApp extends App<AppInitialProps & WithApollo> {
         <Head>
           {/* <meta name="theme-color" content="#292929" /> */}
           <meta name="language" content="ru" />
+          <meta name="yandex-verification" content="41dbcba95b30a3a5" />
           {/* <meta name="keywords" content={keywords.join(", ")} /> */}
           {/* <meta
             name="description"
