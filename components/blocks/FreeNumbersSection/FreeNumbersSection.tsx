@@ -74,6 +74,10 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
       });
   }, [selectedCountry, page, selectedNumber]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [selectedCountry, selectedNumber]);
+
   const onSelectNumber = useCallback(
     (number: number) => {
       setSelectedNumber(number);
