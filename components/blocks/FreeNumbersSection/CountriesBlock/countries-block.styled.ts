@@ -10,9 +10,8 @@ export const Container = styled(Box)(({ selected }: Props) => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "flex-end",
-  paddingBottom: "25px",
-  height: "148px",
-  width: "268px",
+  height: "116px",
+  width: "181px",
   textAlign: "center",
   background: selected ? "#85B1FF" : "#fff",
   cursor: selected ? "initial" : "pointer",
@@ -21,10 +20,19 @@ export const Container = styled(Box)(({ selected }: Props) => ({
 
   "&:last-child": {
     border: "none",
+    borderRadius: "0 5px 5px 0",
+  },
+
+  "&:first-child": {
+    borderRadius: "5px 0 0 5px",
   },
 
   "&:hover": {
     background: selected ? "#85B1FF" : "#f0f0f0",
+  },
+
+  "& img": {
+    width: "50px",
   },
 }));
 

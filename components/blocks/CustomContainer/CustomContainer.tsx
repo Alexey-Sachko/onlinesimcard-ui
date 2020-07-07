@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
       margin: "0 60px",
     },
     [theme.breakpoints.up("xl")]: {
-      margin: "0 140px",
+      margin: "0 230px",
     },
   },
 }));

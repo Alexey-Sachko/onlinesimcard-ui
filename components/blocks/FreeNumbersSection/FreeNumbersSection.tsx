@@ -4,14 +4,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Pagination from "@material-ui/lab/Pagination";
 
 import CountriesBlock from "./CountriesBlock";
 import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
 import NumbersList from "./NumbersList";
 import MessageList from "./MessageList";
-import { Wrapper, CountryContainer } from "./free-numbers-sectoin.styled";
+import {
+  Wrapper,
+  CountryContainer,
+  Pagination,
+} from "./free-numbers-sectoin.styled";
 import countryData from "./country-data";
 
 type Props = {
@@ -116,7 +119,7 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
               ))}
             </CountryContainer>
           </Box>
-          <Box mt={10}>
+          <Box mt={15}>
             <Grid container>
               <Grid item xs={3}>
                 <NumbersList

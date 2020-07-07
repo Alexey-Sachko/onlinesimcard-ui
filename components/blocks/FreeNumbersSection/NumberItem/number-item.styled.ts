@@ -26,6 +26,11 @@ export const Container = styled(Box)(({ selected }: Props) => ({
 
   "&:last-child": {
     borderBottom: "none",
+    borderRadius: "0 0 5px 5px",
+  },
+
+  "&:first-child": {
+    borderRadius: "5px 5px 0 0",
   },
 
   "&:hover": {

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontFamily: `'Libre Baskerville', sans-serif`,
     lineHeight: "22px",
-    color: "#000000",
+    color: "#1E71FF",
     [theme.breakpoints.down("xs")]: {
       fontSize: "13px",
     },

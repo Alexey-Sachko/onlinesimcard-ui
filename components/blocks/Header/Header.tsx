@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   rootBlueBg: {
     backgroundColor: "#fff",
+    boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.25)",
   },
   menuButton: {
     marginRight: theme.spacing(1),
