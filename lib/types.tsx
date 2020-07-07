@@ -89,7 +89,7 @@ export type ArticleType = {
 export type Mutation = {
   __typename?: 'Mutation';
   login: AuthResponseType;
-  register?: Maybe<RegisterPayloadType>;
+  register: RegisterPayloadType;
   createArticle?: Maybe<Array<ErrorType>>;
   updateArticle?: Maybe<Array<ErrorType>>;
   deleteArticle?: Maybe<ErrorType>;
@@ -145,13 +145,6 @@ export type ErrorType = {
   __typename?: 'ErrorType';
   path: Scalars['String'];
   message: Scalars['String'];
-  constraints?: Maybe<Array<Constraint>>;
-};
-
-export type Constraint = {
-  __typename?: 'Constraint';
-  type?: Maybe<Scalars['String']>;
-  message: Scalars['String'];
 };
 
 export type CreateArticleDto = {
@@ -188,10 +181,6 @@ export type CreateArticleMutation = (
   & { createArticle?: Maybe<Array<(
     { __typename?: 'ErrorType' }
     & Pick<ErrorType, 'path' | 'message'>
-    & { constraints?: Maybe<Array<(
-      { __typename?: 'Constraint' }
-      & Pick<Constraint, 'type' | 'message'>
-    )>> }
   )>> }
 );
 
@@ -236,10 +225,6 @@ export const CreateArticleDocument = gql`
   createArticle(createArticleDto: $createArticleDto) {
     path
     message
-    constraints {
-      type
-      message
-    }
   }
 }
     `;

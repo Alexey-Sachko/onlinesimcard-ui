@@ -1,4 +1,5 @@
 import React, { useState, ReactNode } from "react";
+import { Formik, Form, FieldProps, Field, FormikHelpers } from "formik";
 import dynamic from "next/dynamic";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
@@ -9,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
 import { useCreateArticleMutation } from "../../../lib/types";
+import { formatErrors } from "../../../utils/formatErrors";
 
 const Editor = dynamic<EditorProps>(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
@@ -20,45 +22,30 @@ export const CREATE_ARTICLE = gql`
     createArticle(createArticleDto: $createArticleDto) {
       path
       message
-      constraints {
-        type
-        message
-      }
     }
   }
 `;
 
+type FormValues = {
+  title: string;
+  alias: string;
+};
+
 const ArticlesEditorPage = () => {
   const history = useHistory();
-  const [createArticle, { data, loading, error }] = useCreateArticleMutation({
-    // В случае успеха вернет null, иначе массив ошибок
-    onCompleted: (_data) => {
-      if (!data.createArticle) {
-        history.push("/admin/articles");
-      }
-    },
-  });
+  const [createArticle, { data, loading, error }] = useCreateArticleMutation();
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const [title, setTitle] = useState("");
-  const [alias, setAlias] = useState("");
 
   const changeHandler = (nextState: EditorState) => {
     setEditorState(nextState);
   };
-  const onChangeTitle = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setTitle(e.target.value);
-  };
-  const onChangeAlias = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setAlias(e.target.value);
-  };
 
-  const onSubmit = () => {
-    createArticle({
+  const onSubmit = async (
+    { alias, title }: FormValues,
+    { setErrors, setSubmitting }: FormikHelpers<FormValues>
+  ) => {
+    const res = await createArticle({
       variables: {
         createArticleDto: {
           title,
@@ -67,94 +54,112 @@ const ArticlesEditorPage = () => {
         },
       },
     });
-  };
 
-  const errors = data?.createArticle;
-  let clientErrorsJSX: ReactNode = null;
-  let serverErrorsJSX: ReactNode = null;
-  if (error) {
-    serverErrorsJSX = <Typography>{error.message}</Typography>;
-  }
-  if (errors?.length > 0) {
-    clientErrorsJSX = errors.map((err, idx) => (
-      <div key={idx}>
-        {err.message}
-        {err.constraints?.map((con, conIdx) => (
-          <div key={conIdx}>{con.message}</div>
-        ))}
-      </div>
-    ));
-  }
+    const errors = res?.data?.createArticle;
+    if (errors) {
+      setErrors(formatErrors(errors));
+    } else {
+      history.push("/articles");
+    }
+    setSubmitting(false);
+  };
 
   return (
     <div>
-      <Box mt={1} mb={2} px={2}>
-        <Typography variant="h3">Добавить статью</Typography>
+      <Formik
+        initialValues={{
+          title: "",
+          alias: "",
+        }}
+        onSubmit={onSubmit}
+      >
+        {({ errors }) => (
+          <Form>
+            <Box mt={1} mb={2} px={2}>
+              <Typography variant="h3">Добавить статью</Typography>
 
-        {clientErrorsJSX ||
-          (serverErrorsJSX && (
+              {error && (
+                <Box mt={1}>
+                  <Alert severity="error">
+                    <AlertTitle>Произошла ошибка</AlertTitle>
+                  </Alert>
+                </Box>
+              )}
+            </Box>
+            <Box mb={1}>
+              <Paper>
+                <Box p={2}>
+                  <Box mb={2}>
+                    <Field name="title">
+                      {({ field }: FieldProps) => {
+                        return (
+                          <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            label="Заголовок"
+                            autoFocus
+                            error={Boolean(errors.title)}
+                            helperText={errors.title}
+                            {...field}
+                          />
+                        );
+                      }}
+                    </Field>
+                  </Box>
+                  <Box>
+                    <Field name="alias">
+                      {({ field }: FieldProps) => {
+                        return (
+                          <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            label="Алиас"
+                            autoFocus
+                            error={Boolean(errors.alias)}
+                            helperText={errors.alias}
+                            {...field}
+                          />
+                        );
+                      }}
+                    </Field>
+                  </Box>
+                </Box>
+              </Paper>
+            </Box>
+            <Paper>
+              <Box px={2} py={2}>
+                <Editor
+                  editorState={editorState}
+                  onEditorStateChange={changeHandler}
+                />
+              </Box>
+            </Paper>
+
             <Box mt={1}>
-              <Alert severity="error">
-                <AlertTitle>Произошла ошибка:</AlertTitle>
-                {serverErrorsJSX}
-                {clientErrorsJSX}
-              </Alert>
-            </Box>
-          ))}
-      </Box>
-      <Box mb={1}>
-        <Paper>
-          <Box p={2}>
-            <Box mb={2}>
-              <TextField
-                variant="outlined"
-                label="Заголовок"
-                fullWidth
-                value={title}
-                onChange={onChangeTitle}
-              />
-            </Box>
-            <Box>
-              <TextField
-                variant="outlined"
-                label="Алиас"
-                fullWidth
-                value={alias}
-                onChange={onChangeAlias}
-              />
-            </Box>
-          </Box>
-        </Paper>
-      </Box>
-      <Paper>
-        <Box px={2} py={2}>
-          <Editor
-            editorState={editorState}
-            onEditorStateChange={changeHandler}
-          />
-        </Box>
-      </Paper>
+              <Grid container justify="flex-end" spacing={2}>
+                <Grid item>
+                  <Button variant="outlined" color="secondary">
+                    Отмена (TODO)
+                  </Button>
+                </Grid>
 
-      <Box mt={1}>
-        <Grid container justify="flex-end" spacing={2}>
-          <Grid item>
-            <Button variant="outlined" color="secondary">
-              Отмена (TODO)
-            </Button>
-          </Grid>
-
-          <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={onSubmit}
-              disabled={loading}
-            >
-              Сохранить
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disabled={loading}
+                    type="submit"
+                  >
+                    Сохранить
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
