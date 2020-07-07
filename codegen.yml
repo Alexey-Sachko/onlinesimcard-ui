@@ -1,5 +1,6 @@
 overwrite: true
 schema: "https://onlinesimcard.ru/api/v1/graphql"
+# schema: "http://localhost:4500/api/v1/graphql"
 documents:
   - "pages/**/*.tsx"
   - "components/**/*.tsx"
