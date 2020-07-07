@@ -17,6 +17,7 @@ export const Container = styled(Box)(({ selected }: Props) => ({
   background: selected ? "#85B1FF" : "#fff",
   cursor: selected ? "initial" : "pointer",
   borderRight: "1px solid #EBF2FF",
+  transition: "background .15s ease",
 
   "&:last-child": {
     border: "none",
