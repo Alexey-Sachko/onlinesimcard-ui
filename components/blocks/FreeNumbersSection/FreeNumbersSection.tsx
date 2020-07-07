@@ -25,6 +25,7 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
   const [selectedNumber, setSelectedNumber] = useState(0);
   const [page, setPage] = useState(1);
   const [reloadNumbers, setReloadNumbers] = useState(false);
+  const [reloadMessages, setReloadMessages] = useState(false);
 
   const onSelectCountry = useCallback(
     (code: number) => {
@@ -72,7 +73,7 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
       .then((data) => {
         setDataMessages(data);
       });
-  }, [selectedCountry, page, selectedNumber]);
+  }, [page, selectedNumber, reloadMessages]);
 
   useEffect(() => {
     setPage(1);
@@ -88,7 +89,7 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
   console.log(page);
 
   const onReloadMessages = useCallback(() => {
-    setPage(1);
+    setReloadMessages((prev) => !prev);
   }, []);
   const onReloadNumbers = useCallback(() => {
     setReloadNumbers((prev) => !prev);
