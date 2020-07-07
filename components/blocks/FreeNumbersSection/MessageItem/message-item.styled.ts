@@ -20,7 +20,7 @@ export const Pin = styled(Box)({
   marginTop: "auto",
   marginBottom: "auto",
   marginRight: "15px",
-  // marginLeft: "15px",
+  marginLeft: "15px",
 });
 
 export const DataHumans = styled(Typography)({

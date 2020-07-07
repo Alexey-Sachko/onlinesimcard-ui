@@ -24,8 +24,13 @@ const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
         </Box>
       </Box>
       <MessageContainer mt={6} mb={7}>
-        {data?.map(({ data_humans, text }, idx) => (
-          <MessageItem key={idx} data_humans={data_humans} text={text} />
+        {data?.map(({ data_humans, text, in_number }, idx) => (
+          <MessageItem
+            key={idx}
+            data_humans={data_humans}
+            text={text}
+            in_number={in_number}
+          />
         ))}
       </MessageContainer>
     </Box>

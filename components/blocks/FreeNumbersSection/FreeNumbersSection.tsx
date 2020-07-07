@@ -86,8 +86,6 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
     [selectedNumber]
   );
 
-  console.log(page);
-
   const onReloadMessages = useCallback(() => {
     setReloadMessages((prev) => !prev);
   }, []);
