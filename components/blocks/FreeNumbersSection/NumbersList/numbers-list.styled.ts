@@ -21,7 +21,6 @@ export const TypographySpacing = styled(Typography)({
 
 export const ResetButton = styled(IconButtonMaterial)({
   marginTop: "-5px",
-  marginLeft: "5px",
   border: "1px solid #757575",
 
   "&:hover": {
