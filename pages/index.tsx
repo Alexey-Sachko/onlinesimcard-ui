@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Box from "@material-ui/core/Box";
+import axios from "axios";
 
 import Header from "../components/blocks/Header";
 import MainSection from "../components/blocks/MainSection";
