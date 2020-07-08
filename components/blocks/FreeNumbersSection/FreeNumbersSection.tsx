@@ -16,14 +16,15 @@ import {
   Pagination,
 } from "./free-numbers-sectoin.styled";
 import countryData from "./country-data";
+import { getPhoneList, getMessagesList } from "./utils";
 
 type Props = {
   onActionClick?: () => void;
 };
 
-const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
+const FreeNumbersSection = ({ onActionClick }: Props) => {
   const [selectedCountry, setSelectedCountry] = useState(7);
-  const [dataNumbers, setDataNumbers] = useState<any>({});
+  const [dataNumbers, setDataNumbers] = useState<any>([]);
   const [dataMessages, setDataMessages] = useState<any>({});
   const [selectedNumber, setSelectedNumber] = useState(0);
   const [page, setPage] = useState(1);
@@ -40,47 +41,27 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
   );
 
   useEffect(() => {
-    axios
-      .get(`https://onlinesim.ru/api/getFreePhoneList`, {
-        params: {
-          country: selectedCountry,
-          lang: "ru",
-        },
-      })
-      .then((data) => {
-        setDataNumbers(data);
-        setSelectedNumber(data?.data?.numbers?.[0]?.number);
-        axios
-          .get(`https://onlinesim.ru/api/getFreeMessageList`, {
-            params: {
-              page: page,
-              phone: selectedNumber,
-              lang: "ru",
-            },
-          })
-          .then((data) => {
-            setDataMessages(data);
-          });
-      });
+    (async () => {
+      const numbersData = await getPhoneList({ selectedCountry });
+      const messagesData = await getMessagesList({ page, selectedNumber });
+
+      setDataNumbers(numbersData?.data?.numbers);
+      setSelectedNumber(numbersData?.data?.numbers?.[0]?.number);
+      setDataMessages(messagesData?.messages);
+    })();
   }, [selectedCountry, reloadNumbers]);
 
   useEffect(() => {
-    axios
-      .get(`https://onlinesim.ru/api/getFreeMessageList`, {
-        params: {
-          page: page,
-          phone: selectedNumber,
-          lang: "ru",
-        },
-      })
-      .then((data) => {
-        setDataMessages(data);
-      });
+    (async () => {
+      const messagesData = await getMessagesList({ page, selectedNumber });
+      //@ts-ignore
+      setDataMessages(messagesData?.messages);
+    })();
   }, [page, selectedNumber, reloadMessages]);
 
   useEffect(() => {
     setPage(1);
-  }, [selectedCountry, selectedNumber]);
+  }, [selectedCountry, selectedNumber, reloadMessages]);
 
   const onSelectNumber = useCallback(
     (number: number) => {
@@ -123,7 +104,7 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
             <Grid container>
               <Grid item xs={3}>
                 <NumbersList
-                  data={dataNumbers?.data?.numbers}
+                  data={dataNumbers}
                   onSelectNumber={onSelectNumber}
                   selectedNumber={selectedNumber}
                   onReloadNumbers={onReloadNumbers}
@@ -132,14 +113,14 @@ const FreeNumbersSection: React.FC<Props> = ({ onActionClick }) => {
               <Box mr={10} />
               <Grid item xs={8}>
                 <MessageList
-                  data={dataMessages?.data?.messages?.data}
+                  data={dataMessages?.data}
                   onReloadMessages={onReloadMessages}
                 />
 
                 <Pagination
                   page={page}
                   onChange={(event, page) => setPage(page)}
-                  count={dataMessages?.data?.messages?.last_page}
+                  count={dataMessages?.last_page}
                   showFirstButton
                   showLastButton
                 />

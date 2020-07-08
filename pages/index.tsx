@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Box from "@material-ui/core/Box";
+import axios from "axios";
 
 import Header from "../components/blocks/Header";
 import MainSection from "../components/blocks/MainSection";
@@ -9,7 +10,12 @@ import HowToSection from "../components/blocks/HowToSection";
 import ChooseServiceModal from "../components/blocks/ChooseServiceModal";
 import FreeNumbersSection from "../components/blocks/FreeNumbersSection";
 
-const Home = () => {
+type Props = {
+  numbersData?: any;
+  messagesData?: any;
+};
+
+const Home = ({ numbersData, messagesData }: Props) => {
   const [isOpenChooseService, setIsOpenChooseService] = useState(false);
 
   const openModalHandler = () => {

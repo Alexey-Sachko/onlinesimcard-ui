@@ -14,7 +14,7 @@ type Props = {
   full_number: string;
   selected: boolean;
   idx: string;
-  onSelectNumber: (number: string) => void;
+  onSelectNumber: (idx: string) => void;
 };
 
 const NumberItem: React.FC<Props> = ({
