@@ -10,12 +10,7 @@ import HowToSection from "../components/blocks/HowToSection";
 import ChooseServiceModal from "../components/blocks/ChooseServiceModal";
 import FreeNumbersSection from "../components/blocks/FreeNumbersSection";
 
-type Props = {
-  numbersData?: any;
-  messagesData?: any;
-};
-
-const Home = ({ numbersData, messagesData }: Props) => {
+const Home = () => {
   const [isOpenChooseService, setIsOpenChooseService] = useState(false);
 
   const openModalHandler = () => {
