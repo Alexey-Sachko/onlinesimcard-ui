@@ -17,7 +17,7 @@ export const getPhoneList = async ({ selectedCountry }: GetPhoneList) => {
 };
 
 type GetMessagesList = {
-  selectedNumber: number;
+  selectedNumber: number | string;
   page: number;
 };
 

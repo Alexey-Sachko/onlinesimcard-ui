@@ -10,18 +10,16 @@ import {
 } from "./number-item.styled";
 
 type Props = {
-  number: string;
+  number: string | number;
   full_number: string;
   selected: boolean;
-  idx: string;
-  onSelectNumber: (idx: string) => void;
+  onSelectNumber: (number: string | number) => void;
 };
 
 const NumberItem: React.FC<Props> = ({
   number,
   full_number,
   selected,
-  idx,
   onSelectNumber,
 }) => {
   const onClickNumber = () => {

@@ -26,7 +26,7 @@ const FreeNumbersSection = ({ onActionClick }: Props) => {
   const [selectedCountry, setSelectedCountry] = useState(7);
   const [dataNumbers, setDataNumbers] = useState<any>([]);
   const [dataMessages, setDataMessages] = useState<any>({});
-  const [selectedNumber, setSelectedNumber] = useState(0);
+  const [selectedNumber, setSelectedNumber] = useState<string | number>(0);
   const [page, setPage] = useState(1);
   const [reloadNumbers, setReloadNumbers] = useState(false);
   const [reloadMessages, setReloadMessages] = useState(false);
@@ -64,7 +64,7 @@ const FreeNumbersSection = ({ onActionClick }: Props) => {
   }, [selectedCountry, selectedNumber, reloadMessages]);
 
   const onSelectNumber = useCallback(
-    (number: number) => {
+    (number: number | string) => {
       setSelectedNumber(number);
     },
     [selectedNumber]

@@ -14,8 +14,8 @@ import numbersData from "./numbers-data";
 
 type Props = {
   data: any;
-  onSelectNumber: (idx) => void;
-  selectedNumber: number;
+  onSelectNumber: (number: string | number) => void;
+  selectedNumber: number | string;
   onReloadNumbers: () => void;
 };
 
@@ -39,7 +39,6 @@ const NumbersList: React.FC<Props> = ({
         {data?.map(({ full_number, number }, idx) => (
           <NumberItem
             key={idx}
-            idx={idx}
             onSelectNumber={onSelectNumber}
             full_number={full_number}
             number={number}
