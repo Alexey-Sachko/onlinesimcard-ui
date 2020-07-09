@@ -1,6 +1,8 @@
 import React from "react";
 // import NextLink from "next/link";
-import { Formik, Form, Field, FieldProps } from "formik";
+import { useRouter } from "next/router";
+import { Alert } from "@material-ui/lab";
+import { Formik, Form, Field, FieldProps, FormikHelpers } from "formik";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -10,10 +12,14 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { CircularProgress } from "@material-ui/core";
 // import Link from "@material-ui/core/Link";
 
 import Copyright from "../components/blocks/Copyright";
 import Header from "../components/blocks/Header";
+import { gql } from "@apollo/client";
+import { useLoginMutation } from "../lib/types";
+import { formatErrors } from "../utils/formatErrors";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,16 +53,46 @@ type Values = {
   password: string;
 };
 
+export const LOGIN_MUTATION = gql`
+  mutation Login($authCredentialsDto: AuthCredentialsDto!) {
+    login(authCredentialsDto: $authCredentialsDto) {
+      path
+      message
+    }
+  }
+`;
+
 export default function SigninPage() {
   const classes = useStyles();
+  const router = useRouter();
+  const [login, { loading, error }] = useLoginMutation();
 
-  const submitHandler = ({ email, password }: Values) => {
-    // TODO implement authorization
+  const submitHandler = async (
+    { email, password }: Values,
+    { setErrors, setSubmitting }: FormikHelpers<Values>
+  ) => {
+    const res = await login({
+      variables: {
+        authCredentialsDto: {
+          email,
+          password,
+        },
+      },
+    });
+
+    const errors = res?.data?.login;
+    if (errors) {
+      setErrors(formatErrors(errors));
+    } else {
+      await router.push("/admin");
+      return;
+    }
+    setSubmitting(false);
   };
 
   return (
     <>
-      <Header blueBg />
+      <Header />
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -65,8 +101,11 @@ export default function SigninPage() {
           <Typography component="h1" variant="h5">
             Вход
           </Typography>
-          {"Загрузка"}
-          {"error"}
+          {error && (
+            <Box mb={2}>
+              <Alert severity="error">Произошла ошибка</Alert>
+            </Box>
+          )}
           <Formik
             initialValues={{ email: "", password: "" }}
             // validationSchema={SignupSchema}
@@ -120,8 +159,9 @@ export default function SigninPage() {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
+                  disabled={loading}
                 >
-                  Войти
+                  {loading ? <CircularProgress /> : "Войти"}
                 </Button>
                 {/* <Grid container justify="flex-end">
                   <Grid item>
