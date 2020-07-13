@@ -48,7 +48,7 @@ const Footer = () => {
           </div>
           <div className="grid-item-right">
             <div className="logo-container">
-              <Logo variant="dark" />
+              <Logo />
             </div>
           </div>
         </div>

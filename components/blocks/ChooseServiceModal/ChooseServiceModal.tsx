@@ -1,4 +1,4 @@
-// import React, { Fragment } from "react";
+import React, { Fragment } from "react";
 // import { makeStyles } from "@material-ui/core/styles";
 // import Dialog from "@material-ui/core/Dialog";
 // import DialogTitle from "@material-ui/core/DialogTitle";
@@ -13,10 +13,10 @@
 
 // import { services } from "../../../data/services";
 
-// type Props = {
-//   open: boolean;
-//   onClose?: () => void;
-// };
+type Props = {
+  open: boolean;
+  onClose?: () => void;
+};
 
 // const ICON_SIZE = 16;
 
@@ -31,37 +31,38 @@
 //   },
 // }));
 
-// const ChooseServiceModal = ({ open, onClose }: Props) => {
-//   const classes = useStyles();
-//   return (
-//     <Dialog open={open} maxWidth="sm" fullWidth onClose={onClose}>
-//       <DialogTitle>Выберите сервис</DialogTitle>
-//       <DialogContent>
-//         {/* <DialogContentText>Some text</DialogContentText> */}
-//         <List>
-//           {services.map(({ name, x, y }, idx) => (
-//             <ListItem key={idx} button onClick={onClose} divider>
-//               <ListItemIcon className={classes.socialIconWrapper}>
-//                 <div
-//                   className={classes.socialIcon}
-//                   style={{
-//                     backgroundPositionX: x * -1 * ICON_SIZE,
-//                     backgroundPositionY: y * -1 * ICON_SIZE,
-//                   }}
-//                 />
-//               </ListItemIcon>
-//               <ListItemText>{name}</ListItemText>
-//             </ListItem>
-//           ))}
-//         </List>
-//       </DialogContent>
-//       <DialogActions>
-//         <Button onClick={onClose} variant="outlined" color="primary">
-//           Close
-//         </Button>
-//       </DialogActions>
-//     </Dialog>
-//   );
-// };
+const ChooseServiceModal = ({ open, onClose }: Props) => {
+  //   const classes = useStyles();
+  return (
+    //     <Dialog open={open} maxWidth="sm" fullWidth onClose={onClose}>
+    //       <DialogTitle>Выберите сервис</DialogTitle>
+    //       <DialogContent>
+    //         {/* <DialogContentText>Some text</DialogContentText> */}
+    //         <List>
+    //           {services.map(({ name, x, y }, idx) => (
+    //             <ListItem key={idx} button onClick={onClose} divider>
+    //               <ListItemIcon className={classes.socialIconWrapper}>
+    //                 <div
+    //                   className={classes.socialIcon}
+    //                   style={{
+    //                     backgroundPositionX: x * -1 * ICON_SIZE,
+    //                     backgroundPositionY: y * -1 * ICON_SIZE,
+    //                   }}
+    //                 />
+    //               </ListItemIcon>
+    //               <ListItemText>{name}</ListItemText>
+    //             </ListItem>
+    //           ))}
+    //         </List>
+    //       </DialogContent>
+    //       <DialogActions>
+    //         <Button onClick={onClose} variant="outlined" color="primary">
+    //           Close
+    //         </Button>
+    //       </DialogActions>
+    //     </Dialog>
+    null
+  );
+};
 
-// export default ChooseServiceModal;
+export default ChooseServiceModal;
