@@ -88,7 +88,8 @@ export type ArticleType = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  login: AuthResponseType;
+  login?: Maybe<Array<ErrorType>>;
+  logout: Scalars['Boolean'];
   register: RegisterPayloadType;
   createArticle?: Maybe<Array<ErrorType>>;
   updateArticle?: Maybe<Array<ErrorType>>;
@@ -125,9 +126,10 @@ export type AuthCredentialsDto = {
   password: Scalars['String'];
 };
 
-export type AuthResponseType = {
-  __typename?: 'AuthResponseType';
-  accessToken: Scalars['String'];
+export type ErrorType = {
+  __typename?: 'ErrorType';
+  path: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type UserSignupDto = {
@@ -139,12 +141,6 @@ export type RegisterPayloadType = {
   __typename?: 'RegisterPayloadType';
   result?: Maybe<Scalars['Boolean']>;
   errors?: Maybe<Array<ErrorType>>;
-};
-
-export type ErrorType = {
-  __typename?: 'ErrorType';
-  path: Scalars['String'];
-  message: Scalars['String'];
 };
 
 export type CreateArticleDto = {
@@ -179,6 +175,19 @@ export type CreateArticleMutationVariables = Exact<{
 export type CreateArticleMutation = (
   { __typename?: 'Mutation' }
   & { createArticle?: Maybe<Array<(
+    { __typename?: 'ErrorType' }
+    & Pick<ErrorType, 'path' | 'message'>
+  )>> }
+);
+
+export type LoginMutationVariables = Exact<{
+  authCredentialsDto: AuthCredentialsDto;
+}>;
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & { login?: Maybe<Array<(
     { __typename?: 'ErrorType' }
     & Pick<ErrorType, 'path' | 'message'>
   )>> }
@@ -253,3 +262,36 @@ export function useCreateArticleMutation(baseOptions?: ApolloReactHooks.Mutation
 export type CreateArticleMutationHookResult = ReturnType<typeof useCreateArticleMutation>;
 export type CreateArticleMutationResult = ApolloReactCommon.MutationResult<CreateArticleMutation>;
 export type CreateArticleMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateArticleMutation, CreateArticleMutationVariables>;
+export const LoginDocument = gql`
+    mutation Login($authCredentialsDto: AuthCredentialsDto!) {
+  login(authCredentialsDto: $authCredentialsDto) {
+    path
+    message
+  }
+}
+    `;
+export type LoginMutationFn = ApolloReactCommon.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      authCredentialsDto: // value for 'authCredentialsDto'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        return ApolloReactHooks.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = ApolloReactCommon.MutationResult<LoginMutation>;
+export type LoginMutationOptions = ApolloReactCommon.BaseMutationOptions<LoginMutation, LoginMutationVariables>;

@@ -14,6 +14,9 @@ import { Formik, Form, Field, FieldProps } from "formik";
 import Typography from "../components/layout/Typography";
 import Copyright from "../components/blocks/Copyright";
 import Header from "../components/blocks/Header";
+import { gql } from "@apollo/client";
+import { useLoginMutation } from "../lib/types";
+import { formatErrors } from "../utils/formatErrors";
 
 // const useStyles = makeStyles((theme) => ({
 //   paper: {
@@ -46,6 +49,15 @@ type Values = {
   email: string;
   password: string;
 };
+
+export const LOGIN_MUTATION = gql`
+  mutation Login($authCredentialsDto: AuthCredentialsDto!) {
+    login(authCredentialsDto: $authCredentialsDto) {
+      path
+      message
+    }
+  }
+`;
 
 export default function SigninPage() {
   const submitHandler = ({ email, password }: Values) => {
