@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+
+import Typography from "../../../layout/Typography";
+import IconButton from "../../../layout/IconButton";
 
 import NumberItem from "../NumberItem";
 import {
@@ -27,12 +29,22 @@ const NumbersList: React.FC<Props> = ({
 }) => {
   return (
     <Box>
+      <style jsx>
+        {`
+          .reset-button-img {
+            width: 100%;
+          }
+        `}
+      </style>
       <Box ml={4} display="flex">
-        <TypographySpacing variant="h4">СПИСОК НОМЕРОВ</TypographySpacing>
+        <TypographySpacing variant="h5">СПИСОК НОМЕРОВ</TypographySpacing>
         <Box ml={3}>
-          <ResetButton size="small" onClick={onReloadNumbers}>
-            <CachedIcon />
-          </ResetButton>
+          <IconButton onClick={onReloadNumbers}>
+            <img
+              className="reset-button-img"
+              src="/static/reset-alternative.svg"
+            />
+          </IconButton>
         </Box>
       </Box>
       <NumbersContainer mt={5}>

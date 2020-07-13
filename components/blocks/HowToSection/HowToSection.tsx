@@ -1,12 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 
+import Typography from "../../layout/Typography";
 import CustomContainer from "../CustomContainer";
-import StepBlock from "../StepBlock";
+// import StepBlock from "../StepBlock";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,14 +38,14 @@ type Props = {
 };
 
 const HowToSection = ({ onActionClick }: Props) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div>
       <CustomContainer>
-        <Typography variant="h4" align="center" className={classes.title}>
+        <Typography variant="h4" align="center">
           Как это работает
         </Typography>
-        <Grid container justify="center">
+        {/* <Grid container justify="center">
           <Grid item zeroMinWidth>
             <Box mb={4}>
               <StepBlock
@@ -75,8 +72,8 @@ const HowToSection = ({ onActionClick }: Props) => {
                 text="Используйте полученный в СМС код в нужном сервисе"
                 image="/static/fourth-step.jpg"
               />
-            </Box>
-            {/* <Box display="flex" justifyContent="center">
+            </Box> */}
+        {/* <Box display="flex" justifyContent="center">
               <Button
                 color="secondary"
                 variant="contained"
@@ -86,8 +83,8 @@ const HowToSection = ({ onActionClick }: Props) => {
                 Заказать номер
               </Button>
             </Box> */}
-          </Grid>
-        </Grid>
+        {/* </Grid>
+        </Grid> */}
       </CustomContainer>
     </div>
   );

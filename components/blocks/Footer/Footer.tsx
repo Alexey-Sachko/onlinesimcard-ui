@@ -1,77 +1,59 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
 
+import Typography from "../../layout/Typography";
 import Logo from "../../layout/Logo";
 import CustomContainer from "../CustomContainer";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    // backgroundColor: "#E9F0FF",
-    paddingTop: "50px",
-    paddingBottom: "50px",
-    [theme.breakpoints.down("xs")]: {
-      paddingTop: "30px",
-      paddingBottom: "30px",
-    },
-  },
-  description: {
-    fontSize: "18px",
-    lineHeight: "22px",
-    fontFamily: `'Open Sans', sans-serif`,
-    maxWidth: "400px",
-    marginBottom: "30px",
-    color: "#000000",
-    [theme.breakpoints.down("xs")]: {
-      fontSize: "13px",
-    },
-  },
-  email: {
-    fontSize: "18px",
-    fontWeight: "bold",
-    fontFamily: `'Libre Baskerville', sans-serif`,
-    lineHeight: "22px",
-    color: "#1E71FF",
-    [theme.breakpoints.down("xs")]: {
-      fontSize: "13px",
-    },
-  },
-  gridContainer: {
-    [theme.breakpoints.down("md")]: {
-      flexDirection: "column-reverse",
-    },
-  },
-}));
-
 const Footer = () => {
-  const classes = useStyles();
   return (
-    <Box className={classes.root}>
+    <div className="container">
+      <style jsx>
+        {`
+          .container {
+            padding-top: 50px;
+            padding-bottom: 50px;
+          }
+          .grid-container {
+            width: 100%;
+            display: flex;
+          }
+          .grid-item-left {
+            width: 50%;
+          }
+          .grid-item-right {
+            width: 50%;
+            display: flex;
+            justify-content: flex-end;
+          }
+          .logo-container {
+            height: 100%;
+            display: flex;
+            align-items: center;
+          }
+          .separator {
+            margin-top: 30px;
+          }
+        `}
+      </style>
       <CustomContainer>
-        <Grid
-          container
-          justify="space-between"
-          spacing={2}
-          className={classes.gridContainer}
-        >
-          <Grid item>
-            <Typography variant="subtitle2" className={classes.description}>
+        <div className="grid-container">
+          <div className="grid-item-left">
+            <Typography variant="usualParagraph">
               Cервис по приему SMS-сообщений на виртуальные номера.
             </Typography>
-            <Typography className={classes.email}>
+            <div className="separator"></div>
+            <Typography variant="h5" color="blueBasic">
               simcardonline@mail.ru
             </Typography>
-          </Grid>
-          <Grid item>
-            <Box height="100%" display="flex" alignItems="center">
+          </div>
+          <div className="grid-item-right">
+            <div className="logo-container">
               <Logo variant="dark" />
-            </Box>
-          </Grid>
-        </Grid>
+            </div>
+          </div>
+        </div>
       </CustomContainer>
-    </Box>
+    </div>
   );
 };
 

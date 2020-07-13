@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import Box from "@material-ui/core/Box";
-import axios from "axios";
 
 import Header from "../components/blocks/Header";
 import MainSection from "../components/blocks/MainSection";
 import Footer from "../components/blocks/Footer";
-import HowToSection from "../components/blocks/HowToSection";
-import ChooseServiceModal from "../components/blocks/ChooseServiceModal";
+// import HowToSection from "../components/blocks/HowToSection";
+// import ChooseServiceModal from "../components/blocks/ChooseServiceModal";
 import FreeNumbersSection from "../components/blocks/FreeNumbersSection";
 
 const Home = () => {
@@ -21,8 +19,8 @@ const Home = () => {
     <div style={{ background: "#fff" }}>
       <Head>{/* <title>Home</title> */}</Head>
       <Header />
-      <Box height="120px" />
-      <MainSection onActionClick={openModalHandler} />
+      <div style={{ height: "120px" }} />
+      <MainSection />
       {/* <HowToSection onActionClick={openModalHandler} /> */}
       <FreeNumbersSection />
       {/* <ChooseServiceModal

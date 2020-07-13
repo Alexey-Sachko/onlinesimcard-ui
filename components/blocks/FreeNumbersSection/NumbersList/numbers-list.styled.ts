@@ -1,8 +1,9 @@
 import Box from "@material-ui/core/Box";
 import { styled } from "@material-ui/core/styles";
 import CachedIconMatarial from "@material-ui/icons/Cached";
-import Typography from "@material-ui/core/Typography";
 import IconButtonMaterial from "@material-ui/core/IconButton";
+
+import Typography from "../../../layout/Typography";
 
 export const CachedIcon = styled(CachedIconMatarial)({
   color: "#383838",

@@ -2,8 +2,8 @@ import App, { AppInitialProps } from "next/app";
 import Head from "next/head";
 import React from "react";
 import { ApolloProvider } from "@apollo/client";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { MuiThemeProvider } from "@material-ui/core/styles";
+// import CssBaseline from "@material-ui/core/CssBaseline";
+// import { MuiThemeProvider } from "@material-ui/core/styles";
 import { YMInitializer } from "react-yandex-metrika";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { THEME } from "../theme";
@@ -20,7 +20,8 @@ class MyApp extends App<AppInitialProps & WithApollo> {
   render() {
     const { Component, pageProps, apolloClient } = this.props;
     return (
-      <MuiThemeProvider theme={THEME}>
+      // <MuiThemeProvider theme={THEME}>
+      <>
         <Head>
           {/* <meta name="theme-color" content="#292929" /> */}
           <meta name="language" content="ru" />
@@ -30,11 +31,7 @@ class MyApp extends App<AppInitialProps & WithApollo> {
             name="description"
             content="Descr"
           /> */}
-          <link
-            rel="shortcut icon"
-            type="image/x-icon"
-            href="/static/favicon.ico"
-          />
+          <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
           <title>Виртуальный номер для приема СМС</title>
           {/* <link
             rel="stylesheet"
@@ -55,10 +52,11 @@ class MyApp extends App<AppInitialProps & WithApollo> {
         </Head>
         <ApolloProvider client={apolloClient}>
           <YMInitializer accounts={[62981725]} />
-          <CssBaseline />
+          {/* <CssBaseline /> */}
           <Component {...pageProps} />
         </ApolloProvider>
-      </MuiThemeProvider>
+      </>
+      // </MuiThemeProvider>
     );
   }
 }

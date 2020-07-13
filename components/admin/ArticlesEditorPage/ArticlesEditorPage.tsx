@@ -6,9 +6,10 @@ import { convertToHTML } from "draft-convert";
 import { EditorProps } from "react-draft-wysiwyg";
 import { Paper, Box, TextField, Button, Grid } from "@material-ui/core";
 import { gql } from "@apollo/client";
-import Typography from "@material-ui/core/Typography";
 import { Alert } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
+
+import Typography from "../../layout/Typography";
 import { useCreateArticleMutation } from "../../../lib/types";
 import { formatErrors } from "../../../utils/formatErrors";
 

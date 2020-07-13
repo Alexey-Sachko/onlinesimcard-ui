@@ -1,44 +1,74 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import React from "react";
 
 import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
-import { RightCapture, OrangeText } from "./main-section.styled";
+import Typography from "../../layout/Typography";
+import { theme } from "../../../theme/customTheme";
 
-type Props = {
-  onActionClick: () => void;
-};
-
-const MainSection = ({ onActionClick }: Props) => {
+const MainSection = () => {
   return (
     <CustomContainer>
-      <Grid container>
-        <Grid item xs={5}>
-          <Box m="auto">
-            <Typography variant="h1">
+      <style jsx>
+        {`
+          .title-text {
+            margin: auto;
+          }
+          .body-text {
+            margin-top: 30px;
+          }
+          .body-text-bottom {
+            margin-top: 15px;
+          }
+          .orange-text {
+            color: ${theme.colors.mangoBasic};
+          }
+          .grid-container {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+          }
+          .grid-item-description {
+            flex-grow: 0;
+            max-width: 41.666667%;
+            flex-basis: 41.666667%;
+            margin: 0;
+            box-sizing: border-box;
+          }
+          .grid-item-img {
+            flex-grow: 0;
+            max-width: 58.333333%;
+            flex-basis: 58.333333%;
+            margin: 0;
+            box-sizing: border-box;
+          }
+        `}
+      </style>
+      <div className="grid-container">
+        <div className="grid-item-description">
+          <div className="title-text">
+            <Typography variant="h2">
               Виртуальный номер
               <br /> для приема СМС
             </Typography>
-            <Box mt={6}>
-              <Typography variant="subtitle1">
+            <div className="body-text">
+              <Typography variant="bigParagraph" color="jetBasic">
                 Onlinesimcard.ru - сервис по приему SMS-сообщений на виртуальные
                 номера.
-                <Box mt={3}>
-                  Мы имеем временные <OrangeText>бесплатные</OrangeText>, а
-                  также приватные номера разных стран мира для получения кодов
+                <div className="body-text-bottom">
+                  Мы имеем временные
+                  <span className="orange-text"> бесплатные</span>, а также
+                  приватные номера разных стран мира для получения кодов
                   активаций и смс подтверждений онлайн.
-                </Box>
+                </div>
               </Typography>
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={7}>
-          <RightCapture ml="auto" />
-        </Grid>
-      </Grid>
+            </div>
+          </div>
+        </div>
+        <div className="grid-item-img">
+          <img src="/static/bg-main-section.jpg" alt="rightPickcher" />
+        </div>
+      </div>
 
       {/* <Grid container spacing={2}> */}
       {/* <Grid item zeroMinWidth xs={12} sm={6} md={5} lg="auto">
