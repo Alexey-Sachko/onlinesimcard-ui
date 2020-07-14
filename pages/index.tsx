@@ -16,7 +16,7 @@ const Home = () => {
   };
 
   return (
-    <div style={{ background: "#fff" }}>
+    <div>
       <Head>{/* <title>Home</title> */}</Head>
       <Header />
       <div style={{ height: "120px" }} />

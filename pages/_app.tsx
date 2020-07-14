@@ -22,6 +22,13 @@ class MyApp extends App<AppInitialProps & WithApollo> {
     return (
       // <MuiThemeProvider theme={THEME}>
       <>
+        <style jsx global>
+          {`
+            body {
+              margin: 0px;
+            }
+          `}
+        </style>
         <Head>
           {/* <meta name="theme-color" content="#292929" /> */}
           <meta name="language" content="ru" />

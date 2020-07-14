@@ -19,6 +19,8 @@ const IconButton: React.FC<Props> = ({ children, className, ...props }) => {
             height: 32px;
             padding: 3px;
             cursor: pointer;
+            background: inherit;
+            transition: box-shadow 0.2s ease;
           }
           .button:hover {
             box-shadow: ${theme.shadows.bigShadow};

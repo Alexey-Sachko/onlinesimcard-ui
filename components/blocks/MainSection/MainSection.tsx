@@ -41,6 +41,7 @@ const MainSection = () => {
             flex-basis: 58.333333%;
             margin: 0;
             box-sizing: border-box;
+            text-align: right;
           }
         `}
       </style>

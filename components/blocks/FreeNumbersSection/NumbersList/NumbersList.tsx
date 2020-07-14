@@ -1,18 +1,10 @@
-import React, { useState, useCallback, useEffect } from "react";
-import axios from "axios";
-import Box from "@material-ui/core/Box";
+import React from "react";
 
 import Typography from "../../../layout/Typography";
 import IconButton from "../../../layout/IconButton";
 
 import NumberItem from "../NumberItem";
-import {
-  CachedIcon,
-  NumbersContainer,
-  TypographySpacing,
-  ResetButton,
-} from "./numbers-list.styled";
-import numbersData from "./numbers-data";
+import { theme } from "../../../../theme/customTheme";
 
 type Props = {
   data: any;
@@ -28,26 +20,45 @@ const NumbersList: React.FC<Props> = ({
   onReloadNumbers,
 }) => {
   return (
-    <Box>
+    <>
       <style jsx>
         {`
           .reset-button-img {
             width: 100%;
           }
+          .numbers-list-title {
+            display: flex;
+            margin-left: 20px;
+          }
+          .numbers-list-title span {
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+          }
+          .reset-button-container {
+            margin-left: 15px;
+          }
+          .numbers-container {
+            margin-top: 25px;
+            background: ${theme.colors.whiteBasic};
+            border-radius: 5px;
+            box-shadow: ${theme.shadows.usualShadow};
+          }
         `}
       </style>
-      <Box ml={4} display="flex">
-        <TypographySpacing variant="h5">СПИСОК НОМЕРОВ</TypographySpacing>
-        <Box ml={3}>
+      <div className="numbers-list-title">
+        <span>
+          <Typography variant="h5">СПИСОК НОМЕРОВ</Typography>
+        </span>
+        <div className="reset-button-container">
           <IconButton onClick={onReloadNumbers}>
             <img
               className="reset-button-img"
               src="/static/reset-alternative.svg"
             />
           </IconButton>
-        </Box>
-      </Box>
-      <NumbersContainer mt={5}>
+        </div>
+      </div>
+      <div className="numbers-container">
         {data?.map(({ full_number, number }, idx) => (
           <NumberItem
             key={idx}
@@ -57,8 +68,8 @@ const NumbersList: React.FC<Props> = ({
             selected={selectedNumber === number}
           />
         ))}
-      </NumbersContainer>
-    </Box>
+      </div>
+    </>
   );
 };
 
