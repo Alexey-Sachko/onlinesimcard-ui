@@ -19,7 +19,7 @@ const Home = () => {
     <div>
       <Head>{/* <title>Home</title> */}</Head>
       <Header />
-      <div style={{ height: "120px" }} />
+      <div style={{ height: "80px" }} />
       <MainSection />
       {/* <HowToSection onActionClick={openModalHandler} /> */}
       <FreeNumbersSection />

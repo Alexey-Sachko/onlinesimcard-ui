@@ -96,9 +96,8 @@ const FreeNumbersSection = () => {
             margin-bottom: 35px;
           }
           .separator-block {
-            margin-right: 50px;
+            margin-right: auto;
           }
-
           .grid-container {
             width: 100%;
             display: flex;
