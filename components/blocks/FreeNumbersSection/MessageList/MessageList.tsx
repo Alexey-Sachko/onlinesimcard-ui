@@ -1,16 +1,8 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 
+import Typography from "../../../layout/Typography";
 import MessageItem from "../MessageItem";
-import {
-  CachedIcon,
-  MessageContainer,
-  TypographySpacing,
-  ResetButton,
-} from "./message-list.styled";
-import messageData from "./message-data";
+import IconButton from "../../../layout/IconButton";
 
 type Props = {
   data: any;
@@ -19,16 +11,46 @@ type Props = {
 
 const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
   return (
-    <Box>
-      <Box ml={4} display="flex">
-        <TypographySpacing variant="h4">СООБЩЕНИЯ</TypographySpacing>
-        <Box ml={3}>
-          <ResetButton size="small" onClick={onReloadMessages}>
-            <CachedIcon />
-          </ResetButton>
-        </Box>
-      </Box>
-      <MessageContainer mt={5} mb={7}>
+    <div>
+      <style jsx>
+        {`
+          .messages-container {
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+            margin-top: 25px;
+            margin-bottom: 35px;
+          }
+          .message-list-title {
+            margin-left: 20px;
+            display: flex;
+          }
+          .message-list-button {
+            margin-left: 15px;
+          }
+          .title-text {
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+          }
+          .reset-button-img {
+            width: 100%;
+          }
+        `}
+      </style>
+      <div className="message-list-title">
+        <Typography className="title-text" variant="h5">
+          СООБЩЕНИЯ
+        </Typography>
+        <div className="message-list-button">
+          <IconButton onClick={onReloadMessages}>
+            <img
+              className="reset-button-img"
+              src="/static/reset-alternative.svg"
+            />
+          </IconButton>
+        </div>
+      </div>
+      <div className="messages-container">
         {data?.map(({ data_humans, text, in_number }, idx) => (
           <MessageItem
             key={idx}
@@ -37,8 +59,8 @@ const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
             in_number={in_number}
           />
         ))}
-      </MessageContainer>
-    </Box>
+      </div>
+    </div>
   );
 };
 

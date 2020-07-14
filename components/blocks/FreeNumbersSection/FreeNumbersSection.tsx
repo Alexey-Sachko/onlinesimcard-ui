@@ -1,28 +1,17 @@
 import React, { useState, useCallback, useEffect } from "react";
-import axios from "axios";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import ReactPaginate from "react-paginate";
 
-import CountriesBlock from "./CountriesBlock";
+import Typography from "../../layout/Typography";
+import CountryBlock from "./CountryBlock";
 import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
 import NumbersList from "./NumbersList";
 import MessageList from "./MessageList";
-import {
-  Wrapper,
-  CountryContainer,
-  Pagination,
-} from "./free-numbers-sectoin.styled";
 import countryData from "./country-data";
 import { getPhoneList, getMessagesList } from "./utils";
+import { theme } from "../../../theme/customTheme";
 
-type Props = {
-  onActionClick?: () => void;
-};
-
-const FreeNumbersSection = ({ onActionClick }: Props) => {
+const FreeNumbersSection = () => {
   const [selectedCountry, setSelectedCountry] = useState(7);
   const [dataNumbers, setDataNumbers] = useState<any>([]);
   const [dataMessages, setDataMessages] = useState<any>({});
@@ -78,18 +67,96 @@ const FreeNumbersSection = ({ onActionClick }: Props) => {
   }, []);
 
   return (
-    <Wrapper mt={14}>
+    <div className="wrapper">
+      <style jsx>
+        {`
+          .wrapper {
+            margin-top: 14px;
+            background: ${theme.colors.blueBackground};
+          }
+          .inner {
+            display: flex;
+            flex-direction: column;
+          }
+          .header {
+            margin: 70px auto 50px auto;
+          }
+          .country-block-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+          }
+          .country-block-container {
+            display: flex;
+            margin: 0 auto 0 auto;
+            box-shadow: ${theme.shadows.usualShadow};
+            border-radius: 5px;
+          }
+          .content-body {
+            margin-top: 70px;
+            margin-bottom: 35px;
+          }
+          .separator-block {
+            margin-right: 50px;
+          }
+
+          .grid-container {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+          }
+          .grid-numbers-block {
+            flex-grow: 0;
+            max-width: 25%;
+            flex-basis: 25%;
+            margin: 0;
+            box-sizing: border-box;
+          }
+          .grid-messages-block {
+            flex-grow: 0;
+            max-width: 66.666667%;
+            flex-basis: 66.666667%;
+            margin: 0;
+            box-sizing: border-box;
+          }
+        `}
+      </style>
+
+      <style jsx global>{`
+        .wrapper .grid-messages-block .pagination li {
+          padding: 10px 8px;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: ${theme.colors.blueBasic};
+          cursor: pointer;
+        }
+        .wrapper .grid-messages-block .pagination li a {
+          outline: none !important;
+          font-size: 18px;
+        }
+        .wrapper .grid-messages-block .active {
+          background: ${theme.colors.blueBasic};
+          color: ${theme.colors.whiteBasic} !important;
+          border-radius: 5px;
+        }
+        .wrapper .grid-messages-block .pagination {
+          display: flex;
+          padding-left: 0;
+        }
+      `}</style>
       <CustomContainer>
-        <Box display="flex" flexDirection="column">
-          <Box mx="auto" mt={14} mb={10}>
-            <Typography variant="h2">
+        <div className="inner">
+          <div className="header">
+            <Typography variant="h3">
               Прием СМС на бесплатные виртуальные номера
             </Typography>
-          </Box>
-          <Box display="flex" flexWrap="wrap">
-            <CountryContainer display="flex" mx="auto">
+          </div>
+          <div className="country-block-wrapper">
+            <div className="country-block-container">
               {countryData.map(({ label, image, code }) => (
-                <CountriesBlock
+                <CountryBlock
                   key={code}
                   label={label}
                   image={image}
@@ -98,39 +165,44 @@ const FreeNumbersSection = ({ onActionClick }: Props) => {
                   onSelectCountry={onSelectCountry}
                 />
               ))}
-            </CountryContainer>
-          </Box>
-          <Box mt={15}>
-            <Grid container>
-              <Grid item xs={3}>
+            </div>
+          </div>
+          <div className="content-body">
+            <div className="grid-container">
+              <div className="grid-numbers-block">
                 <NumbersList
                   data={dataNumbers}
                   onSelectNumber={onSelectNumber}
                   selectedNumber={selectedNumber}
                   onReloadNumbers={onReloadNumbers}
                 />
-              </Grid>
-              <Box mr={10} />
-              <Grid item xs={8}>
+              </div>
+              <div className="separator-block" />
+              <div className="grid-messages-block">
                 <MessageList
                   data={dataMessages?.data}
                   onReloadMessages={onReloadMessages}
                 />
 
-                <Pagination
-                  page={page}
-                  onChange={(event, page) => setPage(page)}
-                  count={dataMessages?.last_page}
-                  showFirstButton
-                  showLastButton
+                <ReactPaginate
+                  previousLabel={"previous"}
+                  nextLabel={"next"}
+                  breakLabel={"..."}
+                  breakClassName={"break-me"}
+                  pageCount={dataMessages?.last_page}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={3}
+                  onPageChange={(data) => setPage(data.selected)}
+                  containerClassName={"pagination"}
+                  subContainerClassName={"pages pagination"}
+                  activeClassName={"active"}
                 />
-              </Grid>
-            </Grid>
-            <Box mt={7}></Box>
-          </Box>
-        </Box>
+              </div>
+            </div>
+          </div>
+        </div>
       </CustomContainer>
-    </Wrapper>
+    </div>
   );
 };
 

@@ -2,54 +2,54 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import NextLink from "next/link";
 import { Formik, Form, Field, FieldProps } from "formik";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
-import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+// import Avatar from "@material-ui/core/Avatar";
+// import Button from "@material-ui/core/Button";
+// import TextField from "@material-ui/core/TextField";
+// import Grid from "@material-ui/core/Grid";
+// import Box from "@material-ui/core/Box";
+// import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+// import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
+// import Link from "@material-ui/core/Link";
+// import { makeStyles } from "@material-ui/core/styles";
+// import Container from "@material-ui/core/Container";
 import * as Yup from "yup";
-import clsx from "clsx";
+// import clsx from "clsx";
 
+import Typography from "../components/layout/Typography";
 import Copyright from "../components/blocks/Copyright";
 import Header from "../components/blocks/Header";
 import { useTypedSelector } from "../redux";
 import { signupUser } from "../redux/features/user/index";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(12),
-    [theme.breakpoints.up("md")]: {
-      marginTop: theme.spacing(20),
-    },
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  avatarSuccess: {
-    backgroundColor: theme.palette.success.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  successMessage: {
-    width: "100%",
-    textAlign: "center",
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   paper: {
+//     marginTop: theme.spacing(12),
+//     [theme.breakpoints.up("md")]: {
+//       marginTop: theme.spacing(20),
+//     },
+//     display: "flex",
+//     flexDirection: "column",
+//     alignItems: "center",
+//   },
+//   avatar: {
+//     margin: theme.spacing(1),
+//     backgroundColor: theme.palette.secondary.main,
+//   },
+//   avatarSuccess: {
+//     backgroundColor: theme.palette.success.main,
+//   },
+//   form: {
+//     width: "100%", // Fix IE 11 issue.
+//     marginTop: theme.spacing(3),
+//   },
+//   submit: {
+//     margin: theme.spacing(3, 0, 2),
+//   },
+//   successMessage: {
+//     width: "100%",
+//     textAlign: "center",
+//   },
+// }));
 
 type Values = {
   email: string;
@@ -74,7 +74,7 @@ const SignupSchema = Yup.object().shape({
 
 export default function SignUp() {
   const dispatch = useDispatch();
-  const classes = useStyles();
+  // const classes = useStyles();
   const { error, loading, done } = useTypedSelector((s) => s.user.signup);
 
   const submitHandler = async ({ email, password }: Values) => {

@@ -1,8 +1,7 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
 
-import { Container, Pin, DataHumans, TextBody } from "./message-item.styled";
+import Typography from "../../../layout/Typography";
+import { theme } from "../../../../theme/customTheme";
 
 type Props = {
   text: string;
@@ -12,15 +11,55 @@ type Props = {
 
 const MessageItem: React.FC<Props> = ({ text, data_humans, in_number }) => {
   return (
-    <Container>
-      <Box display="flex">
-        <Typography variant="h4">{in_number}</Typography> <Pin />
-        <DataHumans variant="subtitle2">{data_humans}</DataHumans>
-      </Box>
-      <Box mt={2}>
-        <TextBody variant="subtitle2">{text}</TextBody>
-      </Box>
-    </Container>
+    <div className="container">
+      <style jsx>
+        {`
+          .container {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+          }
+          .container:last-child {
+            border-bottom: none;
+          }
+          .pin {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #85b1ff;
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-right: 15px;
+            margin-left: 15px;
+          }
+          .date-humans {
+            color: ${theme.colors.jetLight};
+            margin-top: auto;
+          }
+          .text {
+            color: ${theme.colors.jetMedium};
+          }
+          .message-header {
+            display: flex;
+          }
+
+          .message-body {
+            margin-top: 10px;
+          }
+        `}
+      </style>
+      <div className="message-header">
+        <Typography variant="h5">{in_number}</Typography>{" "}
+        <div className="pin" />
+        <Typography className="date-humans" variant="usualParagraph">
+          {data_humans}
+        </Typography>
+      </div>
+      <div className="message-body">
+        <Typography className="text" variant="usualParagraph">
+          {text}
+        </Typography>
+      </div>
+    </div>
   );
 };
 

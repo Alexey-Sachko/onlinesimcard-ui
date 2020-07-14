@@ -1,10 +1,11 @@
 import React from "react";
 import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
+
+import Typography from "../../layout/Typography";
 
 export default function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="usualParagraph" color="jetBasic" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://onlinesimcard.ru/">
         Online simcard
