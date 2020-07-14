@@ -7,6 +7,11 @@ const CustomContainer: React.FC = ({ children }) => {
         .custom-container {
           margin: 0 230px;
         }
+        @media (max-width: 1024px) {
+          .custom-container {
+            margin: 0 30px;
+          }
+        }
       `}</style>
       {children}
     </div>

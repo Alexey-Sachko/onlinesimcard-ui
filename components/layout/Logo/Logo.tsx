@@ -6,7 +6,7 @@ const Logo = () => {
     <>
       <style jsx>{`
         .logo-img {
-          max-height: 25px;
+          max-height: 35px;
         }
         .link {
           text-decoration: none;

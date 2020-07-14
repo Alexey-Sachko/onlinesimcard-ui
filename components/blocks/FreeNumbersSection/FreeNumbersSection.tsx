@@ -71,7 +71,7 @@ const FreeNumbersSection = () => {
       <style jsx>
         {`
           .wrapper {
-            margin-top: 14px;
+            margin-top: 70px;
             background: ${theme.colors.blueBackground};
           }
           .inner {
@@ -124,26 +124,36 @@ const FreeNumbersSection = () => {
 
       <style jsx global>{`
         .wrapper .grid-messages-block .pagination li {
-          padding: 10px 8px;
+          padding: 8px 7px;
           border-radius: 5px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: ${theme.colors.blueBasic};
           cursor: pointer;
+          background: ${theme.colors.whiteBasic};
+          user-select: none;
         }
         .wrapper .grid-messages-block .pagination li a {
           outline: none !important;
           font-size: 18px;
         }
+
         .wrapper .grid-messages-block .active {
-          background: ${theme.colors.blueBasic};
+          background: ${theme.colors.blueBasic} !important;
           color: ${theme.colors.whiteBasic} !important;
           border-radius: 5px;
         }
         .wrapper .grid-messages-block .pagination {
           display: flex;
           padding-left: 0;
+        }
+        .pagination-arrow-reverse {
+          transform: rotate(180deg);
+        }
+        .pagination-arrow {
+          width: 20px;
+          user-select: none;
         }
       `}</style>
       <CustomContainer>
@@ -185,8 +195,18 @@ const FreeNumbersSection = () => {
                 />
 
                 <ReactPaginate
-                  previousLabel={"previous"}
-                  nextLabel={"next"}
+                  previousLabel={
+                    <img
+                      className="pagination-arrow pagination-arrow-reverse"
+                      src="static/arrow-paginate.svg"
+                    />
+                  }
+                  nextLabel={
+                    <img
+                      className="pagination-arrow"
+                      src="static/arrow-paginate.svg"
+                    />
+                  }
                   breakLabel={"..."}
                   breakClassName={"break-me"}
                   pageCount={dataMessages?.last_page}

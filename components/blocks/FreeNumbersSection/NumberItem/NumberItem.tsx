@@ -27,7 +27,7 @@ const NumberItem: React.FC<Props> = ({
       <style jsx>
         {`
           .container {
-            padding: 20px;
+            padding: 17px 20px;
             display: flex;
             align-items: center;
             border-bottom: 1px solid ${theme.colors.jetExtraLight};
@@ -51,6 +51,10 @@ const NumberItem: React.FC<Props> = ({
             display: flex;
             align-items: center;
             margin-left: auto;
+          }
+          .copy-number-icon,
+          .number-icon {
+            width: 22px;
           }
         `}
       </style>
@@ -80,7 +84,7 @@ const NumberItem: React.FC<Props> = ({
         </Typography>
       </div>
       <div className="copy-number-icon">
-        <CopyIcon color={selected ? "blueBasic" : "jetBasic"} />
+        <CopyIcon color={selected ? "blueBasic" : "jetLight"} />
       </div>
     </div>
   );

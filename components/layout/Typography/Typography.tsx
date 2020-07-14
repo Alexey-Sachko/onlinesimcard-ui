@@ -19,9 +19,9 @@ const Typography: React.FC<Props> = ({
 }) => {
   if (!variant) {
     return (
-      <div className={className ? className : ""} {...props}>
+      <span className={className ? className : ""} {...props}>
         {children}
-      </div>
+      </span>
     );
   }
 
@@ -29,9 +29,9 @@ const Typography: React.FC<Props> = ({
 
   if (!settingsItem) {
     return (
-      <div className={className ? className : ""} {...props}>
+      <span className={className ? className : ""} {...props}>
         {children}
-      </div>
+      </span>
     );
   }
 
@@ -48,9 +48,9 @@ const Typography: React.FC<Props> = ({
         }
       `}</style>
 
-      <div className={`typography ${className ? className : ""}`} {...props}>
+      <span className={`typography ${className ? className : ""}`} {...props}>
         {children}
-      </div>
+      </span>
     </>
   );
 };

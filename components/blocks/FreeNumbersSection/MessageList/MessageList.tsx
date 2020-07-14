@@ -11,7 +11,7 @@ type Props = {
 
 const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
   return (
-    <div>
+    <>
       <style jsx>
         {`
           .messages-container {
@@ -35,12 +35,19 @@ const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
           .reset-button-img {
             width: 100%;
           }
+          .message-list-title span {
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+          }
         `}
       </style>
       <div className="message-list-title">
-        <Typography className="title-text" variant="h5">
-          СООБЩЕНИЯ
-        </Typography>
+        <span>
+          <Typography className="title-text" variant="h5">
+            СООБЩЕНИЯ
+          </Typography>
+        </span>
+
         <div className="message-list-button">
           <IconButton onClick={onReloadMessages}>
             <img
@@ -60,7 +67,7 @@ const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
