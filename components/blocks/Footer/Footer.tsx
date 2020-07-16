@@ -11,7 +11,6 @@ const Footer = () => {
         {`
           .container {
             padding-top: 50px;
-            padding-bottom: 50px;
           }
           .inner-container {
             display: grid;
