@@ -18,9 +18,9 @@ const Notifier: React.FC<Props> = ({ show }) => {
           bottom: 0;
           background: ${theme.colors.greenBasic};
           opacity: ${show ? 0.8 : 0};
+          justify-content: center;
         }
         .notify-message {
-          text-align: center;
           padding: 5px 0;
         }
       `}</style>
