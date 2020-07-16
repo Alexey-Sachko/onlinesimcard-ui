@@ -11,6 +11,17 @@ const Logo = () => {
         .link {
           text-decoration: none;
         }
+
+        @media (max-width: 768px) {
+          .logo-img {
+            max-height: 30px;
+          }
+        }
+        @media (max-width: 576px) {
+          .logo-img {
+            max-height: 25px;
+          }
+        }
       `}</style>
       <Link href="/">
         <a className="link">

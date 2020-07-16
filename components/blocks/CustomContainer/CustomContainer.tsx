@@ -5,11 +5,19 @@ const CustomContainer: React.FC = ({ children }) => {
     <div className="custom-container">
       <style jsx>{`
         .custom-container {
-          margin: 0 230px;
+          width: 1380px;
+          margin: 0 auto;
         }
-        @media (max-width: 1024px) {
+        @media (max-width: 1440px) {
           .custom-container {
             margin: 0 30px;
+            width: auto;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .custom-container {
+            margin: 0 15px;
           }
         }
       `}</style>

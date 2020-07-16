@@ -22,31 +22,50 @@ const MainSection = () => {
           .orange-text {
             color: ${theme.colors.mangoBasic};
           }
-          .grid-container {
+          .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 2vw;
+            margin-top: 50px;
+          }
+          .main-section-img {
+            max-width: 600px;
+            margin-left: auto;
+          }
+          .main-section-img img {
             width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            box-sizing: border-box;
           }
-          .grid-item-description {
-            flex-grow: 0;
-            max-width: 41.666667%;
-            flex-basis: 41.666667%;
-            margin: 0;
-            box-sizing: border-box;
+
+          @media (max-width: 1024px) {
+            .container {
+              grid-template-columns: auto;
+              grid-template-rows: auto 1fr;
+            }
+            .main-section-img {
+              margin: auto;
+            }
+            .description {
+              text-align: center;
+              padding: 0 100px;
+            }
+            .body-text-bottom {
+              text-align: center;
+            }
           }
-          .grid-item-img {
-            flex-grow: 0;
-            max-width: 58.333333%;
-            flex-basis: 58.333333%;
-            margin: 0;
-            box-sizing: border-box;
-            text-align: right;
+
+          @media (max-width: 768px) {
+            .description {
+              text-align: center;
+              padding: 0 10px;
+            }
+            .container {
+              margin-top: 30px;
+            }
           }
         `}
       </style>
-      <div className="grid-container">
-        <div className="grid-item-description">
+      <div className="container">
+        <div className="description">
           <div className="title-text">
             <Typography variant="h2">
               Виртуальный номер
@@ -66,7 +85,7 @@ const MainSection = () => {
             </div>
           </div>
         </div>
-        <div className="grid-item-img">
+        <div className="main-section-img">
           <img src="/static/bg-main-section.jpg" alt="rightPickcher" />
         </div>
       </div>

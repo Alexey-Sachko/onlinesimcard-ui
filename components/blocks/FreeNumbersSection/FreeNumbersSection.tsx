@@ -72,57 +72,98 @@ const FreeNumbersSection = () => {
         {`
           .wrapper {
             margin-top: 70px;
+            padding-top: 50px;
             background: ${theme.colors.blueBackground};
           }
-          .inner {
-            display: flex;
-            flex-direction: column;
-          }
+
           .header {
-            margin: 70px auto 50px auto;
+            text-align: center;
+            margin-bottom: 50px;
+          }
+
+          .content-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-gap: 4vw;
+            grid-auto-flow: dense;
+            grid-template-areas:
+              "a a a a a a"
+              "b c c c c c";
           }
           .country-block-wrapper {
+            grid-area: a;
             display: flex;
-            flex-wrap: wrap;
+            justify-content: center;
+          }
+          .numbers-list-container {
+            grid-area: b;
+          }
+          .message-list-container {
+            grid-area: c;
+            margin-bottom: 50px;
           }
           .country-block-container {
-            display: flex;
             margin: 0 auto 0 auto;
+          }
+          .country-block-inner {
             box-shadow: ${theme.shadows.usualShadow};
             border-radius: 5px;
-          }
-          .content-body {
-            margin-top: 70px;
-            margin-bottom: 35px;
-          }
-          .separator-block {
-            margin-right: auto;
-          }
-          .grid-container {
-            width: 100%;
             display: flex;
-            flex-wrap: wrap;
-            box-sizing: border-box;
           }
-          .grid-numbers-block {
-            flex-grow: 0;
-            max-width: 25%;
-            flex-basis: 25%;
-            margin: 0;
-            box-sizing: border-box;
+
+          @media (max-width: 1024px) {
+            .content-container {
+              grid-template-areas:
+                "b b b b a a"
+                "c c c c c c";
+            }
+            .country-block-wrapper {
+              margin-left: auto;
+            }
+            .country-block-container {
+              margin: 84px auto auto;
+            }
+            .country-block-inner {
+              flex-direction: column;
+            }
           }
-          .grid-messages-block {
-            flex-grow: 0;
-            max-width: 66.666667%;
-            flex-basis: 66.666667%;
-            margin: 0;
-            box-sizing: border-box;
+          @media (max-width: 768px) {
+            .content-container {
+              grid-template-areas:
+                "b b b b b a"
+                "c c c c c c";
+            }
+          }
+
+          @media (max-width: 576px) {
+            .country-block-inner {
+              flex-direction: row;
+            }
+            .content-container {
+              grid-template-areas:
+                "a a a a a a"
+                "b b b b b b"
+                "c c c c c c";
+            }
+            .country-block-wrapper {
+              margin-left: 0;
+            }
+            .country-block-container {
+              margin: 0 auto;
+            }
+            .country-block-container {
+              width: 100%;
+            }
+            .country-block-inner {
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+            }
           }
         `}
       </style>
 
       <style jsx global>{`
-        .wrapper .grid-messages-block .pagination li {
+        .wrapper .pagination li {
           padding: 8px 7px;
           border-radius: 5px;
           display: flex;
@@ -133,17 +174,17 @@ const FreeNumbersSection = () => {
           background: ${theme.colors.whiteBasic};
           user-select: none;
         }
-        .wrapper .grid-messages-block .pagination li a {
+        .wrapper .pagination li a {
           outline: none !important;
           font-size: 18px;
         }
 
-        .wrapper .grid-messages-block .active {
+        .wrapper .active {
           background: ${theme.colors.blueBasic} !important;
           color: ${theme.colors.whiteBasic} !important;
           border-radius: 5px;
         }
-        .wrapper .grid-messages-block .pagination {
+        .wrapper .pagination {
           display: flex;
           padding-left: 0;
         }
@@ -154,70 +195,78 @@ const FreeNumbersSection = () => {
           width: 20px;
           user-select: none;
         }
+        @media (max-width: 768px) {
+          .wrapper .pagination li {
+            padding: 6px 5px;
+          }
+          .wrapper .pagination {
+            justify-content: center;
+          }
+        }
       `}</style>
+
       <CustomContainer>
-        <div className="inner">
-          <div className="header">
-            <Typography variant="h3">
-              Прием СМС на бесплатные виртуальные номера
-            </Typography>
-          </div>
+        <div className="header">
+          <Typography variant="h3">
+            Прием СМС на бесплатные виртуальные номера
+          </Typography>
+        </div>
+        <div className="content-container">
           <div className="country-block-wrapper">
             <div className="country-block-container">
-              {countryData.map(({ label, image, code }) => (
-                <CountryBlock
-                  key={code}
-                  label={label}
-                  image={image}
-                  code={code}
-                  selected={selectedCountry === code}
-                  onSelectCountry={onSelectCountry}
-                />
-              ))}
+              <div className="country-block-inner">
+                {countryData.map(({ label, image, code }) => (
+                  <CountryBlock
+                    key={code}
+                    label={label}
+                    image={image}
+                    code={code}
+                    selected={selectedCountry === code}
+                    onSelectCountry={onSelectCountry}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-          <div className="content-body">
-            <div className="grid-container">
-              <div className="grid-numbers-block">
-                <NumbersList
-                  data={dataNumbers}
-                  onSelectNumber={onSelectNumber}
-                  selectedNumber={selectedNumber}
-                  onReloadNumbers={onReloadNumbers}
-                />
-              </div>
-              <div className="separator-block" />
-              <div className="grid-messages-block">
-                <MessageList
-                  data={dataMessages?.data}
-                  onReloadMessages={onReloadMessages}
-                />
 
-                <ReactPaginate
-                  previousLabel={
-                    <img
-                      className="pagination-arrow pagination-arrow-reverse"
-                      src="static/arrow-paginate.svg"
-                    />
-                  }
-                  nextLabel={
-                    <img
-                      className="pagination-arrow"
-                      src="static/arrow-paginate.svg"
-                    />
-                  }
-                  breakLabel={"..."}
-                  breakClassName={"break-me"}
-                  pageCount={dataMessages?.last_page}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={3}
-                  onPageChange={(data) => setPage(data.selected)}
-                  containerClassName={"pagination"}
-                  subContainerClassName={"pages pagination"}
-                  activeClassName={"active"}
+          <div className="numbers-list-container">
+            <NumbersList
+              data={dataNumbers}
+              onSelectNumber={onSelectNumber}
+              selectedNumber={selectedNumber}
+              onReloadNumbers={onReloadNumbers}
+            />
+          </div>
+
+          <div className="message-list-container">
+            <MessageList
+              data={dataMessages?.data}
+              onReloadMessages={onReloadMessages}
+            />
+
+            <ReactPaginate
+              previousLabel={
+                <img
+                  className="pagination-arrow pagination-arrow-reverse"
+                  src="static/arrow-paginate.svg"
                 />
-              </div>
-            </div>
+              }
+              nextLabel={
+                <img
+                  className="pagination-arrow"
+                  src="static/arrow-paginate.svg"
+                />
+              }
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={dataMessages?.last_page}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={3}
+              onPageChange={(data) => setPage(data.selected)}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
           </div>
         </div>
       </CustomContainer>

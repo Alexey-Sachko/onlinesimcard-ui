@@ -38,7 +38,7 @@ const NumbersList: React.FC<Props> = ({
             margin-left: 15px;
           }
           .numbers-container {
-            margin-top: 25px;
+            margin-top: 1.5vw;
             background: ${theme.colors.whiteBasic};
             border-radius: 5px;
             box-shadow: ${theme.shadows.usualShadow};

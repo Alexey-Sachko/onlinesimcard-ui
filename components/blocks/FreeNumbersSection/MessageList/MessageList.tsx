@@ -18,7 +18,7 @@ const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
             background: #fff;
             border-radius: 5px;
             box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
-            margin-top: 25px;
+            margin-top: 1.5vw;
             margin-bottom: 35px;
           }
           .message-list-title {
