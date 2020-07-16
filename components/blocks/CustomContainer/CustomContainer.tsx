@@ -11,7 +11,7 @@ const CustomContainer: React.FC = ({ children }) => {
         @media (max-width: 1440px) {
           .custom-container {
             margin: 0 30px;
-            width: auto;
+            width: 100%;
           }
         }
 

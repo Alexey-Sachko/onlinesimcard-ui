@@ -7,9 +7,11 @@ import Footer from "../components/blocks/Footer";
 // import HowToSection from "../components/blocks/HowToSection";
 // import ChooseServiceModal from "../components/blocks/ChooseServiceModal";
 import FreeNumbersSection from "../components/blocks/FreeNumbersSection";
+import Notifier from "../components/blocks/Notifier";
 
 const Home = () => {
   const [isOpenChooseService, setIsOpenChooseService] = useState(false);
+  const [isShowNotify, setIsShowNotify] = useState(false);
 
   const openModalHandler = () => {
     setIsOpenChooseService(true);
@@ -22,12 +24,13 @@ const Home = () => {
 
       <MainSection />
       {/* <HowToSection onActionClick={openModalHandler} /> */}
-      <FreeNumbersSection />
+      <FreeNumbersSection setIsShowNotify={setIsShowNotify} />
       {/* <ChooseServiceModal
         open={isOpenChooseService}
         onClose={() => setIsOpenChooseService(false)}
       /> */}
       <Footer />
+      <Notifier show={isShowNotify} />
     </div>
   );
 };

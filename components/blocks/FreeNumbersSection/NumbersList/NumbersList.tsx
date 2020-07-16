@@ -11,13 +11,17 @@ type Props = {
   onSelectNumber: (number: string | number) => void;
   selectedNumber: number | string;
   onReloadNumbers: () => void;
+  setIsShowNotify: SetUseState<boolean>;
 };
+
+export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void;
 
 const NumbersList: React.FC<Props> = ({
   data,
   onSelectNumber,
   selectedNumber,
   onReloadNumbers,
+  setIsShowNotify,
 }) => {
   return (
     <>
@@ -66,6 +70,7 @@ const NumbersList: React.FC<Props> = ({
             full_number={full_number}
             number={number}
             selected={selectedNumber === number}
+            setIsShowNotify={setIsShowNotify}
           />
         ))}
       </div>

@@ -7,11 +7,16 @@ import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
 import NumbersList from "./NumbersList";
 import MessageList from "./MessageList";
+import Notifier from "../Notifier";
 import countryData from "./country-data";
 import { getPhoneList, getMessagesList } from "./utils";
 import { theme } from "../../../theme/customTheme";
 
-const FreeNumbersSection = () => {
+type Props = {
+  setIsShowNotify: (prev: boolean) => void;
+};
+
+const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
   const [selectedCountry, setSelectedCountry] = useState(7);
   const [dataNumbers, setDataNumbers] = useState<any>([]);
   const [dataMessages, setDataMessages] = useState<any>({});
@@ -121,7 +126,7 @@ const FreeNumbersSection = () => {
               margin-left: auto;
             }
             .country-block-container {
-              margin: 84px auto auto;
+              margin: 71px auto auto;
             }
             .country-block-inner {
               flex-direction: column;
@@ -195,12 +200,14 @@ const FreeNumbersSection = () => {
           width: 20px;
           user-select: none;
         }
+        @media (max-width: 1024px) {
+          .wrapper .pagination {
+            justify-content: center;
+          }
+        }
         @media (max-width: 768px) {
           .wrapper .pagination li {
             padding: 6px 5px;
-          }
-          .wrapper .pagination {
-            justify-content: center;
           }
         }
       `}</style>
@@ -235,6 +242,7 @@ const FreeNumbersSection = () => {
               onSelectNumber={onSelectNumber}
               selectedNumber={selectedNumber}
               onReloadNumbers={onReloadNumbers}
+              setIsShowNotify={setIsShowNotify}
             />
           </div>
 
