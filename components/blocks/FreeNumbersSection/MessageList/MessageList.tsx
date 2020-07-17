@@ -24,6 +24,7 @@ const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
           .message-list-title {
             margin-left: 20px;
             display: flex;
+            align-items: center;
           }
           .message-list-button {
             margin-left: 15px;

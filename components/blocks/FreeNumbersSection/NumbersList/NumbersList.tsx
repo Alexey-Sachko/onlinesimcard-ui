@@ -33,6 +33,7 @@ const NumbersList: React.FC<Props> = ({
           .numbers-list-title {
             display: flex;
             margin-left: 20px;
+            align-items: center;
           }
           .numbers-list-title span {
             letter-spacing: 1.5px;
