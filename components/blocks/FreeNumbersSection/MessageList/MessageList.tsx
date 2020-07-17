@@ -45,6 +45,9 @@ const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
             .messages-container {
               margin-top: 10px;
             }
+            .message-list-title {
+              align-items: center;
+            }
           }
         `}
       </style>
