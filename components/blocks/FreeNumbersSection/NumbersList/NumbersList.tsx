@@ -11,13 +11,17 @@ type Props = {
   onSelectNumber: (number: string | number) => void;
   selectedNumber: number | string;
   onReloadNumbers: () => void;
+  setIsShowNotify: SetUseState<boolean>;
 };
+
+export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void;
 
 const NumbersList: React.FC<Props> = ({
   data,
   onSelectNumber,
   selectedNumber,
   onReloadNumbers,
+  setIsShowNotify,
 }) => {
   return (
     <>
@@ -38,10 +42,19 @@ const NumbersList: React.FC<Props> = ({
             margin-left: 15px;
           }
           .numbers-container {
-            margin-top: 25px;
+            margin-top: 1.5vw;
             background: ${theme.colors.whiteBasic};
             border-radius: 5px;
             box-shadow: ${theme.shadows.usualShadow};
+          }
+
+          @media (max-width: 576px) {
+            .numbers-list-title {
+              margin-top: 20px;
+            }
+            .numbers-container {
+              margin-top: 10px;
+            }
           }
         `}
       </style>
@@ -66,6 +79,7 @@ const NumbersList: React.FC<Props> = ({
             full_number={full_number}
             number={number}
             selected={selectedNumber === number}
+            setIsShowNotify={setIsShowNotify}
           />
         ))}
       </div>

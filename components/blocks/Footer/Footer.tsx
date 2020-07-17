@@ -11,42 +11,65 @@ const Footer = () => {
         {`
           .container {
             padding-top: 50px;
-            padding-bottom: 50px;
           }
-          .grid-container {
-            width: 100%;
-            display: flex;
+          .inner-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas: "a b";
           }
-          .grid-item-left {
-            width: 50%;
+          .item-left {
+            max-width: 400px;
+            grid-area: a;
           }
-          .grid-item-right {
-            width: 50%;
-            display: flex;
-            justify-content: flex-end;
+          .item-right {
+            margin-left: auto;
+            grid-area: b;
           }
           .logo-container {
             height: 100%;
             display: flex;
             align-items: center;
           }
-          .separator {
+          .email {
             margin-top: 30px;
+            white-space: nowrap;
+          }
+          @media (max-width: 576px) {
+            .inner-container {
+              display: grid;
+              grid-template-columns: auto;
+              grid-template-rows: 0.5fr 1fr;
+              grid-template-areas: "b" "a";
+            }
+            .item-right {
+              margin-left: 0;
+              margin-right: auto;
+              margin-bottom: auto;
+            }
+            .container {
+              padding-top: 25px;
+              padding-bottom: 25px;
+            }
+            .email {
+              margin-top: 15px;
+              white-space: nowrap;
+            }
           }
         `}
       </style>
       <CustomContainer>
-        <div className="grid-container">
-          <div className="grid-item-left">
+        <div className="inner-container">
+          <div className="item-left">
             <Typography variant="usualParagraph">
               Cервис по приему SMS-сообщений на виртуальные номера.
             </Typography>
-            <div className="separator"></div>
-            <Typography variant="h5" color="blueBasic">
-              simcardonline@mail.ru
-            </Typography>
+            <div className="email">
+              <Typography variant="h5" color="blueBasic">
+                simcardonline@mail.ru
+              </Typography>
+            </div>
           </div>
-          <div className="grid-item-right">
+          <div className="item-right">
             <div className="logo-container">
               <Logo />
             </div>

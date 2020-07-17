@@ -28,6 +28,22 @@ const IconButton: React.FC<Props> = ({ children, className, ...props }) => {
           .button:focus {
             outline: none;
           }
+          @media (max-width: 768px) {
+            .button {
+              margin-top: -2px;
+              width: 25px;
+              height: 25px;
+              padding: 2px;
+            }
+          }
+          @media (max-width: 576px) {
+            .button {
+              margin-top: 0;
+              width: 25px;
+              height: 25px;
+              padding: 2px;
+            }
+          }
         `}
       </style>
       {children}

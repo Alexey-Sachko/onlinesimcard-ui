@@ -38,6 +38,41 @@ const CountryBlock: React.FC<Props> = ({
           .container:first-child {
             border-radius: 5px 0 0 5px;
           }
+
+          @media (max-width: 1024px) {
+            .container {
+              border: none;
+              border-bottom: 1px solid ${theme.colors.blueBackground};
+              padding: 15px 35px;
+            }
+            .container:last-child {
+              border-radius: 0 0 5px 5px;
+            }
+            .container:first-child {
+              border-radius: 5px 5px 0 0;
+            }
+          }
+          @media (max-width: 768px) {
+            .country-label {
+              white-space: nowrap;
+            }
+          }
+
+          @media (max-width: 576px) {
+            .container {
+              border: none;
+              border-right: 1px solid ${theme.colors.blueBackground};
+              padding: 10px 0;
+            }
+            .container:last-child {
+              border: none;
+              border-radius: 0 5px 5px 0;
+            }
+            .container:first-child {
+              border-radius: 5px 0 0 5px;
+            }
+          }
+
           .container img {
             width: 50px;
           }
@@ -64,7 +99,7 @@ const CountryBlock: React.FC<Props> = ({
         <div>
           <img src={image} />
         </div>
-        <div>
+        <div className="country-label">
           <Typography
             color={selected ? "whiteBasic" : "jetLight"}
             variant="h5Regular"

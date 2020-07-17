@@ -10,18 +10,30 @@ type Props = {
   full_number: string;
   selected: boolean;
   onSelectNumber: (number: string | number) => void;
+  setIsShowNotify: SetUseState<boolean>;
 };
+
+export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void;
 
 const NumberItem: React.FC<Props> = ({
   number,
   full_number,
   selected,
   onSelectNumber,
+  setIsShowNotify,
 }) => {
   const onClickNumber = () => {
     onSelectNumber(number);
-    navigator.clipboard.writeText(full_number);
   };
+
+  const onCopyNumber = () => {
+    navigator.clipboard.writeText(full_number);
+    setIsShowNotify(true);
+    setTimeout(() => {
+      setIsShowNotify(false);
+    }, 3000);
+  };
+
   return (
     <div className="container" onClick={onClickNumber}>
       <style jsx>
@@ -51,6 +63,7 @@ const NumberItem: React.FC<Props> = ({
             display: flex;
             align-items: center;
             margin-left: auto;
+            cursor: pointer;
           }
           .copy-number-icon,
           .number-icon {
@@ -83,7 +96,7 @@ const NumberItem: React.FC<Props> = ({
           {full_number}
         </Typography>
       </div>
-      <div className="copy-number-icon">
+      <div onClick={onCopyNumber} className="copy-number-icon">
         <CopyIcon color={selected ? "blueBasic" : "jetLight"} />
       </div>
     </div>

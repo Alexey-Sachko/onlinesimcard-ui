@@ -1,5 +1,5 @@
 import React, { ComponentProps } from "react";
-import settings from "./settings";
+import { settings, settingsMedium, settingsSmall } from "./settings";
 import { theme } from "../../../theme/customTheme";
 
 type Props = {
@@ -26,6 +26,8 @@ const Typography: React.FC<Props> = ({
   }
 
   const settingsItem = settings[variant];
+  const mediumSettingItem = settingsMedium[variant];
+  const settingsSmallItem = settingsSmall[variant];
 
   if (!settingsItem) {
     return (
@@ -45,6 +47,27 @@ const Typography: React.FC<Props> = ({
           line-height: ${settingsItem.lineHeight};
           color: ${color ? theme.colors[color] : theme.colors.jetBasic};
           text-align: ${align ? align : "initial"};
+          word-break: break-word;
+        }
+        @media (max-width: 768px) {
+          .typography {
+            font-family: ${mediumSettingItem.fontFamily};
+            font-size: ${mediumSettingItem.fontSize};
+            font-weight: ${mediumSettingItem.fontWeight};
+            line-height: ${mediumSettingItem.lineHeight};
+            color: ${color ? theme.colors[color] : theme.colors.jetBasic};
+            text-align: ${align ? align : "initial"};
+          }
+        }
+        @media (max-width: 576px) {
+          .typography {
+            font-family: ${settingsSmallItem.fontFamily};
+            font-size: ${settingsSmallItem.fontSize};
+            font-weight: ${settingsSmallItem.fontWeight};
+            line-height: ${settingsSmallItem.lineHeight};
+            color: ${color ? theme.colors[color] : theme.colors.jetBasic};
+            text-align: ${align ? align : "initial"};
+          }
         }
       `}</style>
 
