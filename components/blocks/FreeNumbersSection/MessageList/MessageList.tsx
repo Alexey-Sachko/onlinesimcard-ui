@@ -39,6 +39,12 @@ const MessageList: React.FC<Props> = ({ data, onReloadMessages }) => {
             letter-spacing: 1.5px;
             white-space: nowrap;
           }
+
+          @media (max-width: 576px) {
+            .messages-container {
+              margin-top: 10px;
+            }
+          }
         `}
       </style>
       <div className="message-list-title">

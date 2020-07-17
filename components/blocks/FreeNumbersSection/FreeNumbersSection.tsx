@@ -141,6 +141,9 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
           }
 
           @media (max-width: 576px) {
+            .message-list-container {
+              margin-top: 15px;
+            }
             .country-block-inner {
               flex-direction: row;
             }

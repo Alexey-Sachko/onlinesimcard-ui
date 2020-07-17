@@ -47,6 +47,15 @@ const NumbersList: React.FC<Props> = ({
             border-radius: 5px;
             box-shadow: ${theme.shadows.usualShadow};
           }
+
+          @media (max-width: 576px) {
+            .numbers-list-title {
+              margin-top: 20px;
+            }
+            .numbers-container {
+              margin-top: 10px;
+            }
+          }
         `}
       </style>
       <div className="numbers-list-title">
