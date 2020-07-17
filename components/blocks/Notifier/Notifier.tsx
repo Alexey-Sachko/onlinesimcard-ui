@@ -21,12 +21,18 @@ const Notifier: React.FC<Props> = ({ show }) => {
           justify-content: center;
         }
         .notify-message {
-          padding: 5px 0;
+          padding: 10px 0;
         }
       `}</style>
       <CustomContainer>
         <div className="notify-message">
-          <Typography variant="usualParagraph" color="jetBasic">
+          <Typography
+            letterSpacing="0"
+            fontWeight="bold"
+            wordSpacing="2px"
+            variant="usualParagraph"
+            color="jetBasic"
+          >
             НОМЕР СКОПИРОВАН
           </Typography>
         </div>

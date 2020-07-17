@@ -7,7 +7,10 @@ type Props = {
   className?: string;
   color?: keyof typeof theme["colors"];
   align?: "left" | "center" | "right";
-} & ComponentProps<"div">;
+  fontWeight?: "bold" | "normal" | "lighter";
+  letterSpacing?: string;
+  wordSpacing?: string;
+} & ComponentProps<"span">;
 
 const Typography: React.FC<Props> = ({
   children,
@@ -15,6 +18,9 @@ const Typography: React.FC<Props> = ({
   className,
   color,
   align,
+  fontWeight,
+  letterSpacing,
+  wordSpacing,
   ...props
 }) => {
   if (!variant) {
@@ -43,17 +49,21 @@ const Typography: React.FC<Props> = ({
         .typography {
           font-family: ${settingsItem.fontFamily};
           font-size: ${settingsItem.fontSize};
-          font-weight: ${settingsItem.fontWeight};
+          font-weight: ${fontWeight ? fontWeight : settingsItem.fontWeight};
           line-height: ${settingsItem.lineHeight};
           color: ${color ? theme.colors[color] : theme.colors.jetBasic};
           text-align: ${align ? align : "initial"};
           word-break: break-word;
+          letter-spacing: ${letterSpacing ? letterSpacing : "initial"};
+          word-spacing: ${wordSpacing ? wordSpacing : "initial"};
         }
         @media (max-width: 768px) {
           .typography {
             font-family: ${mediumSettingItem.fontFamily};
             font-size: ${mediumSettingItem.fontSize};
-            font-weight: ${mediumSettingItem.fontWeight};
+            font-weight: ${fontWeight
+              ? fontWeight
+              : mediumSettingItem.fontWeight};
             line-height: ${mediumSettingItem.lineHeight};
             color: ${color ? theme.colors[color] : theme.colors.jetBasic};
             text-align: ${align ? align : "initial"};
@@ -63,7 +73,9 @@ const Typography: React.FC<Props> = ({
           .typography {
             font-family: ${settingsSmallItem.fontFamily};
             font-size: ${settingsSmallItem.fontSize};
-            font-weight: ${settingsSmallItem.fontWeight};
+            font-weight: ${fontWeight
+              ? fontWeight
+              : settingsSmallItem.fontWeight};
             line-height: ${settingsSmallItem.lineHeight};
             color: ${color ? theme.colors[color] : theme.colors.jetBasic};
             text-align: ${align ? align : "initial"};
