@@ -172,7 +172,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
 
       <style jsx global>{`
         .wrapper .pagination li {
-          padding: 8px 7px;
+          padding: 10px 15px;
           border-radius: 5px;
           display: flex;
           align-items: center;
@@ -208,9 +208,10 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
             justify-content: center;
           }
         }
-        @media (max-width: 768px) {
+
+        @media (max-width: 576px) {
           .wrapper .pagination li {
-            padding: 6px 5px;
+            padding: 8px 8px;
           }
         }
       `}</style>
@@ -271,8 +272,8 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
               breakLabel={"..."}
               breakClassName={"break-me"}
               pageCount={dataMessages?.last_page}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={3}
+              marginPagesDisplayed={1}
+              pageRangeDisplayed={2}
               onPageChange={(data) => setPage(data.selected)}
               containerClassName={"pagination"}
               subContainerClassName={"pages pagination"}
