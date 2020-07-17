@@ -17,7 +17,7 @@ const Notifier: React.FC<Props> = ({ show }) => {
           position: sticky;
           bottom: 0;
           background: ${theme.colors.greenBasic};
-          opacity: ${!show ? 0.8 : 0};
+          opacity: ${show ? 0.8 : 0};
           justify-content: center;
         }
         .notify-message {
