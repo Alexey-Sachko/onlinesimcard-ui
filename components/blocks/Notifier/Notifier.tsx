@@ -17,16 +17,22 @@ const Notifier: React.FC<Props> = ({ show }) => {
           position: sticky;
           bottom: 0;
           background: ${theme.colors.greenBasic};
-          opacity: ${show ? 0.8 : 0};
+          opacity: ${!show ? 0.8 : 0};
           justify-content: center;
         }
         .notify-message {
-          padding: 5px 0;
+          padding: 10px 0;
         }
       `}</style>
       <CustomContainer>
         <div className="notify-message">
-          <Typography variant="usualParagraph" color="jetBasic">
+          <Typography
+            letterSpacing="0"
+            fontWeight="bold"
+            wordSpacing="2px"
+            variant="usualParagraph"
+            color="jetBasic"
+          >
             НОМЕР СКОПИРОВАН
           </Typography>
         </div>
