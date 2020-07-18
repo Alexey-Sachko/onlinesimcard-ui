@@ -29,7 +29,7 @@ const CountryBlock: React.FC<Props> = ({
             justify-content: flex-end;
             text-align: center;
             border-right: 1px solid ${theme.colors.blueBackground};
-            transition: background 0.15s ease;
+            transition: background ${theme.transition.hover};
           }
           .container:last-child {
             border: none;

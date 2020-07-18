@@ -21,4 +21,7 @@ export const theme = {
     jetExtraLight: "#E0E0E0",
     greenBasic: "#0CF574",
   },
+  transition: {
+    hover: "0.2s ease-out",
+  },
 };

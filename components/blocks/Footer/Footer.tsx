@@ -37,14 +37,13 @@ const Footer = () => {
           @media (max-width: 576px) {
             .inner-container {
               display: grid;
+              text-align: center;
               grid-template-columns: auto;
               grid-template-rows: 0.5fr 1fr;
               grid-template-areas: "b" "a";
             }
             .item-right {
-              margin-left: 0;
-              margin-right: auto;
-              margin-bottom: auto;
+              margin: 0 auto 15px auto;
             }
             .container {
               padding-top: 25px;
