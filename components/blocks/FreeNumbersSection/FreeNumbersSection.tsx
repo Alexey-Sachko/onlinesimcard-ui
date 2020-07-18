@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import ReactPaginate from "react-paginate";
+import { default as ReactPagination } from "react-js-pagination";
 
 import Typography from "../../layout/Typography";
 import CountryBlock from "./CountryBlock";
@@ -21,7 +21,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
   const [dataNumbers, setDataNumbers] = useState<any>([]);
   const [dataMessages, setDataMessages] = useState<any>({});
   const [selectedNumber, setSelectedNumber] = useState<string | number>(0);
-  const [page, setPage] = useState(1);
+  const [currentPage, setPage] = useState(1);
   const [reloadNumbers, setReloadNumbers] = useState(false);
   const [reloadMessages, setReloadMessages] = useState(false);
 
@@ -37,7 +37,10 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
   useEffect(() => {
     (async () => {
       const numbersData = await getPhoneList({ selectedCountry });
-      const messagesData = await getMessagesList({ page, selectedNumber });
+      const messagesData = await getMessagesList({
+        page: currentPage,
+        selectedNumber,
+      });
 
       setDataNumbers(numbersData?.data?.numbers);
       setSelectedNumber(numbersData?.data?.numbers?.[0]?.number);
@@ -47,11 +50,14 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
 
   useEffect(() => {
     (async () => {
-      const messagesData = await getMessagesList({ page, selectedNumber });
+      const messagesData = await getMessagesList({
+        page: currentPage,
+        selectedNumber,
+      });
       //@ts-ignore
       setDataMessages(messagesData?.messages);
     })();
-  }, [page, selectedNumber, reloadMessages]);
+  }, [currentPage, selectedNumber, reloadMessages]);
 
   useEffect(() => {
     setPage(1);
@@ -172,7 +178,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
 
       <style jsx global>{`
         .wrapper .pagination li {
-          padding: 8px 7px;
+          padding: 10px 15px;
           border-radius: 5px;
           display: flex;
           align-items: center;
@@ -181,6 +187,14 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
           cursor: pointer;
           background: ${theme.colors.whiteBasic};
           user-select: none;
+          transition: background 0.2s ease;
+        }
+
+        .wrapper .pagination li.disabled:hover {
+          background: ${theme.colors.whiteBasic};
+        }
+        .wrapper .pagination li:hover {
+          background: #f0f0f0;
         }
         .wrapper .pagination li a {
           outline: none !important;
@@ -196,21 +210,42 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
           display: flex;
           padding-left: 0;
         }
-        .pagination-arrow-reverse {
+        ul.footable-pagination .pagination-arrow-reverse {
           transform: rotate(180deg);
         }
-        .pagination-arrow {
+        ul.footable-pagination .pagination-arrow {
           width: 20px;
           user-select: none;
         }
+
+        ul.footable-pagination .footable-page.disabled {
+          opacity: 0.7;
+          cursor: initial;
+        }
+
+        ul.footable-pagination .footable-page.disabled a {
+          cursor: initial;
+        }
+
+        ul.footable-pagination .footable-page a {
+          cursor: pointer;
+          text-decoration: none;
+          font-family: ${theme.fonts.bodyFontFamily};
+          color: ${theme.colors.blueBasic};
+        }
+
+        ul.footable-pagination .footable-page a:active {
+          color: ${theme.colors.blueBasic} !important;
+        }
+
+        ul.footable-pagination .footable-page.active a {
+          color: ${theme.colors.whiteBasic};
+          user-select: none;
+        }
+
         @media (max-width: 1024px) {
           .wrapper .pagination {
             justify-content: center;
-          }
-        }
-        @media (max-width: 768px) {
-          .wrapper .pagination li {
-            padding: 6px 5px;
           }
         }
       `}</style>
@@ -255,7 +290,32 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
               onReloadMessages={onReloadMessages}
             />
 
-            <ReactPaginate
+            <ReactPagination
+              activePage={currentPage}
+              itemsCountPerPage={10}
+              totalItemsCount={dataMessages?.last_page}
+              pageRangeDisplayed={5}
+              nextPageText={
+                <img
+                  className="pagination-arrow"
+                  src="static/arrow-paginate.svg"
+                />
+              }
+              prevPageText={
+                <img
+                  className="pagination-arrow pagination-arrow-reverse"
+                  src="static/arrow-paginate.svg"
+                />
+              }
+              firstPageText="«"
+              lastPageText="»"
+              innerClass="pagination pagination-split footable-pagination float-right"
+              itemClass="footable-page"
+              onChange={(page: number) => {
+                if (page !== currentPage) {
+                  setPage(page);
+                }
+              }}
               previousLabel={
                 <img
                   className="pagination-arrow pagination-arrow-reverse"
@@ -270,13 +330,10 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
               }
               breakLabel={"..."}
               breakClassName={"break-me"}
-              pageCount={dataMessages?.last_page}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={3}
-              onPageChange={(data) => setPage(data.selected)}
               containerClassName={"pagination"}
               subContainerClassName={"pages pagination"}
               activeClassName={"active"}
+              hideFirstLastPages
             />
           </div>
         </div>
