@@ -22,6 +22,7 @@ const Notifier: React.FC<Props> = ({ show }) => {
         }
         .notify-message {
           padding: 10px 0;
+          text-align: center;
         }
       `}</style>
       <CustomContainer>

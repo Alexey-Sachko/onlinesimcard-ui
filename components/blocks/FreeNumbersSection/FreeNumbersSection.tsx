@@ -131,7 +131,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
               margin-left: auto;
             }
             .country-block-container {
-              margin: 41px auto auto;
+              margin: 42px auto auto;
             }
             .country-block-inner {
               flex-direction: column;
@@ -144,7 +144,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
                 "c c c c c c";
             }
             .country-block-container {
-              margin: 38px auto auto;
+              margin: 39px auto auto;
             }
           }
 
