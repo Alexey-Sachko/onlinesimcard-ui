@@ -7,7 +7,6 @@ import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
 import NumbersList from "./NumbersList";
 import MessageList from "./MessageList";
-import Notifier from "../Notifier";
 import countryData from "./country-data";
 import { getPhoneList, getMessagesList } from "./utils";
 import { theme } from "../../../theme/customTheme";
@@ -234,7 +233,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
           color: ${theme.colors.blueBasic};
         }
 
-        ul.footable-pagination .footable-page a:active {
+        ul.footable-pagination .footable-page:not(.active) a:active {
           color: ${theme.colors.blueBasic} !important;
         }
 

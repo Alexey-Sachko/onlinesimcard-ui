@@ -41,18 +41,27 @@ const MessageItem: React.FC<Props> = ({ text, data_humans, in_number }) => {
           .message-header {
             display: flex;
           }
-
           .message-body {
             margin-top: 10px;
+          }
+          .message-header-item {
+            max-width: 48%;
+            white-space: nowrap;
+            overflow: hidden;
           }
         `}
       </style>
       <div className="message-header">
-        <Typography variant="h5">{in_number}</Typography>{" "}
+        <div className="message-header-item">
+          <Typography variant="h5">{in_number}</Typography>{" "}
+        </div>
+
         <div className="pin" />
-        <Typography className="date-humans" variant="usualParagraph">
-          {data_humans}
-        </Typography>
+        <div className="message-header-item">
+          <Typography className="date-humans" variant="usualParagraph">
+            {data_humans}
+          </Typography>
+        </div>
       </div>
       <div className="message-body">
         <Typography className="text" variant="usualParagraph">
