@@ -43,7 +43,7 @@ const NumberItem: React.FC<Props> = ({
             display: flex;
             align-items: center;
             border-bottom: 1px solid ${theme.colors.jetExtraLight};
-            transition: background 0.15s ease;
+            transition: background ${theme.transition.hover};
           }
           .container:last-child {
             border-bottom: none;
