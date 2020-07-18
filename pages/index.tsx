@@ -30,7 +30,7 @@ const Home = () => {
         onClose={() => setIsOpenChooseService(false)}
       /> */}
       <Footer />
-      <Notifier show={isShowNotify} />
+      <Notifier reset={isShowNotify} />
     </div>
   );
 };

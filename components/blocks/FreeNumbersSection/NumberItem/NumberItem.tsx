@@ -28,10 +28,7 @@ const NumberItem: React.FC<Props> = ({
 
   const onCopyNumber = () => {
     navigator.clipboard.writeText(full_number);
-    setIsShowNotify(true);
-    setTimeout(() => {
-      setIsShowNotify(false);
-    }, 3000);
+    setIsShowNotify((prev) => !prev);
   };
 
   return (
