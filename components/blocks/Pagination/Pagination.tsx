@@ -1,7 +1,7 @@
 import React from "react";
 import { default as ReactPagination } from "react-js-pagination";
 
-import { theme } from "../../../theme/customTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 type Props = {
   currentPage: number;
@@ -10,6 +10,7 @@ type Props = {
 };
 
 const Pagination: React.FC<Props> = ({ currentPage, onChange, totalCount }) => {
+  const theme = useTheme();
   return (
     <>
       <style jsx global>{`

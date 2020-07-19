@@ -1,12 +1,13 @@
 import React from "react";
 
-import { theme } from "../../../theme/customTheme";
+import { useTheme, themeBasic } from "../../hooks/useTheme";
 
 type Props = {
-  color: keyof typeof theme["colors"];
+  color: keyof typeof themeBasic["colors"];
 };
 
 const CopyIcon: React.FC<Props> = ({ color }) => {
+  const theme = useTheme();
   return (
     <svg
       width="30"

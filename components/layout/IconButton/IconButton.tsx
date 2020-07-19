@@ -1,12 +1,13 @@
 import React, { ComponentProps } from "react";
 
-import { theme } from "../../../theme/customTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 type Props = {
   className?: string;
 } & ComponentProps<"button">;
 
 const IconButton: React.FC<Props> = ({ children, className, ...props }) => {
+  const theme = useTheme();
   return (
     <button className={`button ${className ? className : ""}`} {...props}>
       <style jsx>

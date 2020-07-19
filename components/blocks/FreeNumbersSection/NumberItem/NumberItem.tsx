@@ -3,7 +3,7 @@ import React from "react";
 import Typography from "../../../layout/Typography";
 import CopyIcon from "../../../icons/CopyIcon";
 import MessageIcon from "../../../icons/MessageIcon";
-import { theme } from "../../../../theme/customTheme";
+import { useTheme } from "../../../hooks/useTheme";
 
 type Props = {
   number: string | number;
@@ -22,16 +22,14 @@ const NumberItem: React.FC<Props> = ({
   onSelectNumber,
   setIsShowNotify,
 }) => {
+  const theme = useTheme();
   const onClickNumber = () => {
     onSelectNumber(number);
   };
 
   const onCopyNumber = () => {
     navigator.clipboard.writeText(full_number);
-    setIsShowNotify(true);
-    setTimeout(() => {
-      setIsShowNotify(false);
-    }, 3000);
+    setIsShowNotify((prev) => !prev);
   };
 
   return (

@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import CustomContainer from "../CustomContainer";
 import Typography from "../../layout/Typography";
-import { theme } from "../../../theme/customTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 type Props = {
-  show: boolean;
+  reset: boolean;
 };
+let timeout;
 
-const Notifier: React.FC<Props> = ({ show }) => {
+const delayNotifier = 3000;
+
+const Notifier: React.FC<Props> = ({ reset }) => {
+  const theme = useTheme();
+  const [show, setShow] = useState(false);
+  const [firstRender, setFirstRender] = useState(true);
+
+  useEffect(() => {
+    if (!firstRender) {
+      window.clearTimeout(timeout);
+      setShow(true);
+      timeout = setTimeout(() => {
+        setShow(false);
+      }, delayNotifier);
+    } else {
+      setFirstRender(false);
+    }
+  }, [reset]);
+
   return (
     <div className="container">
       <style jsx>{`
