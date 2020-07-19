@@ -9,13 +9,14 @@ import MessageList from "./MessageList";
 import countryData from "./country-data";
 import Pagination from "../Pagination";
 import { getPhoneList, getMessagesList } from "./utils";
-import { theme } from "../../../theme/customTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 type Props = {
   setIsShowNotify: (prev: boolean) => void;
 };
 
 const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
+  const theme = useTheme();
   const [selectedCountry, setSelectedCountry] = useState(7);
   const [dataNumbers, setDataNumbers] = useState<any>([]);
   const [dataMessages, setDataMessages] = useState<any>({});

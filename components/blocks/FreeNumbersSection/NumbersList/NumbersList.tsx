@@ -4,7 +4,7 @@ import Typography from "../../../layout/Typography";
 import IconButton from "../../../layout/IconButton";
 
 import NumberItem from "../NumberItem";
-import { theme } from "../../../../theme/customTheme";
+import { useTheme } from "../../../hooks/useTheme";
 
 type Props = {
   data: any;
@@ -23,6 +23,7 @@ const NumbersList: React.FC<Props> = ({
   onReloadNumbers,
   setIsShowNotify,
 }) => {
+  const theme = useTheme();
   return (
     <>
       <style jsx>

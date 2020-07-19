@@ -1,11 +1,11 @@
 import React, { ComponentProps } from "react";
 import { settings, settingsMedium, settingsSmall } from "./settings";
-import { theme } from "../../../theme/customTheme";
+import { useTheme, themeBasic } from "../../hooks/useTheme";
 
 type Props = {
   variant?: keyof typeof settings;
   className?: string;
-  color?: keyof typeof theme["colors"];
+  color?: keyof typeof themeBasic["colors"];
   align?: "left" | "center" | "right";
   fontWeight?: "bold" | "normal" | "lighter";
   letterSpacing?: string;
@@ -23,6 +23,7 @@ const Typography: React.FC<Props> = ({
   wordSpacing,
   ...props
 }) => {
+  const theme = useTheme();
   if (!variant) {
     return (
       <span className={className ? className : ""} {...props}>

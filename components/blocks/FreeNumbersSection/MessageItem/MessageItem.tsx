@@ -1,7 +1,7 @@
 import React from "react";
 
 import Typography from "../../../layout/Typography";
-import { theme } from "../../../../theme/customTheme";
+import { useTheme } from "../../../hooks/useTheme";
 
 type Props = {
   text: string;
@@ -10,6 +10,7 @@ type Props = {
 };
 
 const MessageItem: React.FC<Props> = ({ text, data_humans, in_number }) => {
+  const theme = useTheme();
   return (
     <div className="container">
       <style jsx>

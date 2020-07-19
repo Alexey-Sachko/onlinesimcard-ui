@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import CustomContainer from "../CustomContainer";
 import Typography from "../../layout/Typography";
-import { theme } from "../../../theme/customTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 type Props = {
   reset: boolean;
@@ -12,6 +12,7 @@ let timeout;
 const delayNotifier = 3000;
 
 const Notifier: React.FC<Props> = ({ reset }) => {
+  const theme = useTheme();
   const [show, setShow] = useState(false);
   const [firstRender, setFirstRender] = useState(true);
 

@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import { theme } from "../../../theme/customTheme";
+import { themeBasic as theme } from "../../../theme/customTheme";
 
 export type Settings =
   | "h1"

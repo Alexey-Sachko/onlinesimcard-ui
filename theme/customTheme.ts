@@ -1,4 +1,4 @@
-export const theme = {
+export const themeBasic = {
   fonts: {
     bodyFontFamily: "Open Sans, sans-serif",
     headingFontFamily: "Libre Baskerville, sans-serif",

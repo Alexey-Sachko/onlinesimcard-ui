@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import CustomContainer from "../CustomContainer";
 import Logo from "../../layout/Logo";
-import { theme } from "../../../theme/customTheme";
+import { useTheme } from "../../hooks/useTheme";
 // import { useTypedSelector } from "../../../redux";
 // import IconButton from "@material-ui/core/IconButton";
 // import MenuIcon from "@material-ui/icons/Menu";
@@ -11,6 +11,7 @@ import { theme } from "../../../theme/customTheme";
 // import { List, ListItem, ListItemText } from "@material-ui/core";
 
 const Header: React.FC = () => {
+  const theme = useTheme();
   const [isBlueHead, setIsBlueHead] = useState(false);
   // const { email } = useTypedSelector((s) => s.user);
   // const [drawerAnchor, setDrawerAnchor] = useState(false);

@@ -8,6 +8,8 @@ import Footer from "../components/blocks/Footer";
 // import ChooseServiceModal from "../components/blocks/ChooseServiceModal";
 import FreeNumbersSection from "../components/blocks/FreeNumbersSection";
 import Notifier from "../components/blocks/Notifier";
+import { themeBasic } from "../theme/customTheme";
+import ThemeContext from "../theme/ThemeContext";
 
 const Home = () => {
   const [isOpenChooseService, setIsOpenChooseService] = useState(false);
@@ -19,18 +21,20 @@ const Home = () => {
 
   return (
     <div>
-      <Head>{/* <title>Home</title> */}</Head>
-      <Header />
+      <ThemeContext.Provider value={themeBasic}>
+        <Head>{/* <title>Home</title> */}</Head>
+        <Header />
 
-      <MainSection />
-      {/* <HowToSection onActionClick={openModalHandler} /> */}
-      <FreeNumbersSection setIsShowNotify={setIsShowNotify} />
-      {/* <ChooseServiceModal
+        <MainSection />
+        {/* <HowToSection onActionClick={openModalHandler} /> */}
+        <FreeNumbersSection setIsShowNotify={setIsShowNotify} />
+        {/* <ChooseServiceModal
         open={isOpenChooseService}
         onClose={() => setIsOpenChooseService(false)}
       /> */}
-      <Footer />
-      <Notifier reset={isShowNotify} />
+        <Footer />
+        <Notifier reset={isShowNotify} />
+      </ThemeContext.Provider>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 
 import Typography from "../../../layout/Typography";
-import { theme } from "../../../../theme/customTheme";
+import { useTheme } from "../../../hooks/useTheme";
 
 type Props = {
   image: string;
@@ -18,6 +18,7 @@ const CountryBlock: React.FC<Props> = ({
   onSelectCountry,
   code,
 }) => {
+  const theme = useTheme();
   return (
     <div className="container" onClick={() => onSelectCountry(code)}>
       <style jsx>

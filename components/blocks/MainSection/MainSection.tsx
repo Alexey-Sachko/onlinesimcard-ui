@@ -3,9 +3,10 @@ import React from "react";
 import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
 import Typography from "../../layout/Typography";
-import { theme } from "../../../theme/customTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 const MainSection = () => {
+  const theme = useTheme();
   return (
     <CustomContainer>
       <style jsx>
