@@ -1,12 +1,12 @@
 import * as Yup from "yup";
 
-type Values = {
+export type RegisterFormState = {
   email: string;
   password: string;
   repassword: string;
 };
 
-export const SignupSchema = Yup.object().shape({
+export const RegisterSchema = Yup.object().shape({
   email: Yup.string().email("Некорректный Email").required("Поле обязательное"),
   password: Yup.string()
     .required("Поле обязательное")

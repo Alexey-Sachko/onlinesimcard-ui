@@ -8,13 +8,46 @@ import {
   Box,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { Formik, Form, Field, FieldProps } from "formik";
+import { Formik, Form, Field, FieldProps, FormikHelpers } from "formik";
 
+import { useRegisterMutation } from "../../../lib/types";
 import Copyright from "../../blocks/Copyright";
 import { useStyles } from "./RegisterPage.styled";
+import { gql } from "@apollo/client";
+import { RegisterFormState, RegisterSchema } from "../schema";
+import { formatErrors } from "../../../utils/formatErrors";
+
+export const RegisterMutation = gql`
+  mutation Register($userSignupDto: UserSignupDto!) {
+    register(userSignupDto: $userSignupDto) {
+      result
+      errors {
+        path
+        message
+      }
+    }
+  }
+`;
+
+type ErrorState = Partial<Record<keyof RegisterFormState, string>>;
 
 const RegisterPage = () => {
   const classes = useStyles();
+
+  const [register, { loading }] = useRegisterMutation();
+
+  const submitHandler = (
+    values: RegisterFormState,
+    helpers: FormikHelpers<RegisterFormState>
+  ) => {
+    register({
+      variables: {
+        userSignupDto: { email: values.email, password: values.password },
+      },
+    }).then(({ data: { register: { errors } } }) =>
+      helpers.setErrors(formatErrors<ErrorState>(errors))
+    );
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -23,13 +56,14 @@ const RegisterPage = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Регистрация
+          Регистрация {loading && "loading"}
         </Typography>
         <Formik
           initialValues={{ email: "", password: "", repassword: "" }}
-          onSubmit={() => console.log("submit")}
+          onSubmit={submitHandler}
+          validationSchema={RegisterSchema}
         >
-          {() => (
+          {({ errors }) => (
             <Form className={classes.form} noValidate>
               <Field name="email">
                 {({ field }: FieldProps) => (
@@ -41,6 +75,8 @@ const RegisterPage = () => {
                     label="Email адрес"
                     autoComplete="email"
                     autoFocus
+                    error={Boolean(errors.email)}
+                    helperText={errors.email}
                     {...field}
                   />
                 )}
@@ -55,6 +91,8 @@ const RegisterPage = () => {
                     label="Пароль"
                     type="password"
                     autoComplete="current-password"
+                    error={Boolean(errors.password)}
+                    helperText={errors.password}
                     {...field}
                   />
                 )}
@@ -69,6 +107,8 @@ const RegisterPage = () => {
                     fullWidth
                     label="Подтвердите пароль"
                     type="password"
+                    error={Boolean(errors.repassword)}
+                    helperText={errors.repassword}
                     {...field}
                   />
                 )}

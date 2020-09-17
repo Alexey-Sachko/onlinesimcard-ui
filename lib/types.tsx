@@ -14,6 +14,7 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  me: MeResponse;
   freeCountries: Array<FreeCountryType>;
   freeNumbers: Array<FreeNumType>;
   freeNumber: FreeNumType;
@@ -38,6 +39,27 @@ export type QueryFreeMessagesArgs = {
 export type QueryArticleArgs = {
   id: Scalars['Float'];
 };
+
+export type MeResponse = {
+  __typename?: 'MeResponse';
+  id: Scalars['ID'];
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  permissions?: Maybe<Array<Permissions>>;
+};
+
+/** Разрешения */
+export enum Permissions {
+  ReadUsers = 'ReadUsers',
+  WriteUsers = 'WriteUsers',
+  RolesRead = 'RolesRead',
+  RolesWrite = 'RolesWrite',
+  ReadEmail = 'ReadEmail',
+  WriteEmail = 'WriteEmail',
+  ReadAdminPage = 'ReadAdminPage',
+  WriteArticles = 'WriteArticles'
+}
 
 export type FreeCountryType = {
   __typename?: 'FreeCountryType';
@@ -91,6 +113,7 @@ export type Mutation = {
   login?: Maybe<Array<ErrorType>>;
   logout: Scalars['Boolean'];
   register: RegisterPayloadType;
+  deleteUser?: Maybe<ErrorType>;
   createArticle?: Maybe<Array<ErrorType>>;
   updateArticle?: Maybe<Array<ErrorType>>;
   deleteArticle?: Maybe<ErrorType>;
@@ -104,6 +127,11 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   userSignupDto: UserSignupDto;
+};
+
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -156,6 +184,23 @@ export type UpdateArticleDto = {
   id: Scalars['Int'];
 };
 
+export type RegisterMutationVariables = Exact<{
+  userSignupDto: UserSignupDto;
+}>;
+
+
+export type RegisterMutation = (
+  { __typename?: 'Mutation' }
+  & { register: (
+    { __typename?: 'RegisterPayloadType' }
+    & Pick<RegisterPayloadType, 'result'>
+    & { errors?: Maybe<Array<(
+      { __typename?: 'ErrorType' }
+      & Pick<ErrorType, 'path' | 'message'>
+    )>> }
+  ) }
+);
+
 export type GetArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -194,6 +239,42 @@ export type LoginMutation = (
 );
 
 
+export const RegisterDocument = gql`
+    mutation Register($userSignupDto: UserSignupDto!) {
+  register(userSignupDto: $userSignupDto) {
+    result
+    errors {
+      path
+      message
+    }
+  }
+}
+    `;
+export type RegisterMutationFn = ApolloReactCommon.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+
+/**
+ * __useRegisterMutation__
+ *
+ * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerMutation, { data, loading, error }] = useRegisterMutation({
+ *   variables: {
+ *      userSignupDto: // value for 'userSignupDto'
+ *   },
+ * });
+ */
+export function useRegisterMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+        return ApolloReactHooks.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, baseOptions);
+      }
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
+export type RegisterMutationResult = ApolloReactCommon.MutationResult<RegisterMutation>;
+export type RegisterMutationOptions = ApolloReactCommon.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const GetArticlesDocument = gql`
     query GetArticles {
   articles {

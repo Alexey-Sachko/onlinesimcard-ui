@@ -1,10 +1,10 @@
-import { ErrorInterface } from "../types/error.interface";
+import { ErrorType } from "../lib/types";
 
-type ResultFormat = Record<string, string>;
-
-export const formatErrors = (errors: ErrorInterface[]): ResultFormat => {
-  return errors.reduce((acc, err) => {
-    acc[err.path] = err.message;
-    return acc;
-  }, {});
+export const formatErrors = <T extends Record<string, string>>(
+  errors: ErrorType[]
+): T => {
+  return errors.reduce(
+    (acc, err) => ({ ...acc, [err.path]: err.message }),
+    {} as T
+  );
 };
