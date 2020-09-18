@@ -6,12 +6,12 @@ RUN mkdir -p /usr/bin/front
 WORKDIR /usr/bin/front
 
 COPY ./package.json /usr/bin/front/
-COPY ./package-lock.json /usr/bin/front/
+COPY ./yarn.lock /usr/bin/front/
 
-RUN npm install
+RUN yarn
 
 COPY . /usr/bin/front/
 
-RUN npm run build
+RUN yarn build
 
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]
