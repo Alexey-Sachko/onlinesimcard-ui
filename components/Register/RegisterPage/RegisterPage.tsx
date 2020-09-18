@@ -9,11 +9,11 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Formik, Form, Field, FieldProps, FormikHelpers } from "formik";
+import { gql } from "@apollo/client";
 
 import { useRegisterMutation } from "../../../lib/types";
 import Copyright from "../../blocks/Copyright";
 import { useStyles } from "./RegisterPage.styled";
-import { gql } from "@apollo/client";
 import { RegisterFormState, RegisterSchema } from "../schema";
 import { formatErrors } from "../../../utils/formatErrors";
 
