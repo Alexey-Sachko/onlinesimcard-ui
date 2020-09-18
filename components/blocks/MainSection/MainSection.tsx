@@ -1,4 +1,7 @@
 import React from "react";
+import { useRouter } from "next/router";
+import { Box, CssBaseline, Grid } from "@material-ui/core";
+import ym from "react-yandex-metrika";
 
 import CustomContainer from "../CustomContainer";
 import ProductCard from "../ProductCard";
@@ -6,7 +9,9 @@ import Typography from "../../layout/Typography";
 import { useTheme } from "../../hooks/useTheme";
 
 const MainSection = () => {
+  const router = useRouter();
   const theme = useTheme();
+
   return (
     <CustomContainer>
       <style jsx>
@@ -65,6 +70,7 @@ const MainSection = () => {
           }
         `}
       </style>
+      <CssBaseline />
       <div className="container">
         <div className="description">
           <div className="title-text">
@@ -90,7 +96,40 @@ const MainSection = () => {
           <img src="/static/bg-main-section.jpg" alt="rightPickcher" />
         </div>
       </div>
-
+      <Box mt={3}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} lg={5} xl={4}>
+            <ProductCard
+              title="Одноразовые номера"
+              price="от 1 руб./номер"
+              features={[
+                "один номер для одного сервиса",
+                "номер активен 20 минут",
+                "более 20 стран в наличии",
+              ]}
+              onActionClick={() => {
+                router.push("/signup");
+                ym("GET_ONE_TIME_NUMBER");
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} lg={5}>
+            <ProductCard
+              title="Номера для аренды"
+              price="от 30 руб./день"
+              features={[
+                "номер всегда онлайн",
+                "безлимитный прием смс",
+                "срок аренды до 180 дней и продление",
+              ]}
+              onActionClick={() => {
+                router.push("/signup");
+                ym("GET_RENT_NUMBER");
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Box>
       {/* <Grid container spacing={2}> */}
       {/* <Grid item zeroMinWidth xs={12} sm={6} md={5} lg="auto">
               <ProductCard
