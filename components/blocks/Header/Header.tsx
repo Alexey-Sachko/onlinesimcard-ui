@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Toolbar, AppBar, makeStyles } from "@material-ui/core";
 import { useRouter } from "next/router";
+import ym from "react-yandex-metrika";
 
 import Logo from "../../layout/Logo";
 
@@ -16,6 +17,7 @@ const Header: React.FC = () => {
   const router = useRouter();
 
   const handleRegister = () => {
+    ym("NAVBAR_CLICK_SIGNUP", location.pathname);
     router.push("/signup");
   };
 

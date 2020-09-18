@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Avatar,
@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
+import ym from "react-yandex-metrika";
 
 import { useStyles } from "./RegisterPage.styled";
 import RegisterForm from "../RegisterForm";
@@ -44,6 +45,7 @@ const RegisterPage = () => {
               onCompleteSubmit={() => {
                 setLoading(false);
                 setComplete(true);
+                ym("SIGNUPPED");
               }}
               onErrorSubmit={(errType) => {
                 if (errType === "APP_ERROR") {
