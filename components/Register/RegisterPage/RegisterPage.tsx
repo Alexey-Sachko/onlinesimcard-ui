@@ -19,12 +19,6 @@ const RegisterPage = () => {
   const [appError, setAppError] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  useEffect(() => {
-    // setInterval(() => {
-    //   setLoading((prev) => !prev);
-    // }, 1500);
-  }, []);
-
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
