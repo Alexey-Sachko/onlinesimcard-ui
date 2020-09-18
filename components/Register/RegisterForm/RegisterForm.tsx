@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { gql } from "@apollo/client";
+import { TextField, Button } from "@material-ui/core";
 
 import { RegisterFormState, RegisterSchema } from "../schema";
 import { useRegisterMutation } from "../../../lib/types";
 import { FormikHelpers, Formik, Form, Field, FieldProps } from "formik";
 import { formatErrors } from "../../../utils/formatErrors";
-import classes from "*.module.css";
-import { TextField, Button } from "@material-ui/core";
+import { useStyles } from "./RegisterForm.styled";
 
 export const RegisterMutation = gql`
   mutation Register($userSignupDto: UserSignupDto!) {
@@ -23,27 +23,48 @@ export const RegisterMutation = gql`
 type ErrorState = Partial<Record<keyof RegisterFormState, string>>;
 
 type RegisterFormProps = {
-  onLoadingChange?: (value: boolean) => void;
+  onStartSubmit?: () => void;
+  onCompleteSubmit?: () => void;
+  onErrorSubmit?: (type: "VALIDATION_ERROR" | "APP_ERROR") => void;
 };
 
-const RegisterForm = ({ onLoadingChange }: RegisterFormProps) => {
-  const [register, { loading }] = useRegisterMutation();
+const RegisterForm = ({
+  onStartSubmit,
+  onCompleteSubmit,
+  onErrorSubmit,
+}: RegisterFormProps) => {
+  const classes = useStyles();
+  const [register] = useRegisterMutation();
 
-  useEffect(() => {
-    onLoadingChange && onLoadingChange(loading);
-  }, [loading]);
-
-  const submitHandler = (
+  const submitHandler = async (
     values: RegisterFormState,
     helpers: FormikHelpers<RegisterFormState>
   ) => {
-    register({
-      variables: {
-        userSignupDto: { email: values.email, password: values.password },
-      },
-    }).then(({ data: { register: { errors } } }) =>
-      helpers.setErrors(formatErrors<ErrorState>(errors))
-    );
+    onStartSubmit && onStartSubmit();
+
+    try {
+      const {
+        data: {
+          register: { errors, result },
+        },
+        errors: gqlErrors,
+      } = await register({
+        variables: {
+          userSignupDto: { email: values.email, password: values.password },
+        },
+      });
+
+      if (errors) {
+        helpers.setErrors(formatErrors<ErrorState>(errors));
+        onErrorSubmit && onErrorSubmit("VALIDATION_ERROR");
+      } else if (gqlErrors) {
+        onErrorSubmit && onErrorSubmit("APP_ERROR");
+      } else if (result) {
+        onCompleteSubmit();
+      }
+    } catch (error) {
+      onErrorSubmit && onErrorSubmit("APP_ERROR");
+    }
   };
 
   return (
@@ -52,7 +73,7 @@ const RegisterForm = ({ onLoadingChange }: RegisterFormProps) => {
       onSubmit={submitHandler}
       validationSchema={RegisterSchema}
     >
-      {({ errors }) => (
+      {({ errors, isSubmitting }) => (
         <Form className={classes.form} noValidate>
           <Field name="email">
             {({ field }: FieldProps) => (
@@ -113,8 +134,9 @@ const RegisterForm = ({ onLoadingChange }: RegisterFormProps) => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={isSubmitting}
           >
-            Sign In
+            Зарегистрироваться
           </Button>
           {/* <Grid container>
     <Grid item xs>

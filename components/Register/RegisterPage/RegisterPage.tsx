@@ -1,29 +1,85 @@
-import React, { useState } from "react";
-import { Container, Avatar, Typography, Box } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Avatar,
+  Typography,
+  Box,
+  Button,
+  CircularProgress,
+} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
 
-import Copyright from "../../blocks/Copyright";
 import { useStyles } from "./RegisterPage.styled";
 import RegisterForm from "../RegisterForm";
 
 const RegisterPage = () => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
+  const [appError, setAppError] = useState(false);
+  const [complete, setComplete] = useState(false);
+
+  useEffect(() => {
+    // setInterval(() => {
+    //   setLoading((prev) => !prev);
+    // }, 1500);
+  }, []);
 
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Регистрация {loading && "loading"}
-        </Typography>
-        <RegisterForm onLoadingChange={setLoading} />
+        {!complete ? (
+          <>
+            {loading ? (
+              <Box m={1}>
+                <CircularProgress size={35} />
+              </Box>
+            ) : (
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+            )}
+            <Typography component="h1" variant="h5">
+              Регистрация
+            </Typography>
+            <RegisterForm
+              onStartSubmit={() => {
+                setLoading(true);
+                setAppError(false);
+              }}
+              onCompleteSubmit={() => {
+                setLoading(false);
+                setComplete(true);
+              }}
+              onErrorSubmit={(errType) => {
+                if (errType === "APP_ERROR") {
+                  setAppError(true);
+                }
+                setLoading(false);
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <Avatar className={classes.avatar}>
+              <DoneOutlineIcon />
+            </Avatar>
+            <Typography component="h2" variant="h5">
+              Спасибо за регистрацию
+            </Typography>
+            <Box mt={2} textAlign="center">
+              <Typography variant="body1">
+                На вашу почту отправлено письмо с сылкой для подтверждения
+              </Typography>
+            </Box>
+            <Box mt={4}>
+              <Button color="primary" variant="outlined">
+                Войти
+              </Button>
+            </Box>
+          </>
+        )}
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 };
