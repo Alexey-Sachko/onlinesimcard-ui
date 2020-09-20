@@ -15,6 +15,10 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me: MeResponse;
+  roles: Array<RoleType>;
+  allPermissions: Array<Permissions>;
+  countriesFromApi: Array<CountryApiType>;
+  services: Array<ServiceType>;
   freeCountries: Array<FreeCountryType>;
   freeNumbers: Array<FreeNumType>;
   freeNumber: FreeNumType;
@@ -58,8 +62,38 @@ export enum Permissions {
   ReadEmail = 'ReadEmail',
   WriteEmail = 'WriteEmail',
   ReadAdminPage = 'ReadAdminPage',
-  WriteArticles = 'WriteArticles'
+  WriteArticles = 'WriteArticles',
+  WriteServices = 'WriteServices'
 }
+
+export type RoleType = {
+  __typename?: 'RoleType';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  permissions: Array<Permissions>;
+};
+
+export type CountryApiType = {
+  __typename?: 'CountryApiType';
+  code: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ServiceType = {
+  __typename?: 'ServiceType';
+  id: Scalars['Float'];
+  code: Scalars['String'];
+  name: Scalars['String'];
+  prices: Array<PriceType>;
+};
+
+export type PriceType = {
+  __typename?: 'PriceType';
+  id: Scalars['Float'];
+  amount: Scalars['Float'];
+  countryCode: Scalars['String'];
+  serviceId: Scalars['Float'];
+};
 
 export type FreeCountryType = {
   __typename?: 'FreeCountryType';
@@ -113,7 +147,11 @@ export type Mutation = {
   login?: Maybe<Array<ErrorType>>;
   logout: Scalars['Boolean'];
   register: RegisterPayloadType;
+  verifyUser?: Maybe<ErrorType>;
   deleteUser?: Maybe<ErrorType>;
+  setRole?: Maybe<Array<ErrorType>>;
+  saveService?: Maybe<Array<ErrorType>>;
+  savePrice?: Maybe<Array<ErrorType>>;
   createArticle?: Maybe<Array<ErrorType>>;
   updateArticle?: Maybe<Array<ErrorType>>;
   deleteArticle?: Maybe<ErrorType>;
@@ -130,8 +168,28 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationVerifyUserArgs = {
+  verifyToken: Scalars['String'];
+};
+
+
 export type MutationDeleteUserArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationSetRoleArgs = {
+  roleName: Scalars['String'];
+};
+
+
+export type MutationSaveServiceArgs = {
+  createServiceDto: CreateServiceDto;
+};
+
+
+export type MutationSavePriceArgs = {
+  createPriceDto: CreatePriceDto;
 };
 
 
@@ -169,6 +227,17 @@ export type RegisterPayloadType = {
   __typename?: 'RegisterPayloadType';
   result?: Maybe<Scalars['Boolean']>;
   errors?: Maybe<Array<ErrorType>>;
+};
+
+export type CreateServiceDto = {
+  code: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type CreatePriceDto = {
+  serviceCode: Scalars['String'];
+  countryCode: Scalars['String'];
+  amount: Scalars['Float'];
 };
 
 export type CreateArticleDto = {
@@ -236,6 +305,19 @@ export type CreateArticleMutation = (
     { __typename?: 'ErrorType' }
     & Pick<ErrorType, 'path' | 'message'>
   )>> }
+);
+
+export type VerifyUserMutationVariables = Exact<{
+  verifyToken: Scalars['String'];
+}>;
+
+
+export type VerifyUserMutation = (
+  { __typename?: 'Mutation' }
+  & { verifyUser?: Maybe<(
+    { __typename?: 'ErrorType' }
+    & Pick<ErrorType, 'path' | 'message'>
+  )> }
 );
 
 
@@ -376,3 +458,36 @@ export function useCreateArticleMutation(baseOptions?: ApolloReactHooks.Mutation
 export type CreateArticleMutationHookResult = ReturnType<typeof useCreateArticleMutation>;
 export type CreateArticleMutationResult = ApolloReactCommon.MutationResult<CreateArticleMutation>;
 export type CreateArticleMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateArticleMutation, CreateArticleMutationVariables>;
+export const VerifyUserDocument = gql`
+    mutation VerifyUser($verifyToken: String!) {
+  verifyUser(verifyToken: $verifyToken) {
+    path
+    message
+  }
+}
+    `;
+export type VerifyUserMutationFn = ApolloReactCommon.MutationFunction<VerifyUserMutation, VerifyUserMutationVariables>;
+
+/**
+ * __useVerifyUserMutation__
+ *
+ * To run a mutation, you first call `useVerifyUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyUserMutation, { data, loading, error }] = useVerifyUserMutation({
+ *   variables: {
+ *      verifyToken: // value for 'verifyToken'
+ *   },
+ * });
+ */
+export function useVerifyUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<VerifyUserMutation, VerifyUserMutationVariables>) {
+        return ApolloReactHooks.useMutation<VerifyUserMutation, VerifyUserMutationVariables>(VerifyUserDocument, baseOptions);
+      }
+export type VerifyUserMutationHookResult = ReturnType<typeof useVerifyUserMutation>;
+export type VerifyUserMutationResult = ApolloReactCommon.MutationResult<VerifyUserMutation>;
+export type VerifyUserMutationOptions = ApolloReactCommon.BaseMutationOptions<VerifyUserMutation, VerifyUserMutationVariables>;
