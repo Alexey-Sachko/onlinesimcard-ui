@@ -17,7 +17,7 @@ const Header: React.FC = () => {
   const router = useRouter();
 
   const handleRegister = () => {
-    ym("NAVBAR_CLICK_SIGNUP", location.pathname);
+    ym("reachGoal", "NAVBAR_CLICK_SIGNUP");
     router.push("/signup");
   };
 

@@ -45,7 +45,7 @@ const RegisterPage = () => {
               onCompleteSubmit={() => {
                 setLoading(false);
                 setComplete(true);
-                ym("SIGNUPPED");
+                ym("reachGoal", "SIGNUPPED");
               }}
               onErrorSubmit={(errType) => {
                 if (errType === "APP_ERROR") {

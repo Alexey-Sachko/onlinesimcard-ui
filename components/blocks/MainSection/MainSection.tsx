@@ -109,7 +109,7 @@ const MainSection = () => {
               ]}
               onActionClick={() => {
                 router.push("/signup");
-                ym("GET_ONE_TIME_NUMBER");
+                ym("reachGoal", "GET_ONE_TIME_NUMBER");
               }}
             />
           </Grid>
@@ -124,7 +124,7 @@ const MainSection = () => {
               ]}
               onActionClick={() => {
                 router.push("/signup");
-                ym("GET_RENT_NUMBER");
+                ym("reachGoal", "GET_RENT_NUMBER");
               }}
             />
           </Grid>
