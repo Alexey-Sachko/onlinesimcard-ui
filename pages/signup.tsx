@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import NextLink from "next/link";
 import { Formik, Form, Field, FieldProps } from "formik";
 // import Avatar from "@material-ui/core/Avatar";
@@ -73,18 +72,17 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function SignUp() {
-  const dispatch = useDispatch();
   // const classes = useStyles();
-  const { error, loading, done } = useTypedSelector((s) => s.user.signup);
+  // const { error, loading, done } = useTypedSelector((s) => s.user.signup);
 
   const submitHandler = async ({ email, password }: Values) => {
-    dispatch(signupUser({ email, password }));
+    // dispatch(signupUser({ email, password }));
   };
 
   return (
     // <>
-    //   <Header blueBg />
-    //   <Container component="main" maxWidth="xs">
+    //   <Header />
+    //   <div>
     //     <div className={classes.paper}>
     //       <Avatar
     //         className={clsx(classes.avatar, {
@@ -198,10 +196,7 @@ export default function SignUp() {
     //         </Formik>
     //       )}
     //     </div>
-    //     <Box mt={5}>
-    //       <Copyright />
-    //     </Box>
-    //   </Container>
+    //   </div>
     // </>
     null
   );

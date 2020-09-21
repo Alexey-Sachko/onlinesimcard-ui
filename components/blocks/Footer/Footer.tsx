@@ -2,7 +2,7 @@ import React from "react";
 
 import Typography from "../../layout/Typography";
 import Logo from "../../layout/Logo";
-import CustomContainer from "../CustomContainer";
+import CustomContainer from "../../layout/CustomContainer";
 
 const Footer = () => {
   return (

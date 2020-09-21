@@ -58,7 +58,7 @@ const Typography: React.FC<Props> = ({
           letter-spacing: ${letterSpacing ? letterSpacing : "initial"};
           word-spacing: ${wordSpacing ? wordSpacing : "initial"};
         }
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .typography {
             font-family: ${mediumSettingItem.fontFamily};
             font-size: ${mediumSettingItem.fontSize};

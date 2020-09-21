@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 
 import Typography from "../../layout/Typography";
 import CountryBlock from "./CountryBlock";
-import CustomContainer from "../CustomContainer";
+import CustomContainer from "../../layout/CustomContainer";
 import ProductCard from "../ProductCard";
 import NumbersList from "./NumbersList";
 import MessageList from "./MessageList";

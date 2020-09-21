@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import CustomContainer from "../CustomContainer";
+import CustomContainer from "../../layout/CustomContainer";
 import Typography from "../../layout/Typography";
 import { useTheme } from "../../hooks/useTheme";
 

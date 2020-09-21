@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Typography from "../../layout/Typography";
-import CustomContainer from "../CustomContainer";
+import CustomContainer from "../../layout/CustomContainer";
 // import StepBlock from "../StepBlock";
 
 const useStyles = makeStyles((theme) => ({

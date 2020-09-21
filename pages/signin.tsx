@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 // import NextLink from "next/link";
 import { Formik, Form, Field, FieldProps } from "formik";
 // import Avatar from "@material-ui/core/Avatar";
@@ -17,6 +17,11 @@ import Header from "../components/blocks/Header";
 import { gql } from "@apollo/client";
 import { useLoginMutation } from "../lib/types";
 import { formatErrors } from "../utils/formatErrors";
+import CustomContainer from "../components/layout/CustomContainer";
+import FormLogin from "../components/blocks/FormLogin";
+import { useTheme } from "../components/hooks/useTheme";
+import Button from "../components/controls/Button";
+import Footer from "../components/blocks/Footer";
 
 // const useStyles = makeStyles((theme) => ({
 //   paper: {
@@ -60,91 +65,214 @@ export const LOGIN_MUTATION = gql`
 `;
 
 export default function SigninPage() {
-  const submitHandler = ({ email, password }: Values) => {
-    // TODO implement authorization
-  };
+  const theme = useTheme();
+
+  const onLoginGoogle = useCallback(() => {
+    console.log("login google");
+  }, []);
+  const onLoginVk = useCallback(() => {
+    console.log("login vk");
+  }, []);
+  const onCreateAccount = useCallback(() => {
+    console.log("create account");
+  }, []);
 
   return (
     <>
+      <style jsx>{`
+        .container {
+          display: grid;
+          grid-template-columns: 1fr 0.3fr 1fr;
+          margin-top: 130px;
+        }
+
+        .form-title {
+        }
+        .form-subtitle {
+          margin-top: 20px;
+        }
+        .login-form-container {
+          margin-top: 100px;
+        }
+        .remember-password {
+          margin-top: 50px;
+          cursor: pointer;
+        }
+        .remember-password-text {
+          text-decoration: underline;
+        }
+        .separator-login {
+          background: ${theme.colors.jetExtraLight};
+          width: 1px;
+          height: 100%;
+          margin: 0 auto 0;
+        }
+        .login-social-network {
+          display: flex;
+          flex-direction: column;
+        }
+        .social-network-title {
+          margin-bottom: 50px;
+        }
+        .login-google {
+          margin-bottom: 30px;
+        }
+        .create-account {
+          margin-top: auto;
+        }
+        .create-account-title {
+          margin-bottom: 20px;
+        }
+        .create-account-description {
+          margin-bottom: 50px;
+        }
+        .button-icon-vk,
+        .button-icon-google-plus {
+          margin-right: 45px;
+          margin-left: 40px;
+        }
+
+        @media (max-width: 1440px) {
+          .container {
+            grid-template-columns: 1fr 0.3fr 1fr;
+          }
+        }
+
+        @media (max-width: 1200px) {
+          .container {
+            grid-template-columns: 1fr 0.2fr 1fr;
+          }
+          .button-icon-vk,
+          .button-icon-google-plus {
+            margin-right: 30px;
+            margin-left: 25px;
+          }
+        }
+
+        @media (max-width: 1024px) {
+          .button-icon-vk,
+          .button-icon-google-plus {
+            width: 30px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .login-form {
+            grid-area: a;
+            margin-top: 80px;
+          }
+          .login-social-network {
+            grid-area: b;
+          }
+          .container {
+            margin-top: 45px;
+            grid-template-columns: 1fr;
+            grid-template-areas:
+              "b"
+              "a";
+          }
+
+          .separator-login {
+            display: none;
+          }
+
+          .create-account {
+            margin-top: 50px;
+          }
+          .button-icon-vk,
+          .button-icon-google-plus {
+            margin-right: 25px;
+          }
+        }
+      `}</style>
       <Header />
-      {/* <Container component="main" maxWidth="xs"> */}
-      <div>
-        {/* <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar> */}
-        <Typography variant="h5">Вход</Typography>
-        {"Загрузка"}
-        {"error"}
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          // validationSchema={SignupSchema}
-          validateOnChange={false}
-          validateOnBlur={false}
-          onSubmit={submitHandler}
-        >
-          {({ errors }) => (
-            <Form noValidate>
-              {/* <Grid container spacing={2}>
-                  <Grid item xs={12}> */}
-              <Field name="email">
-                {({ field }: FieldProps) => {
-                  return (
-                    <input
-                      // variant="outlined"
-                      required
-                      // fullWidth
-                      // label="Email Адрес"
-                      autoComplete="email"
-                      autoFocus
-                      // error={Boolean(errors.email)}
-                      // helperText={errors.email}
-                      {...field}
-                    />
-                  );
-                }}
-              </Field>
-              {/* </Grid> */}
-              {/* <Grid item xs={12}> */}
-              <Field name="password">
-                {({ field }: FieldProps) => (
-                  <input
-                    // variant="outlined"
-                    required
-                    // fullWidth
-                    // label="Пароль"
-                    type="password"
-                    autoComplete="current-password"
-                    // error={Boolean(errors.password)}
-                    // helperText={errors.password}
-                    {...field}
+      <CustomContainer>
+        <div className="container">
+          <div className="login-form">
+            <div className="form-title">
+              <Typography variant="h2" color="jetBasic">
+                Уже есть аккаунт?
+              </Typography>
+            </div>
+            <div className="form-subtitle">
+              <Typography variant="bigParagraph" color="jetLight">
+                Если у вас уже есть аккаунт, войдите по форме снизу
+              </Typography>
+            </div>
+            <div className="login-form-container">
+              <FormLogin />
+              <div className="remember-password">
+                <Typography variant="usualParagraph" color="blueBasic">
+                  <span className="remember-password-text">Забыли пароль?</span>
+                </Typography>
+              </div>
+            </div>
+          </div>
+          <div className="separator-login"></div>
+          <div className="login-social-network">
+            <div className="social-network-title">
+              <Typography variant="h3" color="jetBasic">
+                Войти через социальные сети
+              </Typography>
+            </div>
+            <div className="login-google">
+              <Button
+                text="Войти с помощью Google"
+                icon={
+                  <img
+                    src="static/google-plus.svg"
+                    className="button-icon-google-plus"
+                    alt="button-icon"
                   />
-                )}
-              </Field>
-              {/* </Grid>
-                </Grid> */}
-              <button
-                type="submit"
-                // fullWidth
-                // variant="contained"
-                // color="primary"
-              >
-                Войти
-              </button>
-              {/* <Grid container justify="flex-end">
-                  <Grid item>
-                    <NextLink href="/signup">
-                      <a>Еще нет аккаунта? Регистрация</a>
-                    </NextLink>
-                  </Grid>
-                </Grid> */}
-            </Form>
-          )}
-        </Formik>
-      </div>
-      <div>
-        <Copyright />
-      </div>
-      {/* </Container> */}
+                }
+                color="cinnabarBasic"
+                hoverColor="cinnabarHover"
+                onClick={onLoginGoogle}
+                justify="flex-start"
+              />
+            </div>
+            <div>
+              <Button
+                text="Войти с помощью Вконтакте"
+                icon={
+                  <img
+                    src="static/vk.svg"
+                    className="button-icon-vk"
+                    alt="button-icon"
+                  />
+                }
+                color="steelBlueBasic"
+                hoverColor="steelBlueHover"
+                onClick={onLoginVk}
+                justify="flex-start"
+              />
+            </div>
+
+            <div className="create-account">
+              <div className="create-account-title">
+                <Typography variant="h3" color="jetBasic">
+                  Создать аккаунт
+                </Typography>
+              </div>
+
+              <div className="create-account-description">
+                <Typography variant="bigParagraph" color="jetLight">
+                  Если у вас еще нет аккаунта, мы можете его создать прямо
+                  сейчас
+                </Typography>
+              </div>
+
+              <Button
+                color="mangoBasic"
+                hoverColor="mangoBasic"
+                onClick={onCreateAccount}
+                outline
+                text="Создать аккаунт"
+              />
+            </div>
+          </div>
+        </div>
+      </CustomContainer>
     </>
   );
 }

@@ -10,6 +10,7 @@ export const themeBasic = {
   colors: {
     mangoBasic: "#FC7E2F",
     mangoHard: "#F16D22",
+    mangoBackground: "#FEE6D7",
     whiteBasic: "#FFFFFF",
     blueBasic: "#1E71FF",
     blueLight: "#85B1FF",
@@ -20,6 +21,11 @@ export const themeBasic = {
     jetLight: "#757575",
     jetExtraLight: "#E0E0E0",
     greenBasic: "#0CF574",
+    redBasic: "#EA5959",
+    cinnabarBasic: "#DF4931",
+    cinnabarHover: "#D43921",
+    steelBlueBasic: "#4680C2",
+    steelBlueHover: "#386CA8",
   },
   transition: {
     hover: "0.2s ease-out",

@@ -10,11 +10,13 @@ export type Settings =
   | "h4Regular"
   | "h5"
   | "h5Regular"
+  | "fontFamily"
   | "bigParagraph"
+  | "bigParagraphBold"
   | "usualParagraph"
   | "smallParagraph";
 
-export const settings: Record<Settings, CSSProperties> = {
+export const settings = {
   h1: {
     fontFamily: theme.fonts.headingFontFamily,
     fontSize: "54.9px",
@@ -62,6 +64,12 @@ export const settings: Record<Settings, CSSProperties> = {
     fontSize: "22.5px",
     lineHeight: "26px",
     fontWeight: "normal",
+  },
+  bigParagraphBold: {
+    fontFamily: theme.fonts.bodyFontFamily,
+    fontSize: "22.5px",
+    lineHeight: "26px",
+    fontWeight: "bold",
   },
   bigParagraph: {
     fontFamily: theme.fonts.bodyFontFamily,
@@ -132,6 +140,12 @@ export const settingsMedium = {
     lineHeight: "22px",
     fontWeight: "normal",
   },
+  bigParagraphBold: {
+    fontFamily: theme.fonts.bodyFontFamily,
+    fontSize: "18px",
+    lineHeight: "22px",
+    fontWeight: "bold",
+  },
   bigParagraph: {
     fontFamily: theme.fonts.bodyFontFamily,
     fontSize: "18px",
@@ -200,6 +214,12 @@ export const settingsSmall = {
     fontSize: "18px",
     lineHeight: "20px",
     fontWeight: "normal",
+  },
+  bigParagraphBold: {
+    fontFamily: theme.fonts.bodyFontFamily,
+    fontSize: "18px",
+    lineHeight: "20px",
+    fontWeight: "bold",
   },
   bigParagraph: {
     fontFamily: theme.fonts.bodyFontFamily,

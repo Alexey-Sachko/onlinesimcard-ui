@@ -1,12 +1,16 @@
 import React from "react";
+import Link from "next/link";
 
-import CustomContainer from "../CustomContainer";
+import CustomContainer from "../../layout/CustomContainer";
 import ProductCard from "../ProductCard";
 import Typography from "../../layout/Typography";
 import { useTheme } from "../../hooks/useTheme";
+import Button from "../../controls/Button";
 
 const MainSection = () => {
   const theme = useTheme();
+
+  const onRegistration = () => {};
   return (
     <CustomContainer>
       <style jsx>
@@ -32,9 +36,21 @@ const MainSection = () => {
           .main-section-img {
             max-width: 600px;
             margin-left: auto;
+            margin-top: auto;
+            margin-bottom: auto;
           }
           .main-section-img img {
             width: 100%;
+          }
+
+          .start-use-numbers {
+            margin-top: 15px;
+          }
+
+          .registration-button-container {
+            margin-top: 60px;
+            width: 50%;
+            min-width: 315px;
           }
 
           @media (max-width: 1024px) {
@@ -52,6 +68,9 @@ const MainSection = () => {
             .body-text-bottom {
               text-align: center;
             }
+            .registration-button-container {
+              margin: 40px auto;
+            }
           }
 
           @media (max-width: 768px) {
@@ -61,6 +80,9 @@ const MainSection = () => {
             }
             .container {
               margin-top: 30px;
+            }
+            .registration-button-container {
+              min-width: 250px;
             }
           }
         `}
@@ -83,6 +105,21 @@ const MainSection = () => {
                   активаций и смс подтверждений онлайн.
                 </div>
               </Typography>
+            </div>
+            <div className="start-use-numbers">
+              <Typography variant="bigParagraphBold" color="blueBasic">
+                Начните пользоваться номерами прямо сейчас.
+              </Typography>
+            </div>
+            <div className="registration-button-container">
+              <Link href="/signin">
+                <Button
+                  text="Зарегистрироваться"
+                  color="mangoBasic"
+                  hoverColor="mangoHard"
+                  onClick={onRegistration}
+                />
+              </Link>
             </div>
           </div>
         </div>

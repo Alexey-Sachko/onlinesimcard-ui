@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import CustomContainer from "../CustomContainer";
+import CustomContainer from "../../layout/CustomContainer";
 import Logo from "../../layout/Logo";
 import { useTheme } from "../../hooks/useTheme";
 // import { useTypedSelector } from "../../../redux";
