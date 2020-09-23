@@ -7,7 +7,7 @@ import {
 } from "@apollo/client";
 import { NextPageContext } from "next";
 
-const apiUri = "https://onlinesimcard.ru/api/v1/graphql";
+const apiUri = "https://virtualnum.ru/api/v1/graphql";
 // const apiUri = "http://localhost:4500/api/v1/graphql";
 
 const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
