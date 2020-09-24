@@ -6,9 +6,9 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 import { NextPageContext } from "next";
+import { env } from "../env/env";
 
-const apiUri = "https://virtualnum.ru/api/v1/graphql";
-// const apiUri = "http://localhost:4500/api/v1/graphql";
+const apiUri = `${env.apiBaseUrl}/graphql`;
 
 const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
   const isBrowser = typeof window !== "undefined";
