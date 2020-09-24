@@ -68,7 +68,11 @@ const Verify = () => {
                   </Box>
                   <Grid container justify="center">
                     <Grid item>
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => router.push("/signin")}
+                      >
                         Войти
                       </Button>
                     </Grid>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import {
   Container,
   Avatar,
@@ -15,6 +16,7 @@ import { useStyles } from "./RegisterPage.styled";
 import RegisterForm from "../RegisterForm";
 
 const RegisterPage = () => {
+  const router = useRouter();
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [appError, setAppError] = useState(false);
@@ -69,7 +71,11 @@ const RegisterPage = () => {
               </Typography>
             </Box>
             <Box mt={4}>
-              <Button color="primary" variant="outlined">
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={() => router.push("/signin")}
+              >
                 Войти
               </Button>
             </Box>
