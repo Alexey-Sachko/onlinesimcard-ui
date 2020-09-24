@@ -96,7 +96,6 @@ const RegisterForm = ({
                 fullWidth
                 label="Email адрес"
                 autoComplete="email"
-                autoFocus
                 size="small"
                 error={Boolean(errors.email)}
                 helperText={errors.email}
