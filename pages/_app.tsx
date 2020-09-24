@@ -3,8 +3,10 @@ import Head from "next/head";
 import React from "react";
 import { ApolloProvider } from "@apollo/client";
 import { YMInitializer } from "react-yandex-metrika";
+import { MuiThemeProvider } from "@material-ui/core";
 
 import withApollo, { WithApollo } from "../lib/withApollo";
+import { muiTheme } from "../lib/muiTheme";
 // import { ErrorsProvider } from "../lib/errors";
 
 class MyApp extends App<AppInitialProps & WithApollo> {
@@ -38,7 +40,9 @@ class MyApp extends App<AppInitialProps & WithApollo> {
         </Head>
         <ApolloProvider client={apolloClient}>
           <YMInitializer accounts={[62981725]} />
-          <Component {...pageProps} />
+          <MuiThemeProvider theme={muiTheme}>
+            <Component {...pageProps} />
+          </MuiThemeProvider>
         </ApolloProvider>
       </>
     );

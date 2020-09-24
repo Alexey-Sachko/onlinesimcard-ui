@@ -44,7 +44,7 @@ const Header: React.FC = () => {
     <AppBar position="sticky" color="inherit">
       <Toolbar className={classes.toolbar}>
         <Logo />
-        <Button color="primary" variant="outlined" onClick={handleRegister}>
+        <Button color="secondary" variant="outlined" onClick={handleRegister}>
           Регистрация
         </Button>
       </Toolbar>

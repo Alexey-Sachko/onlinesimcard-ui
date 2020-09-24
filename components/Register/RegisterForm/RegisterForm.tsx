@@ -1,12 +1,13 @@
 import React from "react";
 import { gql } from "@apollo/client";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Typography, Box } from "@material-ui/core";
 
 import { RegisterFormState, RegisterSchema } from "../schema";
 import { useRegisterMutation } from "../../../lib/types";
 import { FormikHelpers, Formik, Form, Field, FieldProps } from "formik";
 import { formatErrors } from "../../../utils/formatErrors";
 import { useStyles } from "./RegisterForm.styled";
+import VkIcon from "./VkIcon";
 
 export const RegisterMutation = gql`
   mutation Register($userSignupDto: UserSignupDto!) {
@@ -72,6 +73,8 @@ const RegisterForm = ({
       initialValues={{ email: "", password: "", repassword: "" }}
       onSubmit={submitHandler}
       validationSchema={RegisterSchema}
+      validateOnChange={false}
+      validateOnBlur={false}
     >
       {({ errors, isSubmitting }) => (
         <Form className={classes.form} noValidate>
@@ -85,6 +88,7 @@ const RegisterForm = ({
                 label="Email адрес"
                 autoComplete="email"
                 autoFocus
+                size="small"
                 error={Boolean(errors.email)}
                 helperText={errors.email}
                 {...field}
@@ -101,6 +105,7 @@ const RegisterForm = ({
                 label="Пароль"
                 type="password"
                 autoComplete="current-password"
+                size="small"
                 error={Boolean(errors.password)}
                 helperText={errors.password}
                 {...field}
@@ -117,6 +122,7 @@ const RegisterForm = ({
                 fullWidth
                 label="Подтвердите пароль"
                 type="password"
+                size="small"
                 error={Boolean(errors.repassword)}
                 helperText={errors.repassword}
                 {...field}
@@ -132,12 +138,29 @@ const RegisterForm = ({
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            color="secondary"
+            size="small"
             className={classes.submit}
             disabled={isSubmitting}
           >
             Зарегистрироваться
           </Button>
+
+          <Box>
+            <Typography align="center">Или войти через</Typography>
+          </Box>
+
+          <Button
+            className={classes.submit}
+            fullWidth
+            color="primary"
+            size="small"
+            variant="contained"
+            startIcon={<VkIcon />}
+          >
+            Вконтакте
+          </Button>
+
           {/* <Grid container>
     <Grid item xs>
       <Link href="#" variant="body2">
