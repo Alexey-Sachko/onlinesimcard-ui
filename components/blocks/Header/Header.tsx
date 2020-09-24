@@ -11,7 +11,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Header: React.FC = () => {
+type HeaderProps = {
+  userName?: React.ReactNode;
+};
+
+const Header: React.FC<HeaderProps> = ({ userName }) => {
   const classes = useStyles();
   const [isBlueHead, setIsBlueHead] = useState(false);
   const router = useRouter();
@@ -44,9 +48,14 @@ const Header: React.FC = () => {
     <AppBar position="sticky" color="inherit">
       <Toolbar className={classes.toolbar}>
         <Logo />
-        <Button color="secondary" variant="outlined" onClick={handleRegister}>
-          Регистрация
-        </Button>
+
+        {userName ? (
+          userName
+        ) : (
+          <Button color="secondary" variant="outlined" onClick={handleRegister}>
+            Регистрация
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

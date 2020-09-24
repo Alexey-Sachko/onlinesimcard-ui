@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { gql } from "@apollo/client";
 import { TextField, Button, Typography, Box } from "@material-ui/core";
 
@@ -8,6 +8,7 @@ import { FormikHelpers, Formik, Form, Field, FieldProps } from "formik";
 import { formatErrors } from "../../../utils/formatErrors";
 import { useStyles } from "./RegisterForm.styled";
 import VkIcon from "./VkIcon";
+import { env } from "../../../env/env";
 
 export const RegisterMutation = gql`
   mutation Register($userSignupDto: UserSignupDto!) {
@@ -36,6 +37,14 @@ const RegisterForm = ({
 }: RegisterFormProps) => {
   const classes = useStyles();
   const [register] = useRegisterMutation();
+
+  useEffect(() => {
+    console.log(location);
+  }, []);
+
+  const vkOauthHandler = () => {
+    window.location.href = `${env.apiBaseUrl}/auth/vkontakte?redirect_uri=${location.origin}/dashboard`;
+  };
 
   const submitHandler = async (
     values: RegisterFormState,
@@ -157,6 +166,7 @@ const RegisterForm = ({
             size="small"
             variant="contained"
             startIcon={<VkIcon />}
+            onClick={vkOauthHandler}
           >
             Вконтакте
           </Button>
