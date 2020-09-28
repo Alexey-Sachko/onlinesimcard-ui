@@ -1,38 +1,15 @@
 import React from "react";
 import Header from "../components/blocks/Header";
-import { makeStyles, Container, Typography } from "@material-ui/core";
-import { useMe } from "../hooks/useMe";
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: theme.spacing(4),
-  },
-}));
+import DashboardPage from "../components/Dashboard/DashboardPage";
+import { useAuth } from "../hooks/useAuth";
 
 const Dashboard = () => {
-  const classes = useStyles();
-  const me = useMe();
-
-  let userName: string | undefined = undefined;
-
-  if (me) {
-    if (me.email) {
-      userName = me.email;
-    } else if (me.lastName) {
-      userName = `${me.firstName} ${me.lastName}`;
-    } else {
-      userName = `no name`;
-    }
-  }
+  const { displayName } = useAuth();
 
   return (
     <>
-      <Header userName={userName} />
-      <Container className={classes.container}>
-        <Typography variant="h4" align="center">
-          Сайт еще в разработке
-        </Typography>
-      </Container>
+      <Header userName={displayName} />
+      <DashboardPage />
     </>
   );
 };
