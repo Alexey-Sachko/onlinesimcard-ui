@@ -7,8 +7,7 @@ import { useRegisterMutation } from "../../../lib/types";
 import { FormikHelpers, Formik, Form, Field, FieldProps } from "formik";
 import { formatErrors } from "../../../utils/formatErrors";
 import { useStyles } from "./RegisterForm.styled";
-import VkIcon from "./VkIcon";
-import { env } from "../../../env/env";
+import VkButton from "../VkButton/VkButton";
 
 export const RegisterMutation = gql`
   mutation Register($userSignupDto: UserSignupDto!) {
@@ -41,10 +40,6 @@ const RegisterForm = ({
   useEffect(() => {
     console.log(location);
   }, []);
-
-  const vkOauthHandler = () => {
-    window.location.href = `${env.apiBaseUrl}/auth/vkontakte?redirect_uri=${location.origin}/dashboard`;
-  };
 
   const submitHandler = async (
     values: RegisterFormState,
@@ -87,6 +82,12 @@ const RegisterForm = ({
     >
       {({ errors, isSubmitting }) => (
         <Form className={classes.form} noValidate>
+          <VkButton className={classes.submit} />
+
+          <Box>
+            <Typography align="center">Или</Typography>
+          </Box>
+
           <Field name="email">
             {({ field }: FieldProps) => (
               <TextField
@@ -152,22 +153,6 @@ const RegisterForm = ({
             disabled={isSubmitting}
           >
             Зарегистрироваться
-          </Button>
-
-          <Box>
-            <Typography align="center">Или войти через</Typography>
-          </Box>
-
-          <Button
-            className={classes.submit}
-            fullWidth
-            color="primary"
-            size="small"
-            variant="contained"
-            startIcon={<VkIcon />}
-            onClick={vkOauthHandler}
-          >
-            Вконтакте
           </Button>
 
           {/* <Grid container>

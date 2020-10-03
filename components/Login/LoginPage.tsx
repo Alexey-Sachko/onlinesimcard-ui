@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Avatar,
@@ -11,12 +11,20 @@ import { useRouter } from "next/router";
 
 import { useStyles } from "../Register/RegisterPage/RegisterPage.styled";
 import LoginForm from "./LoginForm";
+import { useAuth } from "../../hooks/useAuth";
 
 const RegisterPage = () => {
   const classes = useStyles();
   const router = useRouter();
+  const { auth } = useAuth();
   const [loading, setLoading] = useState(false);
   const [appError, setAppError] = useState(false);
+
+  useEffect(() => {
+    if (auth) {
+      router.push("/dashboard");
+    }
+  }, [auth]);
 
   return (
     <Container component="main" maxWidth="xs">

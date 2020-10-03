@@ -1,12 +1,20 @@
 import React from "react";
 import { gql } from "@apollo/client";
-import { TextField, Button, Grid, Link } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Grid,
+  Link,
+  Box,
+  Typography,
+} from "@material-ui/core";
 import { FormikHelpers, Formik, Form, Field, FieldProps } from "formik";
 
 import { formatErrors } from "../../utils/formatErrors";
 import { useStyles } from "../Register/RegisterForm/RegisterForm.styled";
 import { LoginFormState, LoginSchema } from "./schema";
 import { useLoginMutation } from "../../lib/types";
+import VkButton from "../Register/VkButton";
 
 export const LoginMutation = gql`
   mutation Login($authCredentialsDto: AuthCredentialsDto!) {
@@ -73,11 +81,16 @@ const LoginForm = ({
     >
       {({ errors, isSubmitting }) => (
         <Form className={classes.form} noValidate>
+          <VkButton className={classes.submit} />
+          <Box>
+            <Typography align="center">Или</Typography>
+          </Box>
           <Field name="email">
             {({ field }: FieldProps) => (
               <TextField
                 variant="outlined"
                 margin="normal"
+                size="small"
                 required
                 fullWidth
                 label="Email адрес"
@@ -94,6 +107,7 @@ const LoginForm = ({
               <TextField
                 variant="outlined"
                 margin="normal"
+                size="small"
                 required
                 fullWidth
                 label="Пароль"
@@ -112,14 +126,16 @@ const LoginForm = ({
   /> */}
           <Button
             type="submit"
+            size="small"
             fullWidth
             variant="contained"
-            color="primary"
+            color="secondary"
             className={classes.submit}
             disabled={isSubmitting}
           >
             Войти
           </Button>
+
           <Grid container>
             {/* <Grid item xs>
               <Link href="" variant="body2">
