@@ -1,5 +1,7 @@
-import { useRouter } from "next/router";
 import React from "react";
+import { gql } from "@apollo/client";
+import { useRouter } from "next/router";
+
 import { MeResponse, useMeLazyQuery } from "../lib/types";
 
 type AuthData = {
@@ -9,6 +11,17 @@ type AuthData = {
   loading: boolean;
   called: boolean;
 };
+
+export const ME_QUERY = gql`
+  query Me {
+    me {
+      balanceAmount
+      email
+      firstName
+      lastName
+    }
+  }
+`;
 
 export const useAuth = (): AuthData => {
   const router = useRouter();
