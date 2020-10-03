@@ -41,7 +41,9 @@ const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
   });
 
   const refresh = async () => {
-    const res = await fetch(`${env.apiBaseUrl}/auth/refresh`);
+    const res = await fetch(`${env.apiBaseUrl}/auth/refresh`, {
+      credentials: "include",
+    });
     const dataRes = await res.json();
     if (dataRes.statusCode === 401) {
       window && window.location.replace("/signin");
