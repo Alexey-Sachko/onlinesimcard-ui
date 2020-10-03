@@ -1,11 +1,14 @@
 import {
   ApolloClient,
   ApolloLink,
+  fromPromise,
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 import { NextPageContext } from "next";
+
 import { env } from "../env/env";
 
 const apiUri = `${env.apiBaseUrl}/graphql`;
@@ -37,10 +40,31 @@ const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
     },
   });
 
+  const refresh = async () => {
+    const res = await fetch(`${env.apiBaseUrl}/auth/refresh`);
+    const dataRes = await res.json();
+    if (dataRes.statusCode === 401) {
+      window && window.location.replace("/signin");
+    }
+
+    return dataRes;
+  };
+
+  const errorLink = onError(({ graphQLErrors, operation, forward }) => {
+    if (graphQLErrors) {
+      for (let err of graphQLErrors) {
+        switch (err.extensions.code) {
+          case "UNAUTHENTICATED":
+            return fromPromise(refresh()).flatMap(() => forward(operation));
+        }
+      }
+    }
+  });
+
   const client = new ApolloClient({
     connectToDevTools: isBrowser,
     ssrMode: !isBrowser, // Выключаем forceFetch на сервере, так что все запросы выполнятся один раз
-    link: httpLink,
+    link: ApolloLink.from([errorLink, httpLink]),
     cache: new InMemoryCache().restore(initialState),
   });
 

@@ -12,7 +12,7 @@ type AuthData = {
 
 export const useAuth = (): AuthData => {
   const router = useRouter();
-  const [execute, { data, loading, called }] = useMeLazyQuery();
+  const [execute, { data, loading, called, error }] = useMeLazyQuery();
 
   const auth = Boolean(data?.me);
   const me = data?.me;
@@ -33,8 +33,10 @@ export const useAuth = (): AuthData => {
   }, []);
 
   React.useEffect(() => {
+    console.log(error?.graphQLErrors?.[0]?.extensions.code);
+
     if (!auth && called && !loading) {
-      router.push("/signin");
+      // router.push("/signin");
     }
   }, [auth, called, loading]);
 
