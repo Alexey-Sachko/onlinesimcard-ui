@@ -33,10 +33,8 @@ export const useAuth = (): AuthData => {
   }, []);
 
   React.useEffect(() => {
-    console.log(error?.graphQLErrors?.[0]?.extensions.code);
-
     if (!auth && called && !loading) {
-      // router.push("/signin");
+      router.push("/signin");
     }
   }, [auth, called, loading]);
 
