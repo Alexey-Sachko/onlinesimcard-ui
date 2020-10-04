@@ -393,6 +393,17 @@ export type CountriesQuery = (
   )> }
 );
 
+export type ServicesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ServicesQuery = (
+  { __typename?: 'Query' }
+  & { services: Array<(
+    { __typename?: 'ServiceType' }
+    & Pick<ServiceType, 'id' | 'code' | 'name'>
+  )> }
+);
+
 export type LoginMutationVariables = Exact<{
   authCredentialsDto: AuthCredentialsDto;
 }>;
@@ -505,6 +516,40 @@ export function useCountriesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type CountriesQueryHookResult = ReturnType<typeof useCountriesQuery>;
 export type CountriesLazyQueryHookResult = ReturnType<typeof useCountriesLazyQuery>;
 export type CountriesQueryResult = ApolloReactCommon.QueryResult<CountriesQuery, CountriesQueryVariables>;
+export const ServicesDocument = gql`
+    query Services {
+  services {
+    id
+    code
+    name
+  }
+}
+    `;
+
+/**
+ * __useServicesQuery__
+ *
+ * To run a query within a React component, call `useServicesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServicesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServicesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useServicesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ServicesQuery, ServicesQueryVariables>) {
+        return ApolloReactHooks.useQuery<ServicesQuery, ServicesQueryVariables>(ServicesDocument, baseOptions);
+      }
+export function useServicesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ServicesQuery, ServicesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ServicesQuery, ServicesQueryVariables>(ServicesDocument, baseOptions);
+        }
+export type ServicesQueryHookResult = ReturnType<typeof useServicesQuery>;
+export type ServicesLazyQueryHookResult = ReturnType<typeof useServicesLazyQuery>;
+export type ServicesQueryResult = ApolloReactCommon.QueryResult<ServicesQuery, ServicesQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($authCredentialsDto: AuthCredentialsDto!) {
   login(authCredentialsDto: $authCredentialsDto) {
