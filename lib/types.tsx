@@ -23,6 +23,7 @@ export type Query = {
   transactions: Array<TransactionGqlType>;
   countriesFromApi: Array<CountryApiType>;
   services: Array<ServiceType>;
+  prices: Array<PriceType>;
   freeCountries: Array<FreeCountryType>;
   freeNumbers: Array<FreeNumType>;
   freeNumber: FreeNumType;
@@ -31,6 +32,11 @@ export type Query = {
   articlesCount: Scalars['Float'];
   article?: Maybe<ArticleType>;
   myCurrentActivations: Array<ActivationType>;
+};
+
+
+export type QueryServicesArgs = {
+  countryCode: Scalars['String'];
 };
 
 
@@ -114,7 +120,7 @@ export type ServiceType = {
   id: Scalars['Float'];
   code: Scalars['String'];
   name: Scalars['String'];
-  prices: Array<PriceType>;
+  priceAmount?: Maybe<Scalars['Float']>;
 };
 
 export type PriceType = {
@@ -257,11 +263,14 @@ export type MutationCreateTransactionArgs = {
 
 
 export type MutationSaveServiceArgs = {
+  price: Scalars['Float'];
+  countryCode: Scalars['String'];
   createServiceDto: CreateServiceDto;
 };
 
 
 export type MutationSaveServicesWithPricesArgs = {
+  countryCode: Scalars['String'];
   servicesWithPrices: Array<CreateServiceWithPricesDto>;
 };
 
@@ -344,18 +353,11 @@ export type CreateTransactionDto = {
 
 export type CreateServiceDto = {
   code: Scalars['String'];
-  name: Scalars['String'];
 };
 
 export type CreateServiceWithPricesDto = {
   code: Scalars['String'];
-  name: Scalars['String'];
-  prices: Array<Price>;
-};
-
-export type Price = {
-  amount: Scalars['Float'];
-  countryCode: Scalars['String'];
+  price: Scalars['Float'];
 };
 
 export type CreatePriceDto = {
@@ -393,7 +395,9 @@ export type CountriesQuery = (
   )> }
 );
 
-export type ServicesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ServicesQueryVariables = Exact<{
+  countryCode: Scalars['String'];
+}>;
 
 
 export type ServicesQuery = (
@@ -517,8 +521,8 @@ export type CountriesQueryHookResult = ReturnType<typeof useCountriesQuery>;
 export type CountriesLazyQueryHookResult = ReturnType<typeof useCountriesLazyQuery>;
 export type CountriesQueryResult = ApolloReactCommon.QueryResult<CountriesQuery, CountriesQueryVariables>;
 export const ServicesDocument = gql`
-    query Services {
-  services {
+    query Services($countryCode: String!) {
+  services(countryCode: $countryCode) {
     id
     code
     name
@@ -538,6 +542,7 @@ export const ServicesDocument = gql`
  * @example
  * const { data, loading, error } = useServicesQuery({
  *   variables: {
+ *      countryCode: // value for 'countryCode'
  *   },
  * });
  */

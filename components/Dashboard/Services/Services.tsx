@@ -19,8 +19,8 @@ import { useServicesQuery } from "../../../lib/types";
 import { ServiceIcon } from "./ServiceIcon";
 
 export const SERVICES_QUERY = gql`
-  query Services {
-    services {
+  query Services($countryCode: String!) {
+    services(countryCode: $countryCode) {
       id
       code
       name
@@ -28,8 +28,12 @@ export const SERVICES_QUERY = gql`
   }
 `;
 
-const Services = () => {
-  const { data } = useServicesQuery();
+type ServicesProps = {
+  countryCode: string;
+};
+
+const Services = ({ countryCode }: ServicesProps) => {
+  const { data } = useServicesQuery({ variables: { countryCode } });
 
   return (
     <Box>
