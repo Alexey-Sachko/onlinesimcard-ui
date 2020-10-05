@@ -24,6 +24,7 @@ export const SERVICES_QUERY = gql`
       id
       code
       name
+      priceAmount
     }
   }
 `;
@@ -43,9 +44,7 @@ const Services = ({ countryCode }: ServicesProps) => {
 
       <Paper>
         <List dense>
-          {data?.services.map(({ id, name, code }, idx) => {
-            const price = 25;
-
+          {data?.services.map(({ id, name, code, priceAmount }, idx) => {
             return (
               <ListItem divider={idx < data?.services.length - 1} key={id}>
                 <ListItemIcon>
@@ -57,7 +56,7 @@ const Services = ({ countryCode }: ServicesProps) => {
                     <Chip
                       size="small"
                       variant="outlined"
-                      label={<>{price}р.</>}
+                      label={<>{priceAmount}р.</>}
                     />
                   </Box>
                   <Tooltip title="Купить">

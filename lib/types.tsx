@@ -404,7 +404,7 @@ export type ServicesQuery = (
   { __typename?: 'Query' }
   & { services: Array<(
     { __typename?: 'ServiceType' }
-    & Pick<ServiceType, 'id' | 'code' | 'name'>
+    & Pick<ServiceType, 'id' | 'code' | 'name' | 'priceAmount'>
   )> }
 );
 
@@ -526,6 +526,7 @@ export const ServicesDocument = gql`
     id
     code
     name
+    priceAmount
   }
 }
     `;
