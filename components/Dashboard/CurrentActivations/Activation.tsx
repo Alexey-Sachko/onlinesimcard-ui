@@ -1,0 +1,130 @@
+import React, { useEffect } from "react";
+import {
+  Box,
+  Divider,
+  Grid,
+  IconButton,
+  makeStyles,
+  Paper,
+  Tooltip,
+  Typography,
+} from "@material-ui/core";
+import SmsIcon from "@material-ui/icons/Sms";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
+import CancelIcon from "@material-ui/icons/Cancel";
+import DoneIcon from "@material-ui/icons/Done";
+
+import russiaIcon from "./russia.png";
+import { ActivationType } from "../../../lib/types";
+
+type ActivationProps = {
+  activation: ActivationType;
+};
+
+const useStyles = makeStyles((theme) => ({
+  contentBox: {
+    display: "flex",
+  },
+  serviceBox: {
+    paddingTop: "3px",
+  },
+  cancelBtn: {
+    color: theme.palette.error.main,
+  },
+  doneIcon: {
+    color: theme.palette.success.main,
+  },
+}));
+
+const toTimeString = (isoDate: string) => {
+  const currentDate = new Date();
+  const date = new Date(isoDate);
+  const diff = date.getTime() - currentDate.getTime();
+  const diffDate = new Date(diff);
+  const seconds = diffDate.getSeconds();
+  const minutes = diffDate.getMinutes();
+  return `${minutes < 10 ? `0${minutes}` : minutes}:${
+    seconds < 10 ? `0${seconds}` : seconds
+  }`;
+};
+
+const Activation = ({ activation }: ActivationProps) => {
+  const classes = useStyles();
+  const [expires, setExpires] = React.useState("");
+  const [copied, setCopied] = React.useState(false);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setExpires(toTimeString(activation.expiresAt));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const copyNumHandler = () => {
+    navigator.clipboard.writeText(activation.phoneNum);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1500);
+  };
+
+  return (
+    <Paper variant="outlined">
+      <Box px={2} py={1} className={classes.contentBox}>
+        <Box mr={2}>
+          <SmsIcon color="primary" />
+        </Box>
+        <Typography>{activation.phoneNum}</Typography>
+
+        <Box ml={1} mr={2}>
+          {copied ? (
+            <DoneIcon
+              color="primary"
+              className={classes.doneIcon}
+              style={{ width: "15px" }}
+            />
+          ) : (
+            <FileCopyIcon
+              onClick={copyNumHandler}
+              color="action"
+              style={{ width: "15px", cursor: "pointer" }}
+            />
+          )}
+        </Box>
+
+        <Divider orientation="vertical" flexItem />
+
+        <Box ml={2} mr={2} className={classes.serviceBox}>
+          <Typography variant="caption" color="textSecondary">
+            Вконтакте
+          </Typography>
+        </Box>
+
+        <Divider orientation="vertical" flexItem />
+
+        <Box ml={2} mr={2} className={classes.serviceBox}>
+          <Typography variant="caption" color="textSecondary">
+            {expires}
+          </Typography>
+        </Box>
+
+        <Divider orientation="vertical" flexItem />
+
+        <Box ml={2} width="25px">
+          <img src={russiaIcon} style={{ width: "100%" }} />
+        </Box>
+
+        <Box flexGrow="1" display="flex" justifyContent="flex-end">
+          <Tooltip title="Отменить" arrow>
+            <IconButton size="small" className={classes.cancelBtn}>
+              <CancelIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
+    </Paper>
+  );
+};
+
+export default Activation;

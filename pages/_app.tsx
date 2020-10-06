@@ -26,6 +26,12 @@ class MyApp extends App<AppInitialProps & WithApollo> {
             body {
               margin: 0px;
             }
+
+            html,
+            body,
+            #__next {
+              height: 100%;
+            }
           `}
         </style>
         <Head>
