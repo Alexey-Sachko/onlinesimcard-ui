@@ -45,8 +45,10 @@ const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
       credentials: "include",
     });
     const dataRes = await res.json();
-    if (dataRes.statusCode === 401) {
-      window && window.location.replace("/signin");
+    if (dataRes.statusCode === 401 && window) {
+      if (!window.location.pathname.includes("/signin")) {
+        window.location.replace("/signin");
+      }
     }
 
     return dataRes;
