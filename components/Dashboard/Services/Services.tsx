@@ -29,11 +29,14 @@ export const SERVICES_QUERY = gql`
   }
 `;
 
+export type OnBuyParams = { serviceCode: string };
+
 type ServicesProps = {
   countryCode: string;
+  onBuy: (params: OnBuyParams) => Promise<void>;
 };
 
-const Services = ({ countryCode }: ServicesProps) => {
+const Services = ({ countryCode, onBuy }: ServicesProps) => {
   const { data } = useServicesQuery({ variables: { countryCode } });
 
   return (
@@ -60,7 +63,10 @@ const Services = ({ countryCode }: ServicesProps) => {
                     />
                   </Box>
                   <Tooltip title="Купить">
-                    <IconButton size="small">
+                    <IconButton
+                      size="small"
+                      onClick={() => onBuy({ serviceCode: code })}
+                    >
                       <ShopIcon />
                     </IconButton>
                   </Tooltip>

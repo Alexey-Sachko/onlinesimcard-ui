@@ -217,6 +217,8 @@ export type Mutation = {
   setRole?: Maybe<Array<ErrorType>>;
   createTransaction?: Maybe<Array<ErrorType>>;
   saveService?: Maybe<Array<ErrorType>>;
+  deleteService?: Maybe<Array<ErrorType>>;
+  restoreService?: Maybe<Array<ErrorType>>;
   saveServicesWithPrices?: Maybe<Array<ErrorType>>;
   savePrice?: Maybe<Array<ErrorType>>;
   createArticle?: Maybe<Array<ErrorType>>;
@@ -266,6 +268,16 @@ export type MutationSaveServiceArgs = {
   price: Scalars['Float'];
   countryCode: Scalars['String'];
   createServiceDto: CreateServiceDto;
+};
+
+
+export type MutationDeleteServiceArgs = {
+  code: Scalars['String'];
+};
+
+
+export type MutationRestoreServiceArgs = {
+  code: Scalars['String'];
 };
 
 
@@ -395,6 +407,19 @@ export type CountriesQuery = (
   )> }
 );
 
+export type CreateActivationMutationVariables = Exact<{
+  createActivationInput: CreateActivationInput;
+}>;
+
+
+export type CreateActivationMutation = (
+  { __typename?: 'Mutation' }
+  & { createActivation?: Maybe<Array<(
+    { __typename?: 'ErrorType' }
+    & Pick<ErrorType, 'path' | 'message'>
+  )>> }
+);
+
 export type ServicesQueryVariables = Exact<{
   countryCode: Scalars['String'];
 }>;
@@ -520,6 +545,39 @@ export function useCountriesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type CountriesQueryHookResult = ReturnType<typeof useCountriesQuery>;
 export type CountriesLazyQueryHookResult = ReturnType<typeof useCountriesLazyQuery>;
 export type CountriesQueryResult = ApolloReactCommon.QueryResult<CountriesQuery, CountriesQueryVariables>;
+export const CreateActivationDocument = gql`
+    mutation CreateActivation($createActivationInput: CreateActivationInput!) {
+  createActivation(createActivationInput: $createActivationInput) {
+    path
+    message
+  }
+}
+    `;
+export type CreateActivationMutationFn = ApolloReactCommon.MutationFunction<CreateActivationMutation, CreateActivationMutationVariables>;
+
+/**
+ * __useCreateActivationMutation__
+ *
+ * To run a mutation, you first call `useCreateActivationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateActivationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createActivationMutation, { data, loading, error }] = useCreateActivationMutation({
+ *   variables: {
+ *      createActivationInput: // value for 'createActivationInput'
+ *   },
+ * });
+ */
+export function useCreateActivationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateActivationMutation, CreateActivationMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateActivationMutation, CreateActivationMutationVariables>(CreateActivationDocument, baseOptions);
+      }
+export type CreateActivationMutationHookResult = ReturnType<typeof useCreateActivationMutation>;
+export type CreateActivationMutationResult = ApolloReactCommon.MutationResult<CreateActivationMutation>;
+export type CreateActivationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateActivationMutation, CreateActivationMutationVariables>;
 export const ServicesDocument = gql`
     query Services($countryCode: String!) {
   services(countryCode: $countryCode) {

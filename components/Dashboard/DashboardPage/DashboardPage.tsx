@@ -1,3 +1,4 @@
+import { gql } from "@apollo/client";
 import {
   Box,
   CircularProgress,
@@ -5,25 +6,56 @@ import {
   Grid,
   makeStyles,
 } from "@material-ui/core";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
+import { useCreateActivationMutation } from "../../../lib/types";
+import { formatErrors } from "../../../utils/formatErrors";
 import Countries from "../Countries";
 import CurrentActivations from "../CurrentActivations";
 import Services from "../Services";
+import { OnBuyParams } from "../Services/Services";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: theme.spacing(4),
-    height: "calc(100% - 90px)",
-  },
-}));
+export const CREATE_ACTIVATION_MUTATION = gql`
+  mutation CreateActivation($createActivationInput: CreateActivationInput!) {
+    createActivation(createActivationInput: $createActivationInput) {
+      path
+      message
+    }
+  }
+`;
 
 const DashboardPage = () => {
   const classes = useStyles();
-  const router = useRouter();
   const { auth, loading } = useAuth();
+  const [
+    createActivation,
+    { loading: createActivationLoading, error },
+  ] = useCreateActivationMutation();
   const [countryCode, setCountryCode] = useState("0");
+
+  const onBuyHandler = async (params: OnBuyParams) => {
+    if (!createActivationLoading) {
+      const res = await createActivation({
+        variables: {
+          createActivationInput: {
+            countryCode,
+            serviceCode: params.serviceCode,
+          },
+        },
+      });
+
+      const errors = res.data?.createActivation;
+      const parsedErrors = formatErrors(errors || []);
+
+      if (parsedErrors) {
+        if (parsedErrors?.balanceAmount) {
+          alert(parsedErrors?.balanceAmount);
+        } else {
+          alert("Произошла ошибка");
+        }
+      }
+    }
+  };
 
   return (
     <Container className={classes.container}>
@@ -36,7 +68,7 @@ const DashboardPage = () => {
               setCountryCode={setCountryCode}
             />
           </Box>
-          <Services countryCode={countryCode} />
+          <Services countryCode={countryCode} onBuy={onBuyHandler} />
         </Grid>
 
         <Grid item xs={12} sm={6} md={7} lg={8}>
@@ -48,3 +80,10 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: theme.spacing(4),
+    height: "calc(100% - 90px)",
+  },
+}));
