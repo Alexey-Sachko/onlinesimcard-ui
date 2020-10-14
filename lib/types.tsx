@@ -407,6 +407,22 @@ export type CountriesQuery = (
   )> }
 );
 
+export type DisplayActivationFragment = (
+  { __typename?: 'ActivationType' }
+  & Pick<ActivationType, 'id' | 'status' | 'phoneNum' | 'cost' | 'expiresAt'>
+);
+
+export type MyCurrentActivationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyCurrentActivationsQuery = (
+  { __typename?: 'Query' }
+  & { myCurrentActivations: Array<(
+    { __typename?: 'ActivationType' }
+    & DisplayActivationFragment
+  )> }
+);
+
 export type CreateActivationMutationVariables = Exact<{
   createActivationInput: CreateActivationInput;
 }>;
@@ -511,7 +527,15 @@ export type VerifyUserMutation = (
   )> }
 );
 
-
+export const DisplayActivationFragmentDoc = gql`
+    fragment DisplayActivation on ActivationType {
+  id
+  status
+  phoneNum
+  cost
+  expiresAt
+}
+    `;
 export const CountriesDocument = gql`
     query Countries {
   countriesFromApi {
@@ -545,6 +569,38 @@ export function useCountriesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type CountriesQueryHookResult = ReturnType<typeof useCountriesQuery>;
 export type CountriesLazyQueryHookResult = ReturnType<typeof useCountriesLazyQuery>;
 export type CountriesQueryResult = ApolloReactCommon.QueryResult<CountriesQuery, CountriesQueryVariables>;
+export const MyCurrentActivationsDocument = gql`
+    query MyCurrentActivations {
+  myCurrentActivations {
+    ...DisplayActivation
+  }
+}
+    ${DisplayActivationFragmentDoc}`;
+
+/**
+ * __useMyCurrentActivationsQuery__
+ *
+ * To run a query within a React component, call `useMyCurrentActivationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyCurrentActivationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyCurrentActivationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyCurrentActivationsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>(MyCurrentActivationsDocument, baseOptions);
+      }
+export function useMyCurrentActivationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>(MyCurrentActivationsDocument, baseOptions);
+        }
+export type MyCurrentActivationsQueryHookResult = ReturnType<typeof useMyCurrentActivationsQuery>;
+export type MyCurrentActivationsLazyQueryHookResult = ReturnType<typeof useMyCurrentActivationsLazyQuery>;
+export type MyCurrentActivationsQueryResult = ApolloReactCommon.QueryResult<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>;
 export const CreateActivationDocument = gql`
     mutation CreateActivation($createActivationInput: CreateActivationInput!) {
   createActivation(createActivationInput: $createActivationInput) {

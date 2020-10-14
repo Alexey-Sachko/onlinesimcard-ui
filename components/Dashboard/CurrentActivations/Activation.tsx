@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {
   Box,
   Divider,
-  Grid,
   IconButton,
   makeStyles,
   Paper,
@@ -13,12 +12,23 @@ import SmsIcon from "@material-ui/icons/Sms";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import CancelIcon from "@material-ui/icons/Cancel";
 import DoneIcon from "@material-ui/icons/Done";
+import { gql } from "@apollo/client";
 
 import russiaIcon from "./russia.png";
-import { ActivationType } from "../../../lib/types";
+import { DisplayActivationFragment } from "../../../lib/types";
+
+export const DISPLAY_ACTIVATION_FRAGMENT = gql`
+  fragment DisplayActivation on ActivationType {
+    id
+    status
+    phoneNum
+    cost
+    expiresAt
+  }
+`;
 
 type ActivationProps = {
-  activation: ActivationType;
+  activation: DisplayActivationFragment;
 };
 
 const useStyles = makeStyles((theme) => ({

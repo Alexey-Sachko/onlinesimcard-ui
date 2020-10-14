@@ -1,8 +1,13 @@
 import React from "react";
 import { Box, Paper, Typography } from "@material-ui/core";
+import { gql } from "@apollo/client";
 
-import { ActivationStatus, ActivationType } from "../../../lib/types";
-import Activation from "./Activation";
+import {
+  ActivationStatus,
+  ActivationType,
+  useMyCurrentActivationsQuery,
+} from "../../../lib/types";
+import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from "./Activation";
 
 const mock: ActivationType[] = [
   {
@@ -15,7 +20,19 @@ const mock: ActivationType[] = [
   },
 ];
 
+export const MY_CURRENT_ACTIVATIONS_QUERY = gql`
+  query MyCurrentActivations {
+    myCurrentActivations {
+      ...DisplayActivation
+    }
+  }
+
+  ${DISPLAY_ACTIVATION_FRAGMENT}
+`;
+
 const CurrentActivations = () => {
+  const { data } = useMyCurrentActivationsQuery();
+
   return (
     <Paper style={{ height: "100%" }}>
       <Box px={3} py={2}>
@@ -23,7 +40,7 @@ const CurrentActivations = () => {
           <Typography>Операции:</Typography>
         </Box>
 
-        {mock.map((activation) => (
+        {data?.myCurrentActivations?.map((activation) => (
           <Activation key={activation.id} activation={activation} />
         ))}
       </Box>
