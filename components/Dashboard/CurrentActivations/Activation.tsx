@@ -16,6 +16,7 @@ import { gql } from "@apollo/client";
 
 import russiaIcon from "./russia.png";
 import { DisplayActivationFragment } from "../../../lib/types";
+import { toTimeString } from "./utils";
 
 export const DISPLAY_ACTIVATION_FRAGMENT = gql`
   fragment DisplayActivation on ActivationType {
@@ -29,36 +30,10 @@ export const DISPLAY_ACTIVATION_FRAGMENT = gql`
 
 type ActivationProps = {
   activation: DisplayActivationFragment;
+  onCancel: (activationId: number) => Promise<void> | void;
 };
 
-const useStyles = makeStyles((theme) => ({
-  contentBox: {
-    display: "flex",
-  },
-  serviceBox: {
-    paddingTop: "3px",
-  },
-  cancelBtn: {
-    color: theme.palette.error.main,
-  },
-  doneIcon: {
-    color: theme.palette.success.main,
-  },
-}));
-
-const toTimeString = (isoDate: string) => {
-  const currentDate = new Date();
-  const date = new Date(isoDate);
-  const diff = date.getTime() - currentDate.getTime();
-  const diffDate = new Date(diff);
-  const seconds = diffDate.getSeconds();
-  const minutes = diffDate.getMinutes();
-  return `${minutes < 10 ? `0${minutes}` : minutes}:${
-    seconds < 10 ? `0${seconds}` : seconds
-  }`;
-};
-
-const Activation = ({ activation }: ActivationProps) => {
+const Activation = ({ activation, onCancel }: ActivationProps) => {
   const classes = useStyles();
   const [expires, setExpires] = React.useState("");
   const [copied, setCopied] = React.useState(false);
@@ -127,7 +102,11 @@ const Activation = ({ activation }: ActivationProps) => {
 
         <Box flexGrow="1" display="flex" justifyContent="flex-end">
           <Tooltip title="Отменить" arrow>
-            <IconButton size="small" className={classes.cancelBtn}>
+            <IconButton
+              size="small"
+              className={classes.cancelBtn}
+              onClick={() => onCancel(activation.id)}
+            >
               <CancelIcon />
             </IconButton>
           </Tooltip>
@@ -138,3 +117,18 @@ const Activation = ({ activation }: ActivationProps) => {
 };
 
 export default Activation;
+
+const useStyles = makeStyles((theme) => ({
+  contentBox: {
+    display: "flex",
+  },
+  serviceBox: {
+    paddingTop: "3px",
+  },
+  cancelBtn: {
+    color: theme.palette.error.main,
+  },
+  doneIcon: {
+    color: theme.palette.success.main,
+  },
+}));

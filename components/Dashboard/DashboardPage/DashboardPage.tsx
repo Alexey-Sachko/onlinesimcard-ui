@@ -45,9 +45,9 @@ const DashboardPage = () => {
       });
 
       const errors = res.data?.createActivation;
-      const parsedErrors = formatErrors(errors || []);
 
-      if (parsedErrors) {
+      if (errors) {
+        const parsedErrors = formatErrors(errors);
         if (parsedErrors?.balanceAmount) {
           alert(parsedErrors?.balanceAmount);
         } else {
@@ -72,7 +72,7 @@ const DashboardPage = () => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={7} lg={8}>
-          <CurrentActivations />
+          <CurrentActivations buyLoading={createActivationLoading} />
         </Grid>
       </Grid>
     </Container>

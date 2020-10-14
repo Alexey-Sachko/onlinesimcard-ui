@@ -423,6 +423,19 @@ export type MyCurrentActivationsQuery = (
   )> }
 );
 
+export type CancelActivationMutationVariables = Exact<{
+  activationId: Scalars['Int'];
+}>;
+
+
+export type CancelActivationMutation = (
+  { __typename?: 'Mutation' }
+  & { cancelActivation?: Maybe<Array<(
+    { __typename?: 'ErrorType' }
+    & Pick<ErrorType, 'path' | 'message'>
+  )>> }
+);
+
 export type CreateActivationMutationVariables = Exact<{
   createActivationInput: CreateActivationInput;
 }>;
@@ -601,6 +614,39 @@ export function useMyCurrentActivationsLazyQuery(baseOptions?: ApolloReactHooks.
 export type MyCurrentActivationsQueryHookResult = ReturnType<typeof useMyCurrentActivationsQuery>;
 export type MyCurrentActivationsLazyQueryHookResult = ReturnType<typeof useMyCurrentActivationsLazyQuery>;
 export type MyCurrentActivationsQueryResult = ApolloReactCommon.QueryResult<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>;
+export const CancelActivationDocument = gql`
+    mutation CancelActivation($activationId: Int!) {
+  cancelActivation(activationId: $activationId) {
+    path
+    message
+  }
+}
+    `;
+export type CancelActivationMutationFn = ApolloReactCommon.MutationFunction<CancelActivationMutation, CancelActivationMutationVariables>;
+
+/**
+ * __useCancelActivationMutation__
+ *
+ * To run a mutation, you first call `useCancelActivationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCancelActivationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cancelActivationMutation, { data, loading, error }] = useCancelActivationMutation({
+ *   variables: {
+ *      activationId: // value for 'activationId'
+ *   },
+ * });
+ */
+export function useCancelActivationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CancelActivationMutation, CancelActivationMutationVariables>) {
+        return ApolloReactHooks.useMutation<CancelActivationMutation, CancelActivationMutationVariables>(CancelActivationDocument, baseOptions);
+      }
+export type CancelActivationMutationHookResult = ReturnType<typeof useCancelActivationMutation>;
+export type CancelActivationMutationResult = ApolloReactCommon.MutationResult<CancelActivationMutation>;
+export type CancelActivationMutationOptions = ApolloReactCommon.BaseMutationOptions<CancelActivationMutation, CancelActivationMutationVariables>;
 export const CreateActivationDocument = gql`
     mutation CreateActivation($createActivationInput: CreateActivationInput!) {
   createActivation(createActivationInput: $createActivationInput) {

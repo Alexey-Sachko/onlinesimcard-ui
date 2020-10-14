@@ -5,6 +5,7 @@ import { gql } from "@apollo/client";
 import {
   ActivationStatus,
   ActivationType,
+  useCancelActivationMutation,
   useMyCurrentActivationsQuery,
 } from "../../../lib/types";
 import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from "./Activation";
@@ -30,8 +31,32 @@ export const MY_CURRENT_ACTIVATIONS_QUERY = gql`
   ${DISPLAY_ACTIVATION_FRAGMENT}
 `;
 
-const CurrentActivations = () => {
-  const { data } = useMyCurrentActivationsQuery();
+export const CANCEL_ACTIVATION_MUTATION = gql`
+  mutation CancelActivation($activationId: Int!) {
+    cancelActivation(activationId: $activationId) {
+      path
+      message
+    }
+  }
+`;
+
+type CurrentActivationsProps = {
+  buyLoading: boolean;
+};
+
+const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
+  const { data, refetch } = useMyCurrentActivationsQuery();
+  const [cancelActivation] = useCancelActivationMutation();
+
+  const onCancelActivation = (activationId: number) => {
+    cancelActivation({ variables: { activationId } }).finally(() => refetch());
+  };
+
+  React.useEffect(() => {
+    if (!buyLoading) {
+      refetch();
+    }
+  }, [buyLoading]);
 
   return (
     <Paper style={{ height: "100%" }}>
@@ -41,7 +66,11 @@ const CurrentActivations = () => {
         </Box>
 
         {data?.myCurrentActivations?.map((activation) => (
-          <Activation key={activation.id} activation={activation} />
+          <Activation
+            key={activation.id}
+            activation={activation}
+            onCancel={onCancelActivation}
+          />
         ))}
       </Box>
     </Paper>
