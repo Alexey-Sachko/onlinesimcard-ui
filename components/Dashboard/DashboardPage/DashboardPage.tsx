@@ -61,7 +61,7 @@ const DashboardPage = () => {
     <Container className={classes.container}>
       {loading && !auth && <CircularProgress />}
       <Grid container spacing={3} style={{ height: "100%" }}>
-        <Grid item xs={12} sm={6} md={5} lg={4}>
+        <Grid item xs={12} sm={4} md={4} lg={3}>
           <Box mb={2}>
             <Countries
               countryCode={countryCode}
@@ -71,7 +71,7 @@ const DashboardPage = () => {
           <Services countryCode={countryCode} onBuy={onBuyHandler} />
         </Grid>
 
-        <Grid item xs={12} sm={6} md={7} lg={8}>
+        <Grid item xs={12} sm={8} md={8} lg={9}>
           <CurrentActivations buyLoading={createActivationLoading} />
         </Grid>
       </Grid>

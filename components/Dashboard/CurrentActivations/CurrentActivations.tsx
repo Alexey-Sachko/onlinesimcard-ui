@@ -7,6 +7,7 @@ import {
   ActivationType,
   useCancelActivationMutation,
   useMyCurrentActivationsQuery,
+  useFinishActivationMutation,
 } from "../../../lib/types";
 import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from "./Activation";
 
@@ -16,8 +17,32 @@ const mock: ActivationType[] = [
     id: 1,
     expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
     phoneNum: "+7 (908) 924-88-27",
-    status: ActivationStatus.WaitCode,
+    status: ActivationStatus.SmsRecieved,
     sourceActivationId: "12039810",
+    serviceCode: "vk",
+    activationCodes: [
+      {
+        activationId: 1,
+        code: "23212424213",
+        id: 10,
+      },
+    ],
+  },
+  {
+    cost: 100,
+    id: 2,
+    expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
+    phoneNum: "+7 (908) 924-88-27",
+    status: ActivationStatus.SmsRecieved,
+    sourceActivationId: "12039810",
+    serviceCode: "vk",
+    activationCodes: [
+      {
+        activationId: 1,
+        code: "23212424213",
+        id: 10,
+      },
+    ],
   },
 ];
 
@@ -40,16 +65,32 @@ export const CANCEL_ACTIVATION_MUTATION = gql`
   }
 `;
 
+export const FINISH_ACTIVATION_MUTATION = gql`
+  mutation FinishActivation($activationId: Int!) {
+    finishActivation(activationId: $activationId) {
+      path
+      message
+    }
+  }
+`;
+
 type CurrentActivationsProps = {
   buyLoading: boolean;
 };
 
 const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
-  const { data, refetch } = useMyCurrentActivationsQuery();
+  const { data, refetch } = useMyCurrentActivationsQuery({
+    pollInterval: 3000,
+  });
   const [cancelActivation] = useCancelActivationMutation();
+  const [finishActivation] = useFinishActivationMutation();
 
   const onCancelActivation = (activationId: number) => {
     cancelActivation({ variables: { activationId } }).finally(() => refetch());
+  };
+
+  const onFinishActivation = (activationId: number) => {
+    finishActivation({ variables: { activationId } }).finally(() => refetch());
   };
 
   React.useEffect(() => {
@@ -66,11 +107,13 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
         </Box>
 
         {data?.myCurrentActivations?.map((activation) => (
-          <Activation
-            key={activation.id}
-            activation={activation}
-            onCancel={onCancelActivation}
-          />
+          <Box key={activation.id} mb={2}>
+            <Activation
+              activation={activation}
+              onCancel={onCancelActivation}
+              onFinish={onFinishActivation}
+            />
+          </Box>
         ))}
       </Box>
     </Paper>

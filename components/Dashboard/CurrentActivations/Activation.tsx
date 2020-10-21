@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Box,
+  CircularProgress,
   Divider,
   IconButton,
   makeStyles,
@@ -8,15 +9,18 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import SmsIcon from "@material-ui/icons/Sms";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
 import CancelIcon from "@material-ui/icons/Cancel";
-import DoneIcon from "@material-ui/icons/Done";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { gql } from "@apollo/client";
 
 import russiaIcon from "./russia.png";
-import { DisplayActivationFragment } from "../../../lib/types";
+import {
+  ActivationStatus,
+  DisplayActivationFragment,
+} from "../../../lib/types";
 import { toTimeString } from "./utils";
+import CopyButton from "./CopyButton";
+import { useServiceName } from "../Services/hooks";
 
 export const DISPLAY_ACTIVATION_FRAGMENT = gql`
   fragment DisplayActivation on ActivationType {
@@ -25,18 +29,24 @@ export const DISPLAY_ACTIVATION_FRAGMENT = gql`
     phoneNum
     cost
     expiresAt
+    serviceCode
+    activationCodes {
+      code
+      id
+    }
   }
 `;
 
 type ActivationProps = {
   activation: DisplayActivationFragment;
   onCancel: (activationId: number) => Promise<void> | void;
+  onFinish: (activationId: number) => Promise<void> | void;
 };
 
-const Activation = ({ activation, onCancel }: ActivationProps) => {
+const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
   const classes = useStyles();
   const [expires, setExpires] = React.useState("");
-  const [copied, setCopied] = React.useState(false);
+  const serviceName = useServiceName(activation.serviceCode);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -46,49 +56,63 @@ const Activation = ({ activation, onCancel }: ActivationProps) => {
     return () => clearInterval(interval);
   }, []);
 
-  const copyNumHandler = () => {
-    navigator.clipboard.writeText(activation.phoneNum);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 1500);
-  };
+  const lastCode =
+    activation.activationCodes?.[activation.activationCodes.length - 1];
+
+  let actionsJSX: React.ReactNode = null;
+  switch (activation.status) {
+    case ActivationStatus.SendingConfirmed:
+    case ActivationStatus.SmsRecieved:
+      actionsJSX = (
+        <Tooltip title="Закончить работу с номером" arrow>
+          <IconButton
+            size="small"
+            className={classes.confirmBtn}
+            onClick={() => onFinish(activation.id)}
+          >
+            <CheckCircleIcon />
+          </IconButton>
+        </Tooltip>
+      );
+      break;
+    case ActivationStatus.WaitCode:
+      actionsJSX = (
+        <Tooltip title="Отменить" arrow>
+          <IconButton
+            size="small"
+            className={classes.cancelBtn}
+            onClick={() => onCancel(activation.id)}
+          >
+            <CancelIcon />
+          </IconButton>
+        </Tooltip>
+      );
+      break;
+  }
 
   return (
     <Paper variant="outlined">
       <Box px={2} py={1} className={classes.contentBox}>
-        <Box mr={2}>
-          <SmsIcon color="primary" />
+        <Box mr={1} width="25px">
+          <img src={russiaIcon} style={{ width: "100%" }} />
         </Box>
         <Typography>{activation.phoneNum}</Typography>
 
-        <Box ml={1} mr={2}>
-          {copied ? (
-            <DoneIcon
-              color="primary"
-              className={classes.doneIcon}
-              style={{ width: "15px" }}
-            />
-          ) : (
-            <FileCopyIcon
-              onClick={copyNumHandler}
-              color="action"
-              style={{ width: "15px", cursor: "pointer" }}
-            />
-          )}
+        <Box ml={1} mr={1}>
+          <CopyButton value={activation.phoneNum} />
         </Box>
 
         <Divider orientation="vertical" flexItem />
 
-        <Box ml={2} mr={2} className={classes.serviceBox}>
+        <Box ml={1} mr={1} className={classes.serviceBox}>
           <Typography variant="caption" color="textSecondary">
-            Вконтакте
+            {serviceName}
           </Typography>
         </Box>
 
         <Divider orientation="vertical" flexItem />
 
-        <Box ml={2} mr={2} className={classes.serviceBox}>
+        <Box ml={1} mr={1} className={classes.serviceBox}>
           <Typography variant="caption" color="textSecondary">
             {expires}
           </Typography>
@@ -96,20 +120,33 @@ const Activation = ({ activation, onCancel }: ActivationProps) => {
 
         <Divider orientation="vertical" flexItem />
 
-        <Box ml={2} width="25px">
-          <img src={russiaIcon} style={{ width: "100%" }} />
+        <Box ml={1} className={classes.serviceBox}>
+          <Typography variant="caption" color="textSecondary">
+            Код:{" "}
+          </Typography>
+        </Box>
+
+        <Box ml={1} className={classes.serviceBox}>
+          {[
+            ActivationStatus.SmsRecieved,
+            ActivationStatus.WaitAgain,
+            ActivationStatus.SendingConfirmed,
+          ].includes(activation.status) ? (
+            <Box className={classes.codeBox}>
+              <Box mr={1}>
+                <Typography key={lastCode.id} variant="caption">
+                  {lastCode.code}
+                </Typography>
+              </Box>
+              <CopyButton value={lastCode.code} />
+            </Box>
+          ) : (
+            <CircularProgress className={classes.progress} size={15} />
+          )}
         </Box>
 
         <Box flexGrow="1" display="flex" justifyContent="flex-end">
-          <Tooltip title="Отменить" arrow>
-            <IconButton
-              size="small"
-              className={classes.cancelBtn}
-              onClick={() => onCancel(activation.id)}
-            >
-              <CancelIcon />
-            </IconButton>
-          </Tooltip>
+          {actionsJSX}
         </Box>
       </Box>
     </Paper>
@@ -128,7 +165,15 @@ const useStyles = makeStyles((theme) => ({
   cancelBtn: {
     color: theme.palette.error.main,
   },
-  doneIcon: {
+  confirmBtn: {
     color: theme.palette.success.main,
+  },
+  progress: {
+    marginTop: "3px",
+  },
+  codeBox: {
+    display: "flex",
+    alignItems: "center",
+    marginTop: "-2px",
   },
 }));

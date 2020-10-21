@@ -20,10 +20,12 @@ export type Query = {
   roles: Array<RoleType>;
   users: Array<UserType>;
   allPermissions: Array<Permissions>;
-  transactions: Array<TransactionGqlType>;
+  myCurrentActivations: Array<ActivationType>;
   countriesFromApi: Array<CountryApiType>;
   services: Array<ServiceType>;
   prices: Array<PriceType>;
+  allServices: Array<ServiceDictionaryItemType>;
+  transactions: Array<TransactionGqlType>;
   freeCountries: Array<FreeCountryType>;
   freeNumbers: Array<FreeNumType>;
   freeNumber: FreeNumType;
@@ -31,7 +33,6 @@ export type Query = {
   articles: Array<ArticleType>;
   articlesCount: Scalars['Float'];
   article?: Maybe<ArticleType>;
-  myCurrentActivations: Array<ActivationType>;
 };
 
 
@@ -76,7 +77,8 @@ export enum Permissions {
   ReadAdminPage = 'ReadAdminPage',
   WriteArticles = 'WriteArticles',
   WriteServices = 'WriteServices',
-  WriteStubs = 'WriteStubs'
+  WriteStubs = 'WriteStubs',
+  MakeBonusMoney = 'MakeBonusMoney'
 }
 
 export type RoleType = {
@@ -93,21 +95,35 @@ export type UserType = {
   role: RoleType;
 };
 
-export type TransactionGqlType = {
-  __typename?: 'TransactionGqlType';
-  type: TransactionType;
-  id: Scalars['String'];
-  amount: Scalars['Float'];
-  balanceBefore: Scalars['Float'];
-  createdAt: Scalars['String'];
-  userId: Scalars['String'];
+export type ActivationType = {
+  __typename?: 'ActivationType';
+  id: Scalars['Float'];
+  status: ActivationStatus;
+  phoneNum: Scalars['String'];
+  cost: Scalars['Float'];
+  serviceCode: Scalars['String'];
+  expiresAt: Scalars['DateTime'];
+  sourceActivationId: Scalars['String'];
+  activationCodes?: Maybe<Array<ActivationCodeType>>;
 };
 
-export enum TransactionType {
-  Payment = 'Payment',
-  Bonus = 'Bonus',
-  Buy = 'Buy'
+export enum ActivationStatus {
+  WaitCode = 'WAIT_CODE',
+  WaitAgain = 'WAIT_AGAIN',
+  SendingConfirmed = 'SENDING_CONFIRMED',
+  SmsRecieved = 'SMS_RECIEVED',
+  Cancelled = 'CANCELLED',
+  Finished = 'FINISHED',
+  Error = 'ERROR'
 }
+
+
+export type ActivationCodeType = {
+  __typename?: 'ActivationCodeType';
+  id: Scalars['Float'];
+  code: Scalars['String'];
+  activationId: Scalars['Float'];
+};
 
 export type CountryApiType = {
   __typename?: 'CountryApiType';
@@ -130,6 +146,28 @@ export type PriceType = {
   countryCode: Scalars['String'];
   serviceId: Scalars['Float'];
 };
+
+export type ServiceDictionaryItemType = {
+  __typename?: 'ServiceDictionaryItemType';
+  code: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type TransactionGqlType = {
+  __typename?: 'TransactionGqlType';
+  type: TransactionType;
+  id: Scalars['String'];
+  amount: Scalars['Float'];
+  balanceBefore: Scalars['Float'];
+  createdAt: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export enum TransactionType {
+  Payment = 'Payment',
+  Bonus = 'Bonus',
+  Buy = 'Buy'
+}
 
 export type FreeCountryType = {
   __typename?: 'FreeCountryType';
@@ -178,35 +216,6 @@ export type ArticleType = {
   text: Scalars['String'];
 };
 
-export type ActivationType = {
-  __typename?: 'ActivationType';
-  id: Scalars['Float'];
-  status: ActivationStatus;
-  phoneNum: Scalars['String'];
-  cost: Scalars['Float'];
-  expiresAt: Scalars['DateTime'];
-  sourceActivationId: Scalars['String'];
-  activationCodes?: Maybe<Array<ActivationCodeType>>;
-};
-
-export enum ActivationStatus {
-  WaitCode = 'WAIT_CODE',
-  WaitAgain = 'WAIT_AGAIN',
-  SendingConfirmed = 'SENDING_CONFIRMED',
-  SmsRecieved = 'SMS_RECIEVED',
-  Cancelled = 'CANCELLED',
-  Finished = 'FINISHED',
-  Error = 'ERROR'
-}
-
-
-export type ActivationCodeType = {
-  __typename?: 'ActivationCodeType';
-  id: Scalars['Float'];
-  code: Scalars['String'];
-  activationId: Scalars['Float'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   login?: Maybe<Array<ErrorType>>;
@@ -215,21 +224,20 @@ export type Mutation = {
   verifyUser?: Maybe<ErrorType>;
   deleteUser?: Maybe<ErrorType>;
   setRole?: Maybe<Array<ErrorType>>;
-  createTransaction?: Maybe<Array<ErrorType>>;
-  saveService?: Maybe<Array<ErrorType>>;
-  deleteService?: Maybe<Array<ErrorType>>;
-  restoreService?: Maybe<Array<ErrorType>>;
-  saveServicesWithPrices?: Maybe<Array<ErrorType>>;
-  savePrice?: Maybe<Array<ErrorType>>;
-  createArticle?: Maybe<Array<ErrorType>>;
-  updateArticle?: Maybe<Array<ErrorType>>;
-  deleteArticle?: Maybe<ErrorType>;
   create100StubActivations?: Maybe<Array<ErrorType>>;
   createStubActivation?: Maybe<Array<ErrorType>>;
   createActivation?: Maybe<Array<ErrorType>>;
   cancelActivation?: Maybe<Array<ErrorType>>;
   finishActivation?: Maybe<Array<ErrorType>>;
-  getNumber: ActivationType;
+  saveService?: Maybe<Array<ErrorType>>;
+  deleteService?: Maybe<Array<ErrorType>>;
+  restoreService?: Maybe<Array<ErrorType>>;
+  saveServicesWithPrices?: Maybe<Array<ErrorType>>;
+  savePrice?: Maybe<Array<ErrorType>>;
+  makeBonus?: Maybe<Array<ErrorType>>;
+  createArticle?: Maybe<Array<ErrorType>>;
+  updateArticle?: Maybe<Array<ErrorType>>;
+  deleteArticle?: Maybe<ErrorType>;
 };
 
 
@@ -259,8 +267,28 @@ export type MutationSetRoleArgs = {
 };
 
 
-export type MutationCreateTransactionArgs = {
-  createTransactionDto: CreateTransactionDto;
+export type MutationCreate100StubActivationsArgs = {
+  createActivationInput: CreateActivationInput;
+};
+
+
+export type MutationCreateStubActivationArgs = {
+  createActivationInput: CreateActivationInput;
+};
+
+
+export type MutationCreateActivationArgs = {
+  createActivationInput: CreateActivationInput;
+};
+
+
+export type MutationCancelActivationArgs = {
+  activationId: Scalars['Int'];
+};
+
+
+export type MutationFinishActivationArgs = {
+  activationId: Scalars['Int'];
 };
 
 
@@ -292,6 +320,11 @@ export type MutationSavePriceArgs = {
 };
 
 
+export type MutationMakeBonusArgs = {
+  makeBonusInput: MakeBonusInput;
+};
+
+
 export type MutationCreateArticleArgs = {
   createArticleDto: CreateArticleDto;
 };
@@ -304,36 +337,6 @@ export type MutationUpdateArticleArgs = {
 
 export type MutationDeleteArticleArgs = {
   id: Scalars['Float'];
-};
-
-
-export type MutationCreate100StubActivationsArgs = {
-  createActivationInput: CreateActivationInput;
-};
-
-
-export type MutationCreateStubActivationArgs = {
-  createActivationInput: CreateActivationInput;
-};
-
-
-export type MutationCreateActivationArgs = {
-  createActivationInput: CreateActivationInput;
-};
-
-
-export type MutationCancelActivationArgs = {
-  activationId: Scalars['Int'];
-};
-
-
-export type MutationFinishActivationArgs = {
-  activationId: Scalars['Int'];
-};
-
-
-export type MutationGetNumberArgs = {
-  createActivationInput: CreateActivationInput;
 };
 
 export type AuthCredentialsDto = {
@@ -358,9 +361,9 @@ export type RegisterPayloadType = {
   errors?: Maybe<Array<ErrorType>>;
 };
 
-export type CreateTransactionDto = {
-  amount: Scalars['Float'];
-  type: TransactionType;
+export type CreateActivationInput = {
+  serviceCode: Scalars['String'];
+  countryCode: Scalars['String'];
 };
 
 export type CreateServiceDto = {
@@ -378,6 +381,11 @@ export type CreatePriceDto = {
   amount: Scalars['Float'];
 };
 
+export type MakeBonusInput = {
+  amount: Scalars['Float'];
+  targetUserId: Scalars['String'];
+};
+
 export type CreateArticleDto = {
   alias: Scalars['String'];
   title: Scalars['String'];
@@ -389,11 +397,6 @@ export type UpdateArticleDto = {
   title: Scalars['String'];
   text: Scalars['String'];
   id: Scalars['Int'];
-};
-
-export type CreateActivationInput = {
-  serviceCode: Scalars['String'];
-  countryCode: Scalars['String'];
 };
 
 export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -409,7 +412,11 @@ export type CountriesQuery = (
 
 export type DisplayActivationFragment = (
   { __typename?: 'ActivationType' }
-  & Pick<ActivationType, 'id' | 'status' | 'phoneNum' | 'cost' | 'expiresAt'>
+  & Pick<ActivationType, 'id' | 'status' | 'phoneNum' | 'cost' | 'expiresAt' | 'serviceCode'>
+  & { activationCodes?: Maybe<Array<(
+    { __typename?: 'ActivationCodeType' }
+    & Pick<ActivationCodeType, 'code' | 'id'>
+  )>> }
 );
 
 export type MyCurrentActivationsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -431,6 +438,19 @@ export type CancelActivationMutationVariables = Exact<{
 export type CancelActivationMutation = (
   { __typename?: 'Mutation' }
   & { cancelActivation?: Maybe<Array<(
+    { __typename?: 'ErrorType' }
+    & Pick<ErrorType, 'path' | 'message'>
+  )>> }
+);
+
+export type FinishActivationMutationVariables = Exact<{
+  activationId: Scalars['Int'];
+}>;
+
+
+export type FinishActivationMutation = (
+  { __typename?: 'Mutation' }
+  & { finishActivation?: Maybe<Array<(
     { __typename?: 'ErrorType' }
     & Pick<ErrorType, 'path' | 'message'>
   )>> }
@@ -459,6 +479,17 @@ export type ServicesQuery = (
   & { services: Array<(
     { __typename?: 'ServiceType' }
     & Pick<ServiceType, 'id' | 'code' | 'name' | 'priceAmount'>
+  )> }
+);
+
+export type AllServicesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllServicesQuery = (
+  { __typename?: 'Query' }
+  & { allServices: Array<(
+    { __typename?: 'ServiceDictionaryItemType' }
+    & Pick<ServiceDictionaryItemType, 'code' | 'name'>
   )> }
 );
 
@@ -547,6 +578,11 @@ export const DisplayActivationFragmentDoc = gql`
   phoneNum
   cost
   expiresAt
+  serviceCode
+  activationCodes {
+    code
+    id
+  }
 }
     `;
 export const CountriesDocument = gql`
@@ -647,6 +683,39 @@ export function useCancelActivationMutation(baseOptions?: ApolloReactHooks.Mutat
 export type CancelActivationMutationHookResult = ReturnType<typeof useCancelActivationMutation>;
 export type CancelActivationMutationResult = ApolloReactCommon.MutationResult<CancelActivationMutation>;
 export type CancelActivationMutationOptions = ApolloReactCommon.BaseMutationOptions<CancelActivationMutation, CancelActivationMutationVariables>;
+export const FinishActivationDocument = gql`
+    mutation FinishActivation($activationId: Int!) {
+  finishActivation(activationId: $activationId) {
+    path
+    message
+  }
+}
+    `;
+export type FinishActivationMutationFn = ApolloReactCommon.MutationFunction<FinishActivationMutation, FinishActivationMutationVariables>;
+
+/**
+ * __useFinishActivationMutation__
+ *
+ * To run a mutation, you first call `useFinishActivationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFinishActivationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [finishActivationMutation, { data, loading, error }] = useFinishActivationMutation({
+ *   variables: {
+ *      activationId: // value for 'activationId'
+ *   },
+ * });
+ */
+export function useFinishActivationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<FinishActivationMutation, FinishActivationMutationVariables>) {
+        return ApolloReactHooks.useMutation<FinishActivationMutation, FinishActivationMutationVariables>(FinishActivationDocument, baseOptions);
+      }
+export type FinishActivationMutationHookResult = ReturnType<typeof useFinishActivationMutation>;
+export type FinishActivationMutationResult = ApolloReactCommon.MutationResult<FinishActivationMutation>;
+export type FinishActivationMutationOptions = ApolloReactCommon.BaseMutationOptions<FinishActivationMutation, FinishActivationMutationVariables>;
 export const CreateActivationDocument = gql`
     mutation CreateActivation($createActivationInput: CreateActivationInput!) {
   createActivation(createActivationInput: $createActivationInput) {
@@ -716,6 +785,39 @@ export function useServicesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
 export type ServicesQueryHookResult = ReturnType<typeof useServicesQuery>;
 export type ServicesLazyQueryHookResult = ReturnType<typeof useServicesLazyQuery>;
 export type ServicesQueryResult = ApolloReactCommon.QueryResult<ServicesQuery, ServicesQueryVariables>;
+export const AllServicesDocument = gql`
+    query AllServices {
+  allServices {
+    code
+    name
+  }
+}
+    `;
+
+/**
+ * __useAllServicesQuery__
+ *
+ * To run a query within a React component, call `useAllServicesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllServicesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllServicesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllServicesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllServicesQuery, AllServicesQueryVariables>) {
+        return ApolloReactHooks.useQuery<AllServicesQuery, AllServicesQueryVariables>(AllServicesDocument, baseOptions);
+      }
+export function useAllServicesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllServicesQuery, AllServicesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<AllServicesQuery, AllServicesQueryVariables>(AllServicesDocument, baseOptions);
+        }
+export type AllServicesQueryHookResult = ReturnType<typeof useAllServicesQuery>;
+export type AllServicesLazyQueryHookResult = ReturnType<typeof useAllServicesLazyQuery>;
+export type AllServicesQueryResult = ApolloReactCommon.QueryResult<AllServicesQuery, AllServicesQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($authCredentialsDto: AuthCredentialsDto!) {
   login(authCredentialsDto: $authCredentialsDto) {
