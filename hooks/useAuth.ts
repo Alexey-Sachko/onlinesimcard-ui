@@ -45,11 +45,5 @@ export const useAuth = (): AuthData => {
     execute();
   }, []);
 
-  React.useEffect(() => {
-    if (!auth && called && !loading) {
-      router.push("/signin");
-    }
-  }, [auth, called, loading]);
-
   return { auth, me, loading, called, displayName };
 };

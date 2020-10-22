@@ -46,9 +46,11 @@ const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
     });
     const dataRes = await res.json();
     if (dataRes.statusCode === 401 && window) {
-      if (!window.location.pathname.includes("/signin")) {
-        window.location.replace("/signin");
+      const path = window.location.pathname;
+      if (path.includes("/signin") || path === "/" || path === "") {
+        return;
       }
+      window.location.replace("/signin");
     }
 
     return dataRes;

@@ -12,10 +12,12 @@ import FreeNumbersSection from "../components/blocks/FreeNumbersSection";
 import Notifier from "../components/blocks/Notifier";
 import { themeBasic } from "../theme/customTheme";
 import ThemeContext from "../theme/ThemeContext";
+import { useAuth } from "../hooks/useAuth";
 
 const Home = () => {
   const [isShowNotify, setIsShowNotify] = useState(false);
   const router = useRouter();
+  const { auth } = useAuth();
 
   return (
     <div>
@@ -24,20 +26,32 @@ const Home = () => {
         <Header
           secondaryAction={
             <Box display="flex">
-              <Button
-                color="primary"
-                onClick={() => router.push("/signin")}
-                style={{ marginRight: "5px" }}
-              >
-                Войти
-              </Button>
-              <Button
-                color="secondary"
-                variant="outlined"
-                onClick={() => router.push("/signup")}
-              >
-                Регистрация
-              </Button>
+              {auth ? (
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  onClick={() => router.push("/dashboard")}
+                >
+                  Личный кабинет
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    color="primary"
+                    onClick={() => router.push("/signin")}
+                    style={{ marginRight: "5px" }}
+                  >
+                    Войти
+                  </Button>
+                  <Button
+                    color="secondary"
+                    variant="outlined"
+                    onClick={() => router.push("/signup")}
+                  >
+                    Регистрация
+                  </Button>
+                </>
+              )}
             </Box>
           }
         />
