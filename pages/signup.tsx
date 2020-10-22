@@ -1,21 +1,26 @@
 import React from "react";
-import Head from "next/head";
-import { CssBaseline } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 import Header from "../components/blocks/Header";
 import RegisterPage from "../components/Register/RegisterPage";
+import { useRouter } from "next/router";
 
 export default function SignUp() {
+  const router = useRouter();
+
   return (
     <>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
-      </Head>
-      <CssBaseline />
-      <Header />
+      <Header
+        secondaryAction={
+          <Button
+            color="secondary"
+            variant="outlined"
+            onClick={() => router.push("/signin")}
+          >
+            Войти
+          </Button>
+        }
+      />
       <RegisterPage />
     </>
   );

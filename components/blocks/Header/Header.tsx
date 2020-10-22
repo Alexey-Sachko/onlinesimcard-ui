@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Toolbar, AppBar, makeStyles } from "@material-ui/core";
+import { Toolbar, AppBar, makeStyles } from "@material-ui/core";
 import { useRouter } from "next/router";
-import ym from "react-yandex-metrika";
 
 import Logo from "../../layout/Logo";
 
@@ -12,18 +11,13 @@ const useStyles = makeStyles({
 });
 
 type HeaderProps = {
-  userName?: React.ReactNode;
+  secondaryAction?: React.ReactNode;
 };
 
-const Header: React.FC<HeaderProps> = ({ userName }) => {
+const Header: React.FC<HeaderProps> = ({ secondaryAction }) => {
   const classes = useStyles();
   const [isBlueHead, setIsBlueHead] = useState(false);
   const router = useRouter();
-
-  const handleRegister = () => {
-    ym("reachGoal", "NAVBAR_CLICK_SIGNUP");
-    router.push("/signup");
-  };
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -49,13 +43,7 @@ const Header: React.FC<HeaderProps> = ({ userName }) => {
       <Toolbar className={classes.toolbar}>
         <Logo />
 
-        {userName ? (
-          userName
-        ) : (
-          <Button color="secondary" variant="outlined" onClick={handleRegister}>
-            Регистрация
-          </Button>
-        )}
+        {secondaryAction}
       </Toolbar>
     </AppBar>
   );

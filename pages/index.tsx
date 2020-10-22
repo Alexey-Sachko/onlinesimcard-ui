@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
+import { Box, Button } from "@material-ui/core";
+import { useRouter } from "next/router";
 
 import Header from "../components/blocks/Header";
 import MainSection from "../components/blocks/MainSection";
@@ -12,26 +14,37 @@ import { themeBasic } from "../theme/customTheme";
 import ThemeContext from "../theme/ThemeContext";
 
 const Home = () => {
-  const [isOpenChooseService, setIsOpenChooseService] = useState(false);
   const [isShowNotify, setIsShowNotify] = useState(false);
-
-  const openModalHandler = () => {
-    setIsOpenChooseService(true);
-  };
+  const router = useRouter();
 
   return (
     <div>
       <ThemeContext.Provider value={themeBasic}>
         <Head>{/* <title>Home</title> */}</Head>
-        <Header />
+        <Header
+          secondaryAction={
+            <Box display="flex">
+              <Button
+                color="primary"
+                onClick={() => router.push("/signin")}
+                style={{ marginRight: "5px" }}
+              >
+                Войти
+              </Button>
+              <Button
+                color="secondary"
+                variant="outlined"
+                onClick={() => router.push("/signup")}
+              >
+                Регистрация
+              </Button>
+            </Box>
+          }
+        />
 
         <MainSection />
-        {/* <HowToSection onActionClick={openModalHandler} /> */}
         <FreeNumbersSection setIsShowNotify={setIsShowNotify} />
-        {/* <ChooseServiceModal
-        open={isOpenChooseService}
-        onClose={() => setIsOpenChooseService(false)}
-      /> */}
+
         <Footer />
         <Notifier reset={isShowNotify} />
       </ThemeContext.Provider>

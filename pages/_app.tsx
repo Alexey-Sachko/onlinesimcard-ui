@@ -4,6 +4,7 @@ import React from "react";
 import { ApolloProvider } from "@apollo/client";
 import { YMInitializer } from "react-yandex-metrika";
 import { MuiThemeProvider } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 import withApollo, { WithApollo } from "../lib/withApollo";
 import { muiTheme } from "../lib/muiTheme";
@@ -43,7 +44,13 @@ class MyApp extends App<AppInitialProps & WithApollo> {
             href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
             rel="stylesheet"
           />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
         </Head>
+
+        <CssBaseline />
         <ApolloProvider client={apolloClient}>
           <YMInitializer accounts={[62981725]} />
           <MuiThemeProvider theme={muiTheme}>

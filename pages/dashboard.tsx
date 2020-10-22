@@ -8,7 +8,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Header userName={displayName} />
+      <Header secondaryAction={displayName} />
       <DashboardPage />
     </>
   );
