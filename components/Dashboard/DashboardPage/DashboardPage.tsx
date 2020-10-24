@@ -1,12 +1,18 @@
+import React, { useState } from "react";
 import { gql } from "@apollo/client";
 import {
   Box,
   CircularProgress,
   Container,
   Grid,
+  Hidden,
   makeStyles,
+  Tab,
+  Tabs,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import PublicIcon from "@material-ui/icons/Public";
+import MessageIcon from "@material-ui/icons/Message";
+
 import { useAuth } from "../../../hooks/useAuth";
 import { useCreateActivationMutation } from "../../../lib/types";
 import { formatErrors } from "../../../utils/formatErrors";
@@ -14,6 +20,7 @@ import Countries from "../Countries";
 import CurrentActivations from "../CurrentActivations";
 import Services from "../Services";
 import { OnBuyParams } from "../Services/Services";
+import { TabIndex } from "./tab-index.enum";
 
 export const CREATE_ACTIVATION_MUTATION = gql`
   mutation CreateActivation($createActivationInput: CreateActivationInput!) {
@@ -32,6 +39,7 @@ const DashboardPage = () => {
     { loading: createActivationLoading, error },
   ] = useCreateActivationMutation();
   const [countryCode, setCountryCode] = useState("0");
+  const [tabIndex, setTabIndex] = useState(TabIndex.Services);
 
   const onBuyHandler = async (params: OnBuyParams) => {
     if (!createActivationLoading) {
@@ -57,24 +65,65 @@ const DashboardPage = () => {
     }
   };
 
+  const servicesJSX = (
+    <>
+      <Box mb={2}>
+        <Countries countryCode={countryCode} setCountryCode={setCountryCode} />
+      </Box>
+      <Services countryCode={countryCode} onBuy={onBuyHandler} />
+    </>
+  );
+
+  const currentActivationsJSX = (
+    <CurrentActivations buyLoading={createActivationLoading} />
+  );
+
   return (
     <Container className={classes.container}>
       {loading && !auth && <CircularProgress />}
-      <Grid container spacing={3} style={{ height: "100%" }}>
-        <Grid item xs={12} sm={4} md={4} lg={3}>
-          <Box mb={2}>
-            <Countries
-              countryCode={countryCode}
-              setCountryCode={setCountryCode}
-            />
-          </Box>
-          <Services countryCode={countryCode} onBuy={onBuyHandler} />
-        </Grid>
+      <Hidden smDown>
+        <Grid container spacing={3} style={{ height: "100%" }}>
+          <Grid item xs={12} sm={4} md={4} lg={3}>
+            {servicesJSX}
+          </Grid>
 
-        <Grid item xs={12} sm={8} md={8} lg={9}>
-          <CurrentActivations buyLoading={createActivationLoading} />
+          <Grid item xs={12} sm={8} md={8} lg={9}>
+            {currentActivationsJSX}
+          </Grid>
         </Grid>
-      </Grid>
+      </Hidden>
+      <Hidden mdUp>
+        <Tabs
+          value={tabIndex}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          centered
+          onChange={(_, value) => setTabIndex(value)}
+          aria-label="disabled tabs example"
+        >
+          <Tab
+            label={
+              <Box display="flex" alignItems="center">
+                <PublicIcon />{" "}
+                <span style={{ marginLeft: "7px" }}>Сервисы</span>
+              </Box>
+            }
+          />
+          <Tab
+            label={
+              <Box display="flex" alignItems="center">
+                <MessageIcon />{" "}
+                <span style={{ marginLeft: "7px" }}>Операции</span>
+              </Box>
+            }
+          />
+        </Tabs>
+        <Box mt={3}>
+          {tabIndex === TabIndex.Services && servicesJSX}
+          {tabIndex === TabIndex.Activations && currentActivationsJSX}
+        </Box>
+      </Hidden>
     </Container>
   );
 };
