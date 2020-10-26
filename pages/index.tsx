@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import { Box, Button } from "@material-ui/core";
-import { useRouter } from "next/router";
 
-import Header from "../components/blocks/Header";
+import Header from "../components/Header";
 import MainSection from "../components/blocks/MainSection";
 import Footer from "../components/blocks/Footer";
 // import HowToSection from "../components/blocks/HowToSection";
@@ -12,49 +10,16 @@ import FreeNumbersSection from "../components/blocks/FreeNumbersSection";
 import Notifier from "../components/blocks/Notifier";
 import { themeBasic } from "../theme/customTheme";
 import ThemeContext from "../theme/ThemeContext";
-import { useAuth } from "../hooks/useAuth";
+import { DefaultAction } from "../components/Header/actions";
 
 const Home = () => {
   const [isShowNotify, setIsShowNotify] = useState(false);
-  const router = useRouter();
-  const { auth } = useAuth();
 
   return (
     <div>
       <ThemeContext.Provider value={themeBasic}>
         <Head>{/* <title>Home</title> */}</Head>
-        <Header
-          secondaryAction={
-            <Box display="flex">
-              {auth ? (
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  onClick={() => router.push("/dashboard")}
-                >
-                  Личный кабинет
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    color="primary"
-                    onClick={() => router.push("/signin")}
-                    style={{ marginRight: "5px" }}
-                  >
-                    Войти
-                  </Button>
-                  <Button
-                    color="secondary"
-                    variant="outlined"
-                    onClick={() => router.push("/signup")}
-                  >
-                    Регистрация
-                  </Button>
-                </>
-              )}
-            </Box>
-          }
-        />
+        <Header secondaryAction={<DefaultAction />} />
 
         <MainSection />
         <FreeNumbersSection setIsShowNotify={setIsShowNotify} />

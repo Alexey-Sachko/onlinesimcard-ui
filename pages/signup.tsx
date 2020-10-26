@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 
-import Header from "../components/blocks/Header";
+import Header from "../components/Header";
 import RegisterPage from "../components/Register/RegisterPage";
 import { useRouter } from "next/router";
 

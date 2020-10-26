@@ -10,6 +10,7 @@ import { onError } from "@apollo/client/link/error";
 import { NextPageContext } from "next";
 
 import { env } from "../env/env";
+import { notRequiredAuthPages } from "./not-required-auth-pages";
 
 const apiUri = `${env.apiBaseUrl}/graphql`;
 
@@ -47,9 +48,19 @@ const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
     const dataRes = await res.json();
     if (dataRes.statusCode === 401 && window) {
       const path = window.location.pathname;
-      if (path.includes("/signin") || path === "/" || path === "") {
+
+      const pathMatched = notRequiredAuthPages.some((pattern) => {
+        if (pattern instanceof RegExp) {
+          return pattern.test(path);
+        }
+
+        return pattern === path;
+      });
+
+      if (pathMatched) {
         return;
       }
+
       window.location.replace("/signin");
     }
 

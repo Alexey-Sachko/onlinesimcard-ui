@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Toolbar, AppBar, makeStyles } from "@material-ui/core";
 import { useRouter } from "next/router";
 
-import Logo from "../../layout/Logo";
+import Logo from "../layout/Logo";
 
 const useStyles = makeStyles({
   toolbar: {

@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 import { useRouter } from "next/router";
 
 import LoginPage from "../components/Login/LoginPage";
-import Header from "../components/blocks/Header";
+import Header from "../components/Header";
 
 export default function SigninPage() {
   const router = useRouter();

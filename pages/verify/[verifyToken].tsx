@@ -11,8 +11,9 @@ import {
 import { useRouter } from "next/router";
 import { gql } from "@apollo/client";
 
-import Header from "../../components/blocks/Header";
+import Header from "../../components/Header";
 import { useVerifyUserMutation } from "../../lib/types";
+import { DefaultAction } from "../../components/Header/actions";
 
 export const VERIFY_USER_MUTATION = gql`
   mutation VerifyUser($verifyToken: String!) {
@@ -54,7 +55,7 @@ const Verify = () => {
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
       </Head>
-      <Header />
+      <Header secondaryAction={<DefaultAction />} />
       <Box pt={5}>
         <Container>
           <Grid container justify="center">

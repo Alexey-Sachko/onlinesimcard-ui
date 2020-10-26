@@ -1,6 +1,6 @@
 import { Button, Chip } from "@material-ui/core";
 import React from "react";
-import Header from "../components/blocks/Header";
+import Header from "../components/Header";
 import DashboardPage from "../components/Dashboard/DashboardPage";
 import { useAuth } from "../hooks/useAuth";
 
