@@ -1,6 +1,15 @@
 import React, { useEffect } from "react";
 import { gql } from "@apollo/client";
-import { TextField, Button, Typography, Box } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Typography,
+  Box,
+  FormControlLabel,
+  Checkbox,
+  FormControl,
+  FormHelperText,
+} from "@material-ui/core";
 
 import { RegisterFormState, RegisterSchema } from "../schema";
 import { useRegisterMutation } from "../../../lib/types";
@@ -74,16 +83,20 @@ const RegisterForm = ({
 
   return (
     <Formik
-      initialValues={{ email: "", password: "", repassword: "" }}
+      initialValues={{
+        email: "",
+        password: "",
+        repassword: "",
+        agreeTerms: false,
+      }}
       onSubmit={submitHandler}
       validationSchema={RegisterSchema}
       validateOnChange={false}
       validateOnBlur={false}
     >
-      {({ errors, isSubmitting }) => (
+      {({ errors, isSubmitting, values }) => (
         <Form className={classes.form} noValidate>
           <VkButton className={classes.submit} />
-
           <Box>
             <Typography align="center">Или</Typography>
           </Box>
@@ -139,10 +152,42 @@ const RegisterForm = ({
             )}
           </Field>
 
-          {/* <FormControlLabel
-    control={<Checkbox value="remember" color="primary" />}
-    label="Remember me"
-  /> */}
+          <Field name="agreeTerms" type="checkbox">
+            {({ field }: FieldProps) => (
+              <FormControl error={Boolean(errors.agreeTerms)}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      size="small"
+                      color="primary"
+                      className={
+                        errors.agreeTerms ? classes.errorCheckbox : undefined
+                      }
+                      {...field}
+                    />
+                  }
+                  label={
+                    <>
+                      Согласен с{" "}
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`/oferta`}
+                      >
+                        договором оферты
+                      </a>
+                    </>
+                  }
+                />
+
+                {errors.agreeTerms && (
+                  <Box pl={2}>
+                    <FormHelperText>{errors.agreeTerms}</FormHelperText>
+                  </Box>
+                )}
+              </FormControl>
+            )}
+          </Field>
           <Button
             type="submit"
             fullWidth
