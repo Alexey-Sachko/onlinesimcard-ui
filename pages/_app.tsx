@@ -5,6 +5,7 @@ import { ApolloProvider } from "@apollo/client";
 import { YMInitializer } from "react-yandex-metrika";
 import { MuiThemeProvider } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { SnackbarProvider } from "notistack";
 
 import withApollo, { WithApollo } from "../lib/withApollo";
 import { muiTheme } from "../lib/muiTheme";
@@ -54,7 +55,16 @@ class MyApp extends App<AppInitialProps & WithApollo> {
         <ApolloProvider client={apolloClient}>
           <YMInitializer accounts={[62981725]} />
           <MuiThemeProvider theme={muiTheme}>
-            <Component {...pageProps} />
+            <SnackbarProvider
+              maxSnack={3}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              autoHideDuration={2000}
+            >
+              <Component {...pageProps} />
+            </SnackbarProvider>
           </MuiThemeProvider>
         </ApolloProvider>
       </>

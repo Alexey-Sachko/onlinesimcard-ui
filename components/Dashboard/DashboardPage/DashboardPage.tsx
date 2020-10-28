@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import PublicIcon from "@material-ui/icons/Public";
 import MessageIcon from "@material-ui/icons/Message";
+import { useSnackbar } from "notistack";
 
 import { useAuth } from "../../../hooks/useAuth";
 import { useCreateActivationMutation } from "../../../lib/types";
@@ -33,6 +34,7 @@ export const CREATE_ACTIVATION_MUTATION = gql`
 
 const DashboardPage = () => {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const { auth, loading } = useAuth();
   const [
     createActivation,
@@ -57,10 +59,12 @@ const DashboardPage = () => {
       if (errors) {
         const parsedErrors = formatErrors(errors);
         if (parsedErrors?.balanceAmount) {
-          alert(parsedErrors?.balanceAmount);
+          enqueueSnackbar(parsedErrors.balanceAmount, { variant: "warning" });
         } else {
-          alert("Произошла ошибка");
+          enqueueSnackbar("Произошла ошибка", { variant: "error" });
         }
+      } else if (res.errors) {
+        enqueueSnackbar("Произошла ошибка", { variant: "error" });
       }
     }
   };
