@@ -115,6 +115,17 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
             />
           </Box>
         ))}
+
+        {!data?.myCurrentActivations?.length && (
+          <Paper variant="outlined">
+            <Box px={2} py={3}>
+              <Typography>
+                Нет операций. Закажите номер и используйте его для регистрации в
+                выбранном сайте/приложении
+              </Typography>
+            </Box>
+          </Paper>
+        )}
       </Box>
     </Paper>
   );
