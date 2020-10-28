@@ -1,3 +1,3 @@
 export const env = {
-  apiBaseUrl: "http://localhost:4500/api/v1",
+  apiBaseUrl: "https://virtualnum.ru/api/v1",
 };
