@@ -64,7 +64,7 @@ const Footer = () => {
             </Typography>
             <div className="email">
               <Typography variant="h5" color="blueBasic">
-                simcardonline@mail.ru
+                support@virtualnum.ru
               </Typography>
             </div>
           </div>
