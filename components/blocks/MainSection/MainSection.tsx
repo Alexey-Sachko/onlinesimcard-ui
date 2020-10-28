@@ -80,7 +80,7 @@ const MainSection = () => {
             </Typography>
             <div className="body-text">
               <Typography variant="bigParagraph" color="jetBasic">
-                Onlinesimcard.ru - сервис по приему SMS-сообщений на виртуальные
+                Virtualnum.ru - сервис по приему SMS-сообщений на виртуальные
                 номера.
                 <div className="body-text-bottom">
                   Мы имеем временные

@@ -20,11 +20,7 @@ const Logo = () => {
       `}</style>
       <Link href="/">
         <a className="link">
-          <img
-            className="logo-img"
-            src="/static/logo.png"
-            alt="OnlineSIMCARD"
-          />
+          <img className="logo-img" src="/static/logo.png" alt="VirtualNUM" />
         </a>
       </Link>
     </>
