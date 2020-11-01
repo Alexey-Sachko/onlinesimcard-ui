@@ -28,8 +28,14 @@ const Footer = () => {
           .logo-container {
             height: 100%;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
           }
+
+          .kassa-logo-wrap {
+            margin-top: 8px;
+          }
+
           .email {
             margin-top: 30px;
             white-space: nowrap;
@@ -68,9 +74,16 @@ const Footer = () => {
               </Typography>
             </div>
           </div>
+
           <div className="item-right">
             <div className="logo-container">
               <Logo />
+              <a href="//freekassa.ru/" className="kassa-logo-wrap">
+                <img
+                  src="//www.free-kassa.ru/img/fk_btn/13.png"
+                  title="Приём оплаты на сайте картами"
+                />
+              </a>
             </div>
           </div>
         </div>
