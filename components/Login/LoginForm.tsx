@@ -65,7 +65,7 @@ const LoginForm = ({
         onErrorSubmit && onErrorSubmit("VALIDATION_ERROR");
       } else if (gqlErrors) {
         onErrorSubmit && onErrorSubmit("APP_ERROR");
-      } else if (loginErrors) {
+      } else if (!loginErrors) {
         onCompleteSubmit();
       }
     } catch (error) {
