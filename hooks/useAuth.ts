@@ -33,7 +33,15 @@ export const LOGOUT_MUTATION = gql`
 
 export const useAuth = (): AuthData => {
   const router = useRouter();
-  const [execute, { data, loading, called, error }] = useMeLazyQuery();
+  const [
+    execute,
+    { data, loading, called, error, startPolling, stopPolling },
+  ] = useMeLazyQuery({
+    onError: () => stopPolling(),
+    onCompleted: () => startPolling(1500),
+    pollInterval: 1500,
+    fetchPolicy: "cache-and-network",
+  });
   const [logoutRequest] = useLogoutMutation();
 
   const auth = Boolean(data?.me);
