@@ -175,6 +175,14 @@ const RegisterForm = ({
                         href={`/oferta`}
                       >
                         договором оферты
+                      </a>{" "}
+                      и{" "}
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`/privacy`}
+                      >
+                        политикой персональных данных
                       </a>
                     </>
                   }
