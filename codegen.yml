@@ -4,6 +4,7 @@ schema: "https://virtualnum.ru/api/v1/graphql"
 documents:
   - "pages/**/*.tsx"
   - "components/**/*.tsx"
+  - "components/**/*.ts"
   - "hooks/**/*.ts"
 generates:
   lib/types.tsx:

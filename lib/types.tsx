@@ -238,6 +238,7 @@ export type Mutation = {
   createArticle?: Maybe<Array<ErrorType>>;
   updateArticle?: Maybe<Array<ErrorType>>;
   deleteArticle?: Maybe<ErrorType>;
+  makePayment: MakePaymentResType;
 };
 
 
@@ -339,6 +340,11 @@ export type MutationDeleteArticleArgs = {
   id: Scalars['Float'];
 };
 
+
+export type MutationMakePaymentArgs = {
+  makePaymenInput: MakePaymentInput;
+};
+
 export type AuthCredentialsDto = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -399,6 +405,29 @@ export type UpdateArticleDto = {
   id: Scalars['Int'];
 };
 
+export type MakePaymentInput = {
+  amount: Scalars['Float'];
+};
+
+export type MakePaymentResType = {
+  __typename?: 'MakePaymentResType';
+  orderId: Scalars['Float'];
+  url: Scalars['String'];
+};
+
+export type CreateActivationMutationVariables = Exact<{
+  createActivationInput: CreateActivationInput;
+}>;
+
+
+export type CreateActivationMutation = (
+  { __typename?: 'Mutation' }
+  & { createActivation?: Maybe<Array<(
+    { __typename?: 'ErrorType' }
+    & Pick<ErrorType, 'path' | 'message'>
+  )>> }
+);
+
 export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -456,17 +485,17 @@ export type FinishActivationMutation = (
   )>> }
 );
 
-export type CreateActivationMutationVariables = Exact<{
-  createActivationInput: CreateActivationInput;
+export type MakePaymentMutationVariables = Exact<{
+  makePaymentInput: MakePaymentInput;
 }>;
 
 
-export type CreateActivationMutation = (
+export type MakePaymentMutation = (
   { __typename?: 'Mutation' }
-  & { createActivation?: Maybe<Array<(
-    { __typename?: 'ErrorType' }
-    & Pick<ErrorType, 'path' | 'message'>
-  )>> }
+  & { makePayment: (
+    { __typename?: 'MakePaymentResType' }
+    & Pick<MakePaymentResType, 'orderId' | 'url'>
+  ) }
 );
 
 export type ServicesQueryVariables = Exact<{
@@ -593,6 +622,39 @@ export const DisplayActivationFragmentDoc = gql`
   }
 }
     `;
+export const CreateActivationDocument = gql`
+    mutation CreateActivation($createActivationInput: CreateActivationInput!) {
+  createActivation(createActivationInput: $createActivationInput) {
+    path
+    message
+  }
+}
+    `;
+export type CreateActivationMutationFn = ApolloReactCommon.MutationFunction<CreateActivationMutation, CreateActivationMutationVariables>;
+
+/**
+ * __useCreateActivationMutation__
+ *
+ * To run a mutation, you first call `useCreateActivationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateActivationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createActivationMutation, { data, loading, error }] = useCreateActivationMutation({
+ *   variables: {
+ *      createActivationInput: // value for 'createActivationInput'
+ *   },
+ * });
+ */
+export function useCreateActivationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateActivationMutation, CreateActivationMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateActivationMutation, CreateActivationMutationVariables>(CreateActivationDocument, baseOptions);
+      }
+export type CreateActivationMutationHookResult = ReturnType<typeof useCreateActivationMutation>;
+export type CreateActivationMutationResult = ApolloReactCommon.MutationResult<CreateActivationMutation>;
+export type CreateActivationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateActivationMutation, CreateActivationMutationVariables>;
 export const CountriesDocument = gql`
     query Countries {
   countriesFromApi {
@@ -724,39 +786,39 @@ export function useFinishActivationMutation(baseOptions?: ApolloReactHooks.Mutat
 export type FinishActivationMutationHookResult = ReturnType<typeof useFinishActivationMutation>;
 export type FinishActivationMutationResult = ApolloReactCommon.MutationResult<FinishActivationMutation>;
 export type FinishActivationMutationOptions = ApolloReactCommon.BaseMutationOptions<FinishActivationMutation, FinishActivationMutationVariables>;
-export const CreateActivationDocument = gql`
-    mutation CreateActivation($createActivationInput: CreateActivationInput!) {
-  createActivation(createActivationInput: $createActivationInput) {
-    path
-    message
+export const MakePaymentDocument = gql`
+    mutation MakePayment($makePaymentInput: MakePaymentInput!) {
+  makePayment(makePaymenInput: $makePaymentInput) {
+    orderId
+    url
   }
 }
     `;
-export type CreateActivationMutationFn = ApolloReactCommon.MutationFunction<CreateActivationMutation, CreateActivationMutationVariables>;
+export type MakePaymentMutationFn = ApolloReactCommon.MutationFunction<MakePaymentMutation, MakePaymentMutationVariables>;
 
 /**
- * __useCreateActivationMutation__
+ * __useMakePaymentMutation__
  *
- * To run a mutation, you first call `useCreateActivationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateActivationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useMakePaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMakePaymentMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createActivationMutation, { data, loading, error }] = useCreateActivationMutation({
+ * const [makePaymentMutation, { data, loading, error }] = useMakePaymentMutation({
  *   variables: {
- *      createActivationInput: // value for 'createActivationInput'
+ *      makePaymentInput: // value for 'makePaymentInput'
  *   },
  * });
  */
-export function useCreateActivationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateActivationMutation, CreateActivationMutationVariables>) {
-        return ApolloReactHooks.useMutation<CreateActivationMutation, CreateActivationMutationVariables>(CreateActivationDocument, baseOptions);
+export function useMakePaymentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<MakePaymentMutation, MakePaymentMutationVariables>) {
+        return ApolloReactHooks.useMutation<MakePaymentMutation, MakePaymentMutationVariables>(MakePaymentDocument, baseOptions);
       }
-export type CreateActivationMutationHookResult = ReturnType<typeof useCreateActivationMutation>;
-export type CreateActivationMutationResult = ApolloReactCommon.MutationResult<CreateActivationMutation>;
-export type CreateActivationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateActivationMutation, CreateActivationMutationVariables>;
+export type MakePaymentMutationHookResult = ReturnType<typeof useMakePaymentMutation>;
+export type MakePaymentMutationResult = ApolloReactCommon.MutationResult<MakePaymentMutation>;
+export type MakePaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<MakePaymentMutation, MakePaymentMutationVariables>;
 export const ServicesDocument = gql`
     query Services($countryCode: String!) {
   services(countryCode: $countryCode) {
