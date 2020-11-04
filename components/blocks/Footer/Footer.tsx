@@ -10,7 +10,8 @@ const Footer = () => {
       <style jsx>
         {`
           .container {
-            padding-top: 50px;
+            padding-top: 35px;
+            padding-bottom: 35px;
           }
           .inner-container {
             display: grid;
@@ -37,7 +38,7 @@ const Footer = () => {
           }
 
           .email {
-            margin-top: 30px;
+            margin-top: 20px;
             white-space: nowrap;
           }
           @media (max-width: 576px) {

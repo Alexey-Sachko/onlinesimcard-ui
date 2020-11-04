@@ -137,6 +137,6 @@ export default Activations;
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(4),
-    height: "calc(100% - 90px)",
+    minHeight: "calc(100% - 90px)",
   },
 }));

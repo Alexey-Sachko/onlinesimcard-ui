@@ -7,7 +7,6 @@ import Footer from "../components/blocks/Footer";
 // import HowToSection from "../components/blocks/HowToSection";
 // import ChooseServiceModal from "../components/blocks/ChooseServiceModal";
 import FreeNumbersSection from "../components/blocks/FreeNumbersSection";
-import Notifier from "../components/blocks/Notifier";
 import { themeBasic } from "../theme/customTheme";
 import ThemeContext from "../theme/ThemeContext";
 import { DefaultAction } from "../components/Header/actions";
@@ -25,7 +24,7 @@ const Home = () => {
         <FreeNumbersSection setIsShowNotify={setIsShowNotify} />
 
         <Footer />
-        <Notifier reset={isShowNotify} />
+        {/* <Notifier reset={isShowNotify} /> */}
       </ThemeContext.Provider>
     </div>
   );
