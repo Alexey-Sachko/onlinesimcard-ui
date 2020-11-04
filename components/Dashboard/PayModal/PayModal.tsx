@@ -9,6 +9,8 @@ import {
   TextField,
 } from "@material-ui/core";
 
+import rubleIcon from "./ruble-icon.svg";
+
 export type OnPayProps = { amount: number };
 
 export type PayModalProps = {
@@ -27,28 +29,43 @@ const PayModal = ({ open, onClose, onPay }: PayModalProps) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
       <DialogTitle>Оплата</DialogTitle>
       <DialogContent dividers>
         <div className={classes.kassaBox}>
           <img src="https://www.free-kassa.ru/banner/logomail.png" />
         </div>
-        <TextField
-          label="Сумма"
-          variant="outlined"
-          size="small"
-          className={classes.field}
-          value={amount}
-          onChange={(e) => setAmount(parseInt(e.target.value) || 0)}
-        />{" "}
-        <TextField
-          label="Сумма с комиссией"
-          variant="outlined"
-          size="small"
-          className={classes.field}
-          value={Math.round(amount * 1.1 * 100) / 100}
-        />{" "}
-        <Button variant="contained" color="primary" onClick={payHandler}>
+        <div>
+          <TextField
+            label="Сумма"
+            variant="outlined"
+            size="small"
+            className={classes.field}
+            value={amount}
+            onChange={(e) => setAmount(parseInt(e.target.value) || 0)}
+            InputProps={{
+              endAdornment: <img src={rubleIcon} width="12" height="12" />,
+            }}
+          />
+        </div>
+        <div>
+          <TextField
+            label="Сумма с комиссией"
+            variant="outlined"
+            size="small"
+            className={classes.field}
+            value={Math.round(amount * 1.1 * 100) / 100}
+            InputProps={{
+              endAdornment: <img src={rubleIcon} width="12" height="12" />,
+            }}
+          />
+        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={payHandler}
+          className={classes.payBtn}
+        >
           Оплатить
         </Button>
       </DialogContent>
@@ -66,7 +83,7 @@ export default PayModal;
 const useStyles = makeStyles(() => ({
   field: {
     width: "200px",
-    marginBottom: "10px",
+    marginBottom: "30px",
   },
   kassaBox: {
     marginBottom: "10px",
@@ -74,5 +91,8 @@ const useStyles = makeStyles(() => ({
     "& img": {
       width: "100%",
     },
+  },
+  payBtn: {
+    marginTop: "5px",
   },
 }));
