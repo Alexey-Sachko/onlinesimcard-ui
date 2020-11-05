@@ -60,11 +60,21 @@ const Activations = () => {
         const parsedErrors = formatErrors(errors);
         if (parsedErrors?.balanceAmount) {
           enqueueSnackbar(parsedErrors.balanceAmount, { variant: "warning" });
+        } else if (parsedErrors?.NO_NUMBERS) {
+          enqueueSnackbar(
+            "Для данного сервиса уже купили все номера, попробуйте позже",
+            {
+              variant: "warning",
+            }
+          );
         } else {
           enqueueSnackbar("Произошла ошибка", { variant: "error" });
         }
       } else if (res.errors) {
         enqueueSnackbar("Произошла ошибка", { variant: "error" });
+      } else {
+        enqueueSnackbar("Номер заказан", { variant: "success" });
+        window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
       }
     }
   };
