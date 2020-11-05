@@ -75,6 +75,7 @@ const Activations = () => {
       } else {
         enqueueSnackbar("Номер заказан", { variant: "success" });
         window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+        setTabIndex(TabIndex.Activations);
       }
     }
   };
