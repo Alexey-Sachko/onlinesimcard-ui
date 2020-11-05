@@ -8,6 +8,12 @@ import fb from "./fb.png";
 import go from "./go.png";
 import av from "./av.png";
 import tw from "./tw.png";
+import vi from "./vi.png";
+import ya from "./ya.png";
+import wa from "./wa.png";
+import ma from "./ma.png";
+import ig from "./ig.png";
+import ym from "./ym.png";
 
 export const iconsMap = {
   vk,
@@ -20,4 +26,10 @@ export const iconsMap = {
   go,
   av,
   tw,
+  vi,
+  ya,
+  wa,
+  ma,
+  ig,
+  ym,
 };
