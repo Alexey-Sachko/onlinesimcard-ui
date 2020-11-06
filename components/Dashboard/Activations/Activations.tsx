@@ -6,6 +6,7 @@ import {
   Container,
   Grid,
   Hidden,
+  LinearProgress,
   makeStyles,
   Tab,
   Tabs,
@@ -95,14 +96,14 @@ const Activations = () => {
 
   return (
     <Container className={classes.container}>
-      {loading && !auth && <CircularProgress />}
+      <Box height="4px">{loading && !auth && <LinearProgress />}</Box>
       <Hidden smDown>
         <Grid container spacing={3} style={{ height: "100%" }}>
           <Grid item xs={12} sm={4} md={4} lg={3}>
             {servicesJSX}
           </Grid>
 
-          <Grid item xs={12} sm={8} md={8} lg={9}>
+          <Grid item xs={12} sm={8} md={8} lg={9} style={{ height: "100%" }}>
             {currentActivationsJSX}
           </Grid>
         </Grid>
@@ -134,7 +135,7 @@ const Activations = () => {
             }
           />
         </Tabs>
-        <Box mt={3}>
+        <Box mt={2} height="calc(100% - 55px)">
           {tabIndex === TabIndex.Services && servicesJSX}
           {tabIndex === TabIndex.Activations && currentActivationsJSX}
         </Box>
@@ -147,7 +148,7 @@ export default Activations;
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: theme.spacing(4),
-    minHeight: "calc(100% - 90px)",
+    marginTop: theme.spacing(2),
+    height: "calc(100% - 90px)",
   },
 }));

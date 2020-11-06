@@ -9,7 +9,6 @@ import Header from "../../Header";
 import Activations from "../Activations";
 import Balance from "./Balance";
 import PayModal, { OnPayProps } from "../PayModal";
-import Footer from "../../blocks/Footer";
 
 export const MAKE_PAYMENT_MUTATION = gql`
   mutation MakePayment($makePaymentInput: MakePaymentInput!) {
@@ -72,7 +71,6 @@ const DashboardPage = () => {
         onClose={() => setPayModalOpen(false)}
         onPay={payHandler}
       />
-      <Footer />
     </>
   );
 };
