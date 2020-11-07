@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { gql } from "@apollo/client";
 import { useSnackbar } from "notistack";
 
@@ -9,6 +9,7 @@ import Header from "../../Header";
 import Activations from "../Activations";
 import Balance from "./Balance";
 import PayModal, { OnPayProps } from "../PayModal";
+import UserMenu from "./UserMenu";
 
 export const MAKE_PAYMENT_MUTATION = gql`
   mutation MakePayment($makePaymentInput: MakePaymentInput!) {
@@ -53,16 +54,15 @@ const DashboardPage = () => {
     <>
       <Header
         secondaryAction={
-          <span>
-            <Balance
-              amount={me?.balanceAmount}
-              onPay={() => setPayModalOpen(true)}
-            />
-            <span style={{ marginLeft: "20px" }}>{displayName}</span>
-            <Button size="small" onClick={logout}>
-              Выйти
-            </Button>
-          </span>
+          <Box display="flex">
+            <Box mr={2}>
+              <Balance
+                amount={me?.balanceAmount}
+                onPay={() => setPayModalOpen(true)}
+              />
+            </Box>
+            <UserMenu displayName={displayName} onExit={logout} />
+          </Box>
         }
       />
       <ActiveScreen />

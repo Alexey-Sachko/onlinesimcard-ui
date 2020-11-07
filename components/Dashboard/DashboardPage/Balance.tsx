@@ -24,7 +24,12 @@ const Balance = ({ amount, onPay }: BalanceProps) => {
 
   return (
     <>
-      <Chip color="primary" onClick={handleClick} label={<>{amount} ₽</>} />
+      <Chip
+        color="primary"
+        size="small"
+        onClick={handleClick}
+        label={<>{amount} ₽</>}
+      />
       <Menu
         id="balance-menu"
         anchorEl={anchorEl}
