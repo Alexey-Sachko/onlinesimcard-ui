@@ -40,13 +40,13 @@ const Services = ({ countryCode, onBuy }: ServicesProps) => {
   const { data } = useServicesQuery({ variables: { countryCode } });
 
   return (
-    <Box>
-      <Box px={3} py={1}>
+    <Box height="100%">
+      <Box px={2} py={1}>
         <Typography>Сервисы</Typography>
       </Box>
 
-      <Paper>
-        <List dense>
+      <Paper style={{ height: "calc(100% - 30px)" }}>
+        <List dense style={{ height: "100%", overflowY: "auto" }}>
           {data?.services.map(({ id, name, code, priceAmount }, idx) => {
             return (
               <ListItem divider={idx < data?.services.length - 1} key={id}>

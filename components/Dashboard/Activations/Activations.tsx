@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { gql } from "@apollo/client";
 import {
   Box,
-  CircularProgress,
   Container,
   Grid,
   Hidden,
@@ -35,6 +34,7 @@ export const CREATE_ACTIVATION_MUTATION = gql`
 
 const Activations = () => {
   const classes = useStyles();
+  const tabsClasses = useTabsStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { auth, loading } = useAuth();
   const [
@@ -83,10 +83,12 @@ const Activations = () => {
 
   const servicesJSX = (
     <>
-      <Box mb={2}>
+      <Box mb={1}>
         <Countries countryCode={countryCode} setCountryCode={setCountryCode} />
       </Box>
-      <Services countryCode={countryCode} onBuy={onBuyHandler} />
+      <Box height="calc(100% - 55px)">
+        <Services countryCode={countryCode} onBuy={onBuyHandler} />
+      </Box>
     </>
   );
 
@@ -99,7 +101,7 @@ const Activations = () => {
       <Box height="4px">{loading && !auth && <LinearProgress />}</Box>
       <Hidden smDown>
         <Grid container spacing={3} style={{ height: "100%" }}>
-          <Grid item xs={12} sm={4} md={4} lg={3}>
+          <Grid item xs={12} sm={4} md={4} lg={3} style={{ height: "100%" }}>
             {servicesJSX}
           </Grid>
 
@@ -110,6 +112,7 @@ const Activations = () => {
       </Hidden>
       <Hidden mdUp>
         <Tabs
+          classes={tabsClasses}
           value={tabIndex}
           indicatorColor="primary"
           textColor="primary"
@@ -119,6 +122,7 @@ const Activations = () => {
           aria-label="disabled tabs example"
         >
           <Tab
+            className={classes.tab}
             label={
               <Box display="flex" alignItems="center">
                 <PublicIcon />{" "}
@@ -127,6 +131,7 @@ const Activations = () => {
             }
           />
           <Tab
+            className={classes.tab}
             label={
               <Box display="flex" alignItems="center">
                 <MessageIcon />{" "}
@@ -149,6 +154,20 @@ export default Activations;
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
-    height: "calc(100% - 90px)",
+    height: "calc(100% - 80px)",
+
+    [theme.breakpoints.down("sm")]: {
+      marginTop: theme.spacing(1),
+    },
+  },
+  tab: {
+    padding: 0,
+    minHeight: "0px",
+  },
+}));
+
+const useTabsStyles = makeStyles(() => ({
+  root: {
+    minHeight: "30px",
   },
 }));
