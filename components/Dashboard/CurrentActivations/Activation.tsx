@@ -12,6 +12,7 @@ import {
 import CancelIcon from "@material-ui/icons/Cancel";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { gql } from "@apollo/client";
+import { useSnackbar } from "notistack";
 
 import russiaIcon from "./russia.png";
 import {
@@ -47,6 +48,7 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
   const classes = useStyles();
   const [expires, setExpires] = React.useState("");
   const serviceName = useServiceName(activation.serviceCode);
+  const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -55,6 +57,28 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
 
     return () => clearInterval(interval);
   }, []);
+
+  const cancelHandler = () => {
+    const minute = 1000 * 60;
+
+    const activationTime = new Date(activation.expiresAt).getTime();
+    const currentTime = new Date().getTime();
+
+    if (
+      [ActivationStatus.WaitAgain, ActivationStatus.WaitCode].includes(
+        activation.status
+      ) &&
+      activationTime - minute * 18 > currentTime
+    ) {
+      enqueueSnackbar(
+        "Активацию можно завершить только спустя 2 минуты или после приёма смс",
+        { variant: "warning", autoHideDuration: 3000 }
+      );
+      return;
+    }
+
+    onCancel(activation.id);
+  };
 
   const lastCode =
     activation.activationCodes?.[activation.activationCodes.length - 1];
@@ -81,7 +105,7 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
           <IconButton
             size="small"
             className={classes.cancelBtn}
-            onClick={() => onCancel(activation.id)}
+            onClick={cancelHandler}
           >
             <CancelIcon />
           </IconButton>
