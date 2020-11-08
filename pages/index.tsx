@@ -26,6 +26,12 @@ const Home = () => {
         <Footer />
         {/* <Notifier reset={isShowNotify} /> */}
       </ThemeContext.Provider>
+
+      <style jsx global>{`
+        body {
+          background-color: #fff;
+        }
+      `}</style>
     </div>
   );
 };
