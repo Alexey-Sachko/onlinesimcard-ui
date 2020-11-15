@@ -20,7 +20,7 @@ import { formatErrors } from "../../../utils/formatErrors";
 import Countries from "../Countries";
 import CurrentActivations from "../CurrentActivations";
 import Services from "../Services";
-import { OnBuyParams } from "../Services/Services";
+import { LoadingMap, OnBuyParams } from "../Services";
 import { TabIndex } from "./tab-index.enum";
 
 export const CREATE_ACTIVATION_MUTATION = gql`
@@ -43,9 +43,28 @@ const Activations = () => {
   ] = useCreateActivationMutation();
   const [countryCode, setCountryCode] = useState("0");
   const [tabIndex, setTabIndex] = useState(TabIndex.Services);
+  const [loadingMap, setLoadingMap] = useState<LoadingMap>({});
+
+  const setLoading = (serviceCode: string, value: boolean) => {
+    setLoadingMap((prev) => {
+      if (prev[serviceCode] === value) {
+        return prev;
+      }
+
+      const next = { ...prev };
+      if (!value) {
+        delete next[serviceCode];
+      } else {
+        next[serviceCode] = true;
+      }
+
+      return next;
+    });
+  };
 
   const onBuyHandler = async (params: OnBuyParams) => {
     if (!createActivationLoading) {
+      setLoading(params.serviceCode, true);
       const res = await createActivation({
         variables: {
           createActivationInput: {
@@ -54,6 +73,8 @@ const Activations = () => {
           },
         },
       });
+
+      setLoading(params.serviceCode, false);
 
       const errors = res.data?.createActivation;
 
@@ -87,7 +108,11 @@ const Activations = () => {
         <Countries countryCode={countryCode} setCountryCode={setCountryCode} />
       </Box>
       <Box height="calc(100% - 55px)">
-        <Services countryCode={countryCode} onBuy={onBuyHandler} />
+        <Services
+          countryCode={countryCode}
+          onBuy={onBuyHandler}
+          loadingMap={loadingMap}
+        />
       </Box>
     </>
   );

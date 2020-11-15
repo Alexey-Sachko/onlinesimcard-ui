@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Chip,
+  CircularProgress,
   IconButton,
   List,
   ListItem,
@@ -12,7 +13,7 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import ShopIcon from "@material-ui/icons/Shop";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { gql } from "@apollo/client";
 
 import { useServicesQuery } from "../../../lib/types";
@@ -31,12 +32,17 @@ export const SERVICES_QUERY = gql`
 
 export type OnBuyParams = { serviceCode: string };
 
+export type LoadingMap = {
+  [serviceCode: string]: true;
+};
+
 type ServicesProps = {
   countryCode: string;
+  loadingMap: LoadingMap;
   onBuy: (params: OnBuyParams) => Promise<void>;
 };
 
-const Services = ({ countryCode, onBuy }: ServicesProps) => {
+const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
   const { data } = useServicesQuery({ variables: { countryCode } });
 
   return (
@@ -48,6 +54,8 @@ const Services = ({ countryCode, onBuy }: ServicesProps) => {
       <Paper style={{ height: "calc(100% - 30px)" }}>
         <List dense style={{ height: "100%", overflowY: "auto" }}>
           {data?.services.map(({ id, name, code, priceAmount }, idx) => {
+            const loading = loadingMap[code];
+
             return (
               <ListItem divider={idx < data?.services.length - 1} key={id}>
                 <ListItemIcon>
@@ -62,12 +70,18 @@ const Services = ({ countryCode, onBuy }: ServicesProps) => {
                       label={<>{priceAmount}р.</>}
                     />
                   </Box>
-                  <Tooltip title="Купить">
+                  <Tooltip title={!loading ? "Купить" : ""} arrow>
                     <IconButton
                       size="small"
+                      color="primary"
                       onClick={() => onBuy({ serviceCode: code })}
+                      disabled={loading}
                     >
-                      <ShopIcon />
+                      {!loading ? (
+                        <AddShoppingCartIcon />
+                      ) : (
+                        <CircularProgress size={24} />
+                      )}
                     </IconButton>
                   </Tooltip>
                 </ListItemSecondaryAction>
