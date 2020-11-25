@@ -49,6 +49,28 @@ class MyApp extends App<AppInitialProps & WithApollo> {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
+
+          <script
+            type="text/javascript"
+            data-id="cleversite"
+            dangerouslySetInnerHTML={{
+              __html: `
+            (function() { 
+              var s = document['createElement']('script');
+              s.type = 'text/javascript'; 
+              s.async = true; 
+              s.charset = 'utf-8';	
+              s.src = '//cleversite.ru/cleversite/widget_new.php?supercode=1&referer_main='+encodeURIComponent(document.referrer)+'&clid=88865aFFzn&siteNew=112487'; 
+              var ss = document['getElementsByTagName']('script')[0]; 
+              if(ss) {
+                ss.parentNode.insertBefore(s, ss);
+              } else {
+                document.documentElement.firstChild.appendChild(s);
+              };
+            })();
+          `,
+            }}
+          />
         </Head>
 
         <CssBaseline />
