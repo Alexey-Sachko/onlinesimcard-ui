@@ -137,6 +137,7 @@ export type ServiceType = {
   code: Scalars['String'];
   name: Scalars['String'];
   priceAmount?: Maybe<Scalars['Float']>;
+  count: Scalars['Float'];
 };
 
 export type PriceType = {
@@ -507,7 +508,7 @@ export type ServicesQuery = (
   { __typename?: 'Query' }
   & { services: Array<(
     { __typename?: 'ServiceType' }
-    & Pick<ServiceType, 'id' | 'code' | 'name' | 'priceAmount'>
+    & Pick<ServiceType, 'id' | 'code' | 'name' | 'priceAmount' | 'count'>
   )> }
 );
 
@@ -826,6 +827,7 @@ export const ServicesDocument = gql`
     code
     name
     priceAmount
+    count
   }
 }
     `;

@@ -9,6 +9,7 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
+  makeStyles,
   Paper,
   Tooltip,
   Typography,
@@ -26,6 +27,7 @@ export const SERVICES_QUERY = gql`
       code
       name
       priceAmount
+      count
     }
   }
 `;
@@ -43,7 +45,11 @@ type ServicesProps = {
 };
 
 const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
-  const { data } = useServicesQuery({ variables: { countryCode } });
+  const classes = useStyles();
+  const { data } = useServicesQuery({
+    variables: { countryCode },
+    pollInterval: 2000,
+  });
 
   return (
     <Box height="100%">
@@ -53,7 +59,7 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
 
       <Paper style={{ height: "calc(100% - 30px)" }}>
         <List dense style={{ height: "100%", overflowY: "auto" }}>
-          {data?.services.map(({ id, name, code, priceAmount }, idx) => {
+          {data?.services.map(({ id, name, code, priceAmount, count }, idx) => {
             const loading = loadingMap[code];
 
             return (
@@ -61,7 +67,12 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
                 <ListItemIcon>
                   <ServiceIcon code={code} />
                 </ListItemIcon>
-                <ListItemText>{name}</ListItemText>
+                <ListItemText
+                  primary={name}
+                  secondary={
+                    <span className={classes.countCaption}>≈ {count} шт.</span>
+                  }
+                />
                 <ListItemSecondaryAction>
                   <Box width="50px" display="inline-block">
                     <Chip
@@ -95,3 +106,10 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
 };
 
 export default Services;
+
+const useStyles = makeStyles((theme) => ({
+  countCaption: {
+    color: theme.palette.grey[400],
+    fontSize: "10px",
+  },
+}));
