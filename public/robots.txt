@@ -1,0 +1,13 @@
+User-agent: Yandex
+Allow: /
+Disallow: /verify/*
+
+User-agent: Googlebot
+Allow: /
+Disallow: /verify/*
+
+User-agent: *
+Allow: /
+Disallow: /verify/*
+
+Host: https://virtualnum.ru/
