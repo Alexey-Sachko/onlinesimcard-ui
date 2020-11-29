@@ -33,6 +33,7 @@ export type Query = {
   articles: Array<ArticleType>;
   articlesCount: Scalars['Float'];
   article?: Maybe<ArticleType>;
+  myOrders: Array<OrderType>;
 };
 
 
@@ -216,6 +217,21 @@ export type ArticleType = {
   title: Scalars['String'];
   text: Scalars['String'];
 };
+
+export type OrderType = {
+  __typename?: 'OrderType';
+  id: Scalars['Float'];
+  paymentId?: Maybe<Scalars['String']>;
+  amount: Scalars['Float'];
+  status: OrderStatus;
+  createdAt: Scalars['DateTime'];
+};
+
+export enum OrderStatus {
+  WaitPay = 'WAIT_PAY',
+  Error = 'ERROR',
+  Paid = 'PAID'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -497,6 +513,17 @@ export type MakePaymentMutation = (
     { __typename?: 'MakePaymentResType' }
     & Pick<MakePaymentResType, 'orderId' | 'url'>
   ) }
+);
+
+export type MyOrdersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyOrdersQuery = (
+  { __typename?: 'Query' }
+  & { myOrders: Array<(
+    { __typename?: 'OrderType' }
+    & Pick<OrderType, 'id' | 'paymentId' | 'amount' | 'status' | 'createdAt'>
+  )> }
 );
 
 export type ServicesQueryVariables = Exact<{
@@ -820,6 +847,42 @@ export function useMakePaymentMutation(baseOptions?: ApolloReactHooks.MutationHo
 export type MakePaymentMutationHookResult = ReturnType<typeof useMakePaymentMutation>;
 export type MakePaymentMutationResult = ApolloReactCommon.MutationResult<MakePaymentMutation>;
 export type MakePaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<MakePaymentMutation, MakePaymentMutationVariables>;
+export const MyOrdersDocument = gql`
+    query MyOrders {
+  myOrders {
+    id
+    paymentId
+    amount
+    status
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useMyOrdersQuery__
+ *
+ * To run a query within a React component, call `useMyOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyOrdersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyOrdersQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyOrdersQuery, MyOrdersQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyOrdersQuery, MyOrdersQueryVariables>(MyOrdersDocument, baseOptions);
+      }
+export function useMyOrdersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyOrdersQuery, MyOrdersQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyOrdersQuery, MyOrdersQueryVariables>(MyOrdersDocument, baseOptions);
+        }
+export type MyOrdersQueryHookResult = ReturnType<typeof useMyOrdersQuery>;
+export type MyOrdersLazyQueryHookResult = ReturnType<typeof useMyOrdersLazyQuery>;
+export type MyOrdersQueryResult = ApolloReactCommon.QueryResult<MyOrdersQuery, MyOrdersQueryVariables>;
 export const ServicesDocument = gql`
     query Services($countryCode: String!) {
   services(countryCode: $countryCode) {
