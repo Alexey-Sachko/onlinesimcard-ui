@@ -40,7 +40,10 @@ class MyApp extends App<AppInitialProps & WithApollo> {
           <meta name="language" content="ru" />
           <meta name="yandex-verification" content="41dbcba95b30a3a5" />
           <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-          <title>Виртуальный номер для приема СМС</title>
+          <title>
+            виртуальные одноразовые номера телефонов для регистрации | приема
+            смс онлайн | купить | получить sms бесплатно
+          </title>
           <link
             href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
             rel="stylesheet"

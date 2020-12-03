@@ -17,7 +17,13 @@ const Home = () => {
   return (
     <div>
       <ThemeContext.Provider value={themeBasic}>
-        <Head>{/* <title>Home</title> */}</Head>
+        <Head>
+          <meta
+            name="description"
+            lang="ru"
+            content="Приём смс на виртуальные номера для регистрации вк, инстаграм, whatsapp, телеграм, delivery club и других сайтов"
+          />
+        </Head>
         <Header secondaryAction={<DefaultAction />} />
 
         <MainSection />
