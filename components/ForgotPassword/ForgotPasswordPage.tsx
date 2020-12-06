@@ -1,31 +1,35 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
 import {
-  Container,
   Avatar,
-  Typography,
   Box,
   Button,
   CircularProgress,
+  Container,
+  Link,
+  Typography,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import DoneOutlineIcon from "@material-ui/icons/DoneOutline";
-import ym from "react-yandex-metrika";
+import { Alert } from "@material-ui/lab";
+import {
+  DoneOutline as DoneOutlineIcon,
+  LockOutlined as LockOutlinedIcon,
+} from "@material-ui/icons";
+import React from "react";
+import { useRouter } from "next/router";
 
-import { useRegisterPageStyles } from "./RegisterPage.styled";
-import RegisterForm from "../RegisterForm";
+import { useRegisterPageStyles } from "../Register/RegisterPage/RegisterPage.styled";
+import ForgotPasswordForm from "./ForgotPasswordForm";
 
-const RegisterPage = () => {
-  const router = useRouter();
+const ForgotPasswordPage = () => {
   const classes = useRegisterPageStyles();
-  const [loading, setLoading] = useState(false);
-  const [appError, setAppError] = useState(false);
-  const [complete, setComplete] = useState(false);
+  const router = useRouter();
+
+  const [loading, setLoading] = React.useState(false);
+  const [appError, setAppError] = React.useState(false);
+  const [retryAfter, setRetryAfter] = React.useState<string | null>(null);
 
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
-        {!complete ? (
+        {!retryAfter ? (
           <>
             {loading ? (
               <Box m={1}>
@@ -37,23 +41,25 @@ const RegisterPage = () => {
               </Avatar>
             )}
             <Typography component="h1" variant="h5">
-              Регистрация
+              Восстановление пароля
             </Typography>
-            <RegisterForm
+            <ForgotPasswordForm
               onStartSubmit={() => {
                 setLoading(true);
                 setAppError(false);
               }}
-              onCompleteSubmit={() => {
+              onCompleteSubmit={(accessAgainAfter) => {
                 setLoading(false);
-                setComplete(true);
-                ym("reachGoal", "SIGNUPPED");
+                setRetryAfter(accessAgainAfter);
               }}
               onErrorSubmit={(errType) => {
                 if (errType === "APP_ERROR") {
                   setAppError(true);
                 }
                 setLoading(false);
+              }}
+              onErrorTryAfter={(accessAgainAfter) => {
+                setRetryAfter(accessAgainAfter);
               }}
             />
           </>
@@ -63,16 +69,17 @@ const RegisterPage = () => {
               <DoneOutlineIcon />
             </Avatar>
             <Typography component="h2" variant="h5">
-              Спасибо за регистрацию
+              Восстановление пароля
             </Typography>
             <Box mt={2} textAlign="center">
-              <Typography variant="body1">
-                На вашу почту отправлено письмо с сылкой для подтверждения
-              </Typography>
+              <Alert>
+                Cсылка на сброс пароля была отправлена на указанную вами почту!
+              </Alert>
             </Box>
+
             <Box mt={4}>
               <Button
-                color="primary"
+                color="secondary"
                 variant="outlined"
                 onClick={() => router.push("/signin")}
               >
@@ -86,4 +93,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default ForgotPasswordPage;

@@ -7,11 +7,12 @@ import {
   Link,
   Box,
   Typography,
+  Hidden,
 } from "@material-ui/core";
 import { FormikHelpers, Formik, Form, Field, FieldProps } from "formik";
 
 import { formatErrors } from "../../utils/formatErrors";
-import { useStyles } from "../Register/RegisterForm/RegisterForm.styled";
+import { useRegisterFormStyles } from "../Register/RegisterForm/RegisterForm.styled";
 import { LoginFormState, LoginSchema } from "./schema";
 import { useLoginMutation } from "../../lib/types";
 import VkButton from "../Register/VkButton";
@@ -38,7 +39,7 @@ const LoginForm = ({
   onCompleteSubmit,
   onErrorSubmit,
 }: LoginFormProps) => {
-  const classes = useStyles();
+  const classes = useRegisterFormStyles();
   const [login] = useLoginMutation();
 
   const submitHandler = async (
@@ -78,6 +79,7 @@ const LoginForm = ({
       initialValues={{ email: "", password: "", repassword: "" }}
       onSubmit={submitHandler}
       validationSchema={LoginSchema}
+      validateOnBlur={false}
     >
       {({ errors, isSubmitting }) => (
         <Form className={classes.form} noValidate>
@@ -137,14 +139,14 @@ const LoginForm = ({
           </Button>
 
           <Grid container>
-            {/* <Grid item xs>
-              <Link href="" variant="body2">
-                Forgot password?
+            <Grid item xs>
+              <Link href="/forgot-password" variant="body2">
+                Забыли пароль?
               </Link>
-            </Grid> */}
+            </Grid>
             <Grid item>
               <Link href="/signup" variant="body2">
-                Еще нет аккаунта ? Регистрация
+                <Hidden xsDown>Еще нет аккаунта?</Hidden> Регистрация
               </Link>
             </Grid>
           </Grid>

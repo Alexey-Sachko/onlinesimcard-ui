@@ -5,6 +5,8 @@ Disallow: /verify/*
 User-agent: Googlebot
 Allow: /
 Disallow: /verify/*
+Disallow: /forgot-password
+Disallow: /password-reset/*
 
 User-agent: *
 Allow: /

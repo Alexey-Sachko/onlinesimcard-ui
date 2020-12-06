@@ -9,12 +9,12 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useRouter } from "next/router";
 
-import { useStyles } from "../Register/RegisterPage/RegisterPage.styled";
+import { useRegisterPageStyles } from "../Register/RegisterPage/RegisterPage.styled";
 import LoginForm from "./LoginForm";
 import { useAuth } from "../../hooks/useAuth";
 
 const RegisterPage = () => {
-  const classes = useStyles();
+  const classes = useRegisterPageStyles();
   const router = useRouter();
   const { auth } = useAuth();
   const [loading, setLoading] = useState(false);

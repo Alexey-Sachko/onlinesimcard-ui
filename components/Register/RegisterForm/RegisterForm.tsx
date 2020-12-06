@@ -15,7 +15,7 @@ import { RegisterFormState, RegisterSchema } from "../schema";
 import { useRegisterMutation } from "../../../lib/types";
 import { FormikHelpers, Formik, Form, Field, FieldProps } from "formik";
 import { formatErrors } from "../../../utils/formatErrors";
-import { useStyles } from "./RegisterForm.styled";
+import { useRegisterFormStyles } from "./RegisterForm.styled";
 import VkButton from "../VkButton/VkButton";
 
 export const RegisterMutation = gql`
@@ -43,7 +43,7 @@ const RegisterForm = ({
   onCompleteSubmit,
   onErrorSubmit,
 }: RegisterFormProps) => {
-  const classes = useStyles();
+  const classes = useRegisterFormStyles();
   const [register] = useRegisterMutation();
 
   useEffect(() => {
