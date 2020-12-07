@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { gql } from "@apollo/client";
 import { useSnackbar } from "notistack";
@@ -83,8 +84,7 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
     onCancel(activation.id);
   };
 
-  const lastCode =
-    activation.activationCodes?.[activation.activationCodes.length - 1];
+  const codes = activation.activationCodes;
 
   // let actionsJSX: React.ReactNode = null;
   // switch (activation.status) {
@@ -120,18 +120,31 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
   const classes = useNewStyles();
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} justify="center">
       <Grid item>
-        <ServiceIcon code={activation.serviceCode} />
+        <Box pt={1}>
+          <ServiceIcon code={activation.serviceCode} size={35} />
+        </Box>
       </Grid>
       <Grid item className={classes.phoneSection}>
         <Paper variant="outlined">
           <Box px={2} py={1} className={classes.headerContent}>
             <Typography variant="h6">{activation.phoneNum}</Typography>
+            <Typography variant="caption" color="textSecondary">
+              {serviceName}
+            </Typography>
+            <Box display="flex" alignItems="center">
+              <AccessTimeIcon fontSize="small" />
+              <Typography>{expires}</Typography>
+            </Box>
           </Box>
           <Divider />
           <Box px={2} py={1} className={classes.bodyContent}>
-            <Box className={classes.messageWrap}>message block</Box>
+            {codes.map(({ code, id }) => (
+              <Box key={id} className={classes.messageWrap}>
+                Ваш код: <strong>{code}</strong>
+              </Box>
+            ))}
           </Box>
           <Box className={classes.actionsContainer} px={1} py={1}>
             <Button size="small" variant="outlined" color="secondary">
@@ -214,6 +227,8 @@ const useNewStyles = makeStyles((theme) => ({
   },
   headerContent: {
     display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   bodyContent: {
     minHeight: "50px",
@@ -226,6 +241,7 @@ const useNewStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     border: "1px solid #ccc",
     padding: "10px 20px",
+    marginBottom: "10px",
   },
 }));
 

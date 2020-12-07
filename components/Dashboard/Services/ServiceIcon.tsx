@@ -2,9 +2,10 @@ import React from "react";
 
 type ServiceIconProps = {
   code: string;
+  size?: number;
 };
 
-export const ServiceIcon = ({ code }: ServiceIconProps) => {
+export const ServiceIcon = ({ code, size = 24 }: ServiceIconProps) => {
   const iconUrl = `/static/icons/${code}.png`;
-  return <img src={iconUrl} width="24" height="24" />;
+  return <img src={iconUrl} width={size} height={size} />;
 };

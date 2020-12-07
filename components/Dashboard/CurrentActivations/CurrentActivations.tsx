@@ -16,15 +16,25 @@ const mock: ActivationType[] = [
     cost: 100,
     id: 1,
     expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
+    phoneNum: "+79089248827",
     status: ActivationStatus.SmsRecieved,
     sourceActivationId: "12039810",
     serviceCode: "vk",
     activationCodes: [
       {
         activationId: 1,
-        code: "23212424213",
+        code: "23212",
         id: 10,
+      },
+      {
+        activationId: 1,
+        code: "73217",
+        id: 11,
+      },
+      {
+        activationId: 1,
+        code: "93212",
+        id: 12,
       },
     ],
   },
