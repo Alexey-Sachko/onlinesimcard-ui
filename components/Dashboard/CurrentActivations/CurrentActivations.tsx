@@ -220,7 +220,8 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
         </Box>
 
         <Box height="calc(100% - 35px)" overflow="auto" px={2} py={2}>
-          {data?.myCurrentActivations?.map((activation) => (
+          {/* data?.myCurrentActivations? */}
+          {mock.map((activation) => (
             <Box key={activation.id} mb={2}>
               <Activation
                 activation={activation}

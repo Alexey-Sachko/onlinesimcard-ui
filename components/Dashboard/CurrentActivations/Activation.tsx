@@ -1,8 +1,10 @@
 import React from "react";
 import {
   Box,
+  Button,
   CircularProgress,
   Divider,
+  Grid,
   IconButton,
   makeStyles,
   Paper,
@@ -22,6 +24,7 @@ import {
 import { toTimeString } from "./utils";
 import CopyButton from "./CopyButton";
 import { useServiceName } from "../Services/hooks";
+import { ServiceIcon } from "../Services/ServiceIcon";
 
 export const DISPLAY_ACTIVATION_FRAGMENT = gql`
   fragment DisplayActivation on ActivationType {
@@ -45,7 +48,7 @@ type ActivationProps = {
 };
 
 const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [expires, setExpires] = React.useState("");
   const serviceName = useServiceName(activation.serviceCode);
   const { enqueueSnackbar } = useSnackbar();
@@ -83,101 +86,148 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
   const lastCode =
     activation.activationCodes?.[activation.activationCodes.length - 1];
 
-  let actionsJSX: React.ReactNode = null;
-  switch (activation.status) {
-    case ActivationStatus.SendingConfirmed:
-    case ActivationStatus.SmsRecieved:
-      actionsJSX = (
-        <Tooltip title="Закончить работу с номером" arrow>
-          <IconButton
-            size="small"
-            className={classes.confirmBtn}
-            onClick={() => onFinish(activation.id)}
-          >
-            <CheckCircleIcon />
-          </IconButton>
-        </Tooltip>
-      );
-      break;
-    case ActivationStatus.WaitCode:
-      actionsJSX = (
-        <Tooltip title="Отменить" arrow>
-          <IconButton
-            size="small"
-            className={classes.cancelBtn}
-            onClick={cancelHandler}
-          >
-            <CancelIcon />
-          </IconButton>
-        </Tooltip>
-      );
-      break;
-  }
+  // let actionsJSX: React.ReactNode = null;
+  // switch (activation.status) {
+  //   case ActivationStatus.SendingConfirmed:
+  //   case ActivationStatus.SmsRecieved:
+  //     actionsJSX = (
+  //       <Tooltip title="Закончить работу с номером" arrow>
+  //         <IconButton
+  //           size="small"
+  //           className={classes.confirmBtn}
+  //           onClick={() => onFinish(activation.id)}
+  //         >
+  //           <CheckCircleIcon />
+  //         </IconButton>
+  //       </Tooltip>
+  //     );
+  //     break;
+  //   case ActivationStatus.WaitCode:
+  //     actionsJSX = (
+  //       <Tooltip title="Отменить" arrow>
+  //         <IconButton
+  //           size="small"
+  //           className={classes.cancelBtn}
+  //           onClick={cancelHandler}
+  //         >
+  //           <CancelIcon />
+  //         </IconButton>
+  //       </Tooltip>
+  //     );
+  //     break;
+  // }
+
+  const classes = useNewStyles();
 
   return (
-    <Paper variant="outlined">
-      <Box px={2} py={1} className={classes.contentBox}>
-        <Box mr={1} width="25px">
-          <img src={russiaIcon} style={{ width: "100%" }} />
-        </Box>
-        <Typography>{activation.phoneNum}</Typography>
-
-        <Box ml={1} mr={1}>
-          <CopyButton value={activation.phoneNum} />
-        </Box>
-
-        <Divider orientation="vertical" flexItem />
-
-        <Box ml={1} mr={1} className={classes.serviceBox}>
-          <Typography variant="caption" color="textSecondary">
-            {serviceName}
-          </Typography>
-        </Box>
-
-        <Divider orientation="vertical" flexItem />
-
-        <Box ml={1} mr={1} className={classes.serviceBox}>
-          <Typography variant="caption" color="textSecondary">
-            {expires}
-          </Typography>
-        </Box>
-
-        <Divider orientation="vertical" flexItem />
-
-        <Box ml={1} className={classes.serviceBox}>
-          <Typography variant="caption" color="textSecondary">
-            Код:{" "}
-          </Typography>
-        </Box>
-
-        <Box ml={1} className={classes.serviceBox}>
-          {[
-            ActivationStatus.SmsRecieved,
-            ActivationStatus.WaitAgain,
-            ActivationStatus.SendingConfirmed,
-          ].includes(activation.status) ? (
-            <Box className={classes.codeBox}>
-              <Box mr={1}>
-                <Typography key={lastCode.id} variant="caption">
-                  {lastCode.code}
-                </Typography>
-              </Box>
-              <CopyButton value={lastCode.code} />
-            </Box>
-          ) : (
-            <CircularProgress className={classes.progress} size={15} />
-          )}
-        </Box>
-
-        <Box flexGrow="1" display="flex" justifyContent="flex-end">
-          {actionsJSX}
-        </Box>
-      </Box>
-    </Paper>
+    <Grid container spacing={2}>
+      <Grid item>
+        <ServiceIcon code={activation.serviceCode} />
+      </Grid>
+      <Grid item className={classes.phoneSection}>
+        <Paper variant="outlined">
+          <Box px={2} py={1} className={classes.headerContent}>
+            <Typography variant="h6">{activation.phoneNum}</Typography>
+          </Box>
+          <Divider />
+          <Box px={2} py={1} className={classes.bodyContent}>
+            <Box className={classes.messageWrap}>message block</Box>
+          </Box>
+          <Box className={classes.actionsContainer} px={1} py={1}>
+            <Button size="small" variant="outlined" color="secondary">
+              Отменить
+            </Button>
+          </Box>
+        </Paper>
+      </Grid>
+    </Grid>
   );
+
+  // return (
+  //   <Paper variant="outlined">
+  //     <Box px={2} py={1} className={classes.contentBox}>
+  //       <Box mr={1} width="25px">
+  //         <img src={russiaIcon} style={{ width: "100%" }} />
+  //       </Box>
+  //       <Typography>{activation.phoneNum}</Typography>
+
+  //       <Box ml={1} mr={1}>
+  //         <CopyButton value={activation.phoneNum} />
+  //       </Box>
+
+  //       <Divider orientation="vertical" flexItem />
+
+  //       <Box ml={1} mr={1} className={classes.serviceBox}>
+  //         <Typography variant="caption" color="textSecondary">
+  //           {serviceName}
+  //         </Typography>
+  //       </Box>
+
+  //       <Divider orientation="vertical" flexItem />
+
+  //       <Box ml={1} mr={1} className={classes.serviceBox}>
+  //         <Typography variant="caption" color="textSecondary">
+  //           {expires}
+  //         </Typography>
+  //       </Box>
+
+  //       <Divider orientation="vertical" flexItem />
+
+  //       <Box ml={1} className={classes.serviceBox}>
+  //         <Typography variant="caption" color="textSecondary">
+  //           Код:{" "}
+  //         </Typography>
+  //       </Box>
+
+  //       <Box ml={1} className={classes.serviceBox}>
+  //         {[
+  //           ActivationStatus.SmsRecieved,
+  //           ActivationStatus.WaitAgain,
+  //           ActivationStatus.SendingConfirmed,
+  //         ].includes(activation.status) ? (
+  //           <Box className={classes.codeBox}>
+  //             <Box mr={1}>
+  //               <Typography key={lastCode.id} variant="caption">
+  //                 {lastCode.code}
+  //               </Typography>
+  //             </Box>
+  //             <CopyButton value={lastCode.code} />
+  //           </Box>
+  //         ) : (
+  //           <CircularProgress className={classes.progress} size={15} />
+  //         )}
+  //       </Box>
+
+  //       <Box flexGrow="1" display="flex" justifyContent="flex-end">
+  //         {actionsJSX}
+  //       </Box>
+  //     </Box>
+  //   </Paper>
+  // );
 };
 
 export default Activation;
+
+const useNewStyles = makeStyles((theme) => ({
+  phoneSection: {
+    width: "400px",
+  },
+  headerContent: {
+    display: "flex",
+  },
+  bodyContent: {
+    minHeight: "50px",
+  },
+  actionsContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  messageWrap: {
+    borderRadius: "15px",
+    border: "1px solid #ccc",
+    padding: "10px 20px",
+  },
+}));
 
 const useStyles = makeStyles((theme) => ({
   contentBox: {
