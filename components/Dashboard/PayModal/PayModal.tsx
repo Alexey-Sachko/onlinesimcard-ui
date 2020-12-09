@@ -16,6 +16,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import CachedIcon from "@material-ui/icons/Cached";
 import { gql } from "@apollo/client";
 
@@ -59,7 +60,7 @@ const PayModal = ({ open, onClose, onPay }: PayModalProps) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>Оплата</DialogTitle>
       <DialogContent dividers>
         <div className={classes.kassaBox}>
@@ -90,6 +91,14 @@ const PayModal = ({ open, onClose, onPay }: PayModalProps) => {
             }}
           />
         </div>
+
+        <Alert severity="warning">
+          <AlertTitle>Временное ограничение (скоро исправим):</AlertTitle>
+          Минимальная сумма оплаты банковской картой - 70р.
+          <br />
+          Остальные способы оплаты без ограничений
+        </Alert>
+
         <Button
           variant="contained"
           color="primary"
@@ -156,6 +165,6 @@ const useStyles = makeStyles(() => ({
     },
   },
   payBtn: {
-    marginTop: "5px",
+    marginTop: "20px",
   },
 }));
