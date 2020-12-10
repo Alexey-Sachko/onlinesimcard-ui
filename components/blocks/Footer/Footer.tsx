@@ -1,7 +1,6 @@
 import React from "react";
 
 import Typography from "../../layout/Typography";
-import Logo from "../../layout/Logo";
 import CustomContainer from "../CustomContainer";
 
 const Footer = () => {
@@ -78,7 +77,10 @@ const Footer = () => {
 
           <div className="item-right">
             <div className="logo-container">
-              <Logo />
+              <div>
+                <a href="/oferta">Публичная оферта</a>
+              </div>
+              <a href="/privacy">Политика конфиденциальности</a>
               <a href="//freekassa.ru/" className="kassa-logo-wrap">
                 <img
                   src="//www.free-kassa.ru/img/fk_btn/13.png"
