@@ -484,12 +484,31 @@ export type UpdateArticleDto = {
 
 export type MakePaymentInput = {
   amount: Scalars['Float'];
+  variant: PaymentVariant;
 };
+
+export enum PaymentVariant {
+  Freekassa = 'FREEKASSA',
+  Interkassa = 'INTERKASSA'
+}
 
 export type MakePaymentResType = {
   __typename?: 'MakePaymentResType';
   orderId: Scalars['Float'];
-  url: Scalars['String'];
+  formUrl: Scalars['String'];
+  method: FormMethod;
+  fields: Array<PayFormField>;
+};
+
+export enum FormMethod {
+  Post = 'POST',
+  Get = 'GET'
+}
+
+export type PayFormField = {
+  __typename?: 'PayFormField';
+  name: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type CreateActivationMutationVariables = Exact<{
@@ -573,7 +592,11 @@ export type MakePaymentMutation = (
   { __typename?: 'Mutation' }
   & { makePayment: (
     { __typename?: 'MakePaymentResType' }
-    & Pick<MakePaymentResType, 'orderId' | 'url'>
+    & Pick<MakePaymentResType, 'orderId' | 'formUrl' | 'method'>
+    & { fields: Array<(
+      { __typename?: 'PayFormField' }
+      & Pick<PayFormField, 'name' | 'value'>
+    )> }
   ) }
 );
 
@@ -912,7 +935,12 @@ export const MakePaymentDocument = gql`
     mutation MakePayment($makePaymentInput: MakePaymentInput!) {
   makePayment(makePaymenInput: $makePaymentInput) {
     orderId
-    url
+    formUrl
+    method
+    fields {
+      name
+      value
+    }
   }
 }
     `;

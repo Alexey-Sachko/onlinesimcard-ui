@@ -3,7 +3,7 @@ import { Box } from "@material-ui/core";
 import { gql } from "@apollo/client";
 import { useSnackbar } from "notistack";
 
-import { useMakePaymentMutation } from "../../../lib/types";
+import { PaymentVariant, useMakePaymentMutation } from "../../../lib/types";
 import { useAuth } from "../../../hooks/useAuth";
 import Header from "../../Header";
 import Activations from "../Activations";
@@ -15,7 +15,12 @@ export const MAKE_PAYMENT_MUTATION = gql`
   mutation MakePayment($makePaymentInput: MakePaymentInput!) {
     makePayment(makePaymenInput: $makePaymentInput) {
       orderId
-      url
+      formUrl
+      method
+      fields {
+        name
+        value
+      }
     }
   }
 `;
@@ -37,11 +42,26 @@ const DashboardPage = () => {
 
   const payHandler = async ({ amount }: OnPayProps) => {
     const res = await makePayment({
-      variables: { makePaymentInput: { amount } },
+      variables: {
+        makePaymentInput: { amount, variant: PaymentVariant.Interkassa },
+      },
     });
     if (res.data) {
-      const { url } = res.data.makePayment;
-      location.href = url;
+      const { fields, formUrl, method, orderId } = res.data.makePayment;
+      const form = document.createElement("form");
+      form.setAttribute("method", method);
+      form.setAttribute("action", formUrl);
+
+      fields.forEach((field) => {
+        const hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", field.name);
+        hiddenField.setAttribute("value", field.value);
+        form.appendChild(hiddenField);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
     }
 
     if (res.errors) {
