@@ -39,6 +39,7 @@ class MyApp extends App<AppInitialProps & WithApollo> {
         <Head>
           <meta name="language" content="ru" />
           <meta name="yandex-verification" content="41dbcba95b30a3a5" />
+          <meta name="megakassa" content="20482a8ccc7" />
           <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
           <title>
             виртуальные одноразовые номера телефонов для регистрации | приема
