@@ -21,10 +21,11 @@ export type Query = {
   users: Array<UserType>;
   allPermissions: Array<Permissions>;
   myCurrentActivations: Array<ActivationType>;
-  countriesFromApi: Array<CountryApiType>;
+  countries: Array<CountryType>;
   services: Array<ServiceType>;
   prices: Array<PriceType>;
   allServices: Array<ServiceDictionaryItemType>;
+  apiServices: Array<ServiceFromApi>;
   transactions: Array<TransactionGqlType>;
   freeCountries: Array<FreeCountryType>;
   freeNumbers: Array<FreeNumType>;
@@ -37,8 +38,18 @@ export type Query = {
 };
 
 
+export type QueryCountriesArgs = {
+  countriesQueryInput?: Maybe<CountriesQueryInput>;
+};
+
+
 export type QueryServicesArgs = {
   countryCode: Scalars['String'];
+};
+
+
+export type QueryApiServicesArgs = {
+  servicesApiQueryInput: ServicesApiQueryInput;
 };
 
 
@@ -126,8 +137,12 @@ export type ActivationCodeType = {
   activationId: Scalars['Float'];
 };
 
-export type CountryApiType = {
-  __typename?: 'CountryApiType';
+export type CountriesQueryInput = {
+  notEmpty?: Maybe<Scalars['Boolean']>;
+};
+
+export type CountryType = {
+  __typename?: 'CountryType';
   code: Scalars['String'];
   name?: Maybe<Scalars['String']>;
 };
@@ -153,6 +168,23 @@ export type ServiceDictionaryItemType = {
   __typename?: 'ServiceDictionaryItemType';
   code: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type ServicesApiQueryInput = {
+  country: Scalars['String'];
+};
+
+export type ServiceFromApi = {
+  __typename?: 'ServiceFromApi';
+  code: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  prices: Array<PriceCountFromApi>;
+};
+
+export type PriceCountFromApi = {
+  __typename?: 'PriceCountFromApi';
+  price: Scalars['Float'];
+  count: Scalars['Float'];
 };
 
 export type TransactionGqlType = {
@@ -472,14 +504,16 @@ export type CreateActivationMutation = (
   )>> }
 );
 
-export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type CountriesQueryVariables = Exact<{
+  countriesQueryInput?: Maybe<CountriesQueryInput>;
+}>;
 
 
 export type CountriesQuery = (
   { __typename?: 'Query' }
-  & { countriesFromApi: Array<(
-    { __typename?: 'CountryApiType' }
-    & Pick<CountryApiType, 'code' | 'name'>
+  & { countries: Array<(
+    { __typename?: 'CountryType' }
+    & Pick<CountryType, 'code' | 'name'>
   )> }
 );
 
@@ -741,8 +775,8 @@ export type CreateActivationMutationHookResult = ReturnType<typeof useCreateActi
 export type CreateActivationMutationResult = ApolloReactCommon.MutationResult<CreateActivationMutation>;
 export type CreateActivationMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateActivationMutation, CreateActivationMutationVariables>;
 export const CountriesDocument = gql`
-    query Countries {
-  countriesFromApi {
+    query Countries($countriesQueryInput: CountriesQueryInput) {
+  countries(countriesQueryInput: $countriesQueryInput) {
     code
     name
   }
@@ -761,6 +795,7 @@ export const CountriesDocument = gql`
  * @example
  * const { data, loading, error } = useCountriesQuery({
  *   variables: {
+ *      countriesQueryInput: // value for 'countriesQueryInput'
  *   },
  * });
  */

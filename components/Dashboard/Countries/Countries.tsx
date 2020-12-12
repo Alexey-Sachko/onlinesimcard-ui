@@ -5,15 +5,14 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Tooltip,
 } from "@material-ui/core";
 import React from "react";
 
 import { useCountriesQuery } from "../../../lib/types";
 
 export const COUNTRIES_QUERY = gql`
-  query Countries {
-    countriesFromApi {
+  query Countries($countriesQueryInput: CountriesQueryInput) {
+    countries(countriesQueryInput: $countriesQueryInput) {
       code
       name
     }
@@ -26,29 +25,28 @@ type CountriesProps = {
 };
 
 const Countries = ({ countryCode, setCountryCode }: CountriesProps) => {
-  const { data } = useCountriesQuery();
+  const { data } = useCountriesQuery({
+    variables: { countriesQueryInput: { notEmpty: true } },
+  });
 
   return (
     <Box>
-      <Tooltip arrow title="Выбор страны будет доступен позже">
-        <FormControl fullWidth variant="outlined" size="small">
-          <InputLabel id="country-label">Страна</InputLabel>
-          <Select
-            labelId="country-label"
-            fullWidth
-            label="Страна"
-            value={countryCode}
-            onChange={(e) => setCountryCode(e.target.value as string)}
-            disabled
-          >
-            {data?.countriesFromApi.map(({ code, name }) => (
-              <MenuItem key={code} value={code}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Tooltip>
+      <FormControl fullWidth variant="outlined" size="small">
+        <InputLabel id="country-label">Страна</InputLabel>
+        <Select
+          labelId="country-label"
+          fullWidth
+          label="Страна"
+          value={countryCode}
+          onChange={(e) => setCountryCode(e.target.value as string)}
+        >
+          {data?.countries.map(({ code, name }) => (
+            <MenuItem key={code} value={code}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </Box>
   );
 };
