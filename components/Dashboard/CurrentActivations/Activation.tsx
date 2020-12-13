@@ -14,7 +14,6 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { gql } from "@apollo/client";
 import { useSnackbar } from "notistack";
 
-import russiaIcon from "./russia.png";
 import {
   ActivationStatus,
   DisplayActivationFragment,
@@ -31,6 +30,7 @@ export const DISPLAY_ACTIVATION_FRAGMENT = gql`
     cost
     expiresAt
     serviceCode
+    countryCode
     activationCodes {
       code
       id
@@ -114,11 +114,13 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
       break;
   }
 
+  const countryIconPath = `/static/country-icons/${activation.countryCode}.png`;
+
   return (
     <Paper variant="outlined">
       <Box px={2} py={1} className={classes.contentBox}>
         <Box mr={1} width="25px">
-          <img src={russiaIcon} style={{ width: "100%" }} />
+          <img src={countryIconPath} style={{ width: "100%" }} />
         </Box>
         <Typography>{activation.phoneNum}</Typography>
 

@@ -114,6 +114,7 @@ export type ActivationType = {
   phoneNum: Scalars['String'];
   cost: Scalars['Float'];
   serviceCode: Scalars['String'];
+  countryCode: Scalars['String'];
   expiresAt: Scalars['DateTime'];
   sourceActivationId: Scalars['String'];
   activationCodes?: Maybe<Array<ActivationCodeType>>;
@@ -519,7 +520,7 @@ export type CountriesQuery = (
 
 export type DisplayActivationFragment = (
   { __typename?: 'ActivationType' }
-  & Pick<ActivationType, 'id' | 'status' | 'phoneNum' | 'cost' | 'expiresAt' | 'serviceCode'>
+  & Pick<ActivationType, 'id' | 'status' | 'phoneNum' | 'cost' | 'expiresAt' | 'serviceCode' | 'countryCode'>
   & { activationCodes?: Maybe<Array<(
     { __typename?: 'ActivationCodeType' }
     & Pick<ActivationCodeType, 'code' | 'id'>
@@ -735,6 +736,7 @@ export const DisplayActivationFragmentDoc = gql`
   cost
   expiresAt
   serviceCode
+  countryCode
   activationCodes {
     code
     id

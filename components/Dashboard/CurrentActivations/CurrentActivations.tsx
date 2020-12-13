@@ -20,6 +20,7 @@ const mock: ActivationType[] = [
     status: ActivationStatus.SmsRecieved,
     sourceActivationId: "12039810",
     serviceCode: "vk",
+    countryCode: "0",
     activationCodes: [
       {
         activationId: 1,
@@ -36,6 +37,7 @@ const mock: ActivationType[] = [
     status: ActivationStatus.SmsRecieved,
     sourceActivationId: "12039810",
     serviceCode: "vk",
+    countryCode: "1",
     activationCodes: [
       {
         activationId: 1,
@@ -52,6 +54,7 @@ const mock: ActivationType[] = [
     status: ActivationStatus.SmsRecieved,
     sourceActivationId: "12039810",
     serviceCode: "vk",
+    countryCode: "0",
     activationCodes: [
       {
         activationId: 1,
@@ -68,6 +71,7 @@ const mock: ActivationType[] = [
     status: ActivationStatus.SmsRecieved,
     sourceActivationId: "12039810",
     serviceCode: "vk",
+    countryCode: "0",
     activationCodes: [
       {
         activationId: 1,
@@ -84,6 +88,7 @@ const mock: ActivationType[] = [
     status: ActivationStatus.SmsRecieved,
     sourceActivationId: "12039810",
     serviceCode: "vk",
+    countryCode: "0",
     activationCodes: [
       {
         activationId: 1,
@@ -100,6 +105,7 @@ const mock: ActivationType[] = [
     status: ActivationStatus.SmsRecieved,
     sourceActivationId: "12039810",
     serviceCode: "vk",
+    countryCode: "0",
     activationCodes: [
       {
         activationId: 1,
@@ -116,38 +122,7 @@ const mock: ActivationType[] = [
     status: ActivationStatus.SmsRecieved,
     sourceActivationId: "12039810",
     serviceCode: "vk",
-    activationCodes: [
-      {
-        activationId: 1,
-        code: "23212424213",
-        id: 10,
-      },
-    ],
-  },
-  {
-    cost: 100,
-    id: 2,
-    expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
-    status: ActivationStatus.SmsRecieved,
-    sourceActivationId: "12039810",
-    serviceCode: "vk",
-    activationCodes: [
-      {
-        activationId: 1,
-        code: "23212424213",
-        id: 10,
-      },
-    ],
-  },
-  {
-    cost: 100,
-    id: 2,
-    expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
-    status: ActivationStatus.SmsRecieved,
-    sourceActivationId: "12039810",
-    serviceCode: "vk",
+    countryCode: "0",
     activationCodes: [
       {
         activationId: 1,
