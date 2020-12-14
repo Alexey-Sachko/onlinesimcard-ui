@@ -16,7 +16,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
+import { Alert } from "@material-ui/lab";
 import CachedIcon from "@material-ui/icons/Cached";
 import { gql } from "@apollo/client";
 
@@ -92,12 +92,7 @@ const PayModal = ({ open, onClose, onPay }: PayModalProps) => {
           />
         </div>
 
-        <Alert severity="warning">
-          <AlertTitle>Временное ограничение (скоро исправим):</AlertTitle>
-          Минимальная сумма оплаты банковской картой - 70р.
-          <br />
-          Остальные способы оплаты без ограничений
-        </Alert>
+        <Alert severity="warning">Минимальная сумма оплаты - 10р</Alert>
 
         <Button
           variant="contained"
