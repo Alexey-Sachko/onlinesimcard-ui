@@ -41,10 +41,7 @@ class MyApp extends App<AppInitialProps & WithApollo> {
           <meta name="yandex-verification" content="41dbcba95b30a3a5" />
           <meta name="megakassa" content="20482a8ccc7" />
           <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-          <title>
-            виртуальные одноразовые номера телефонов для регистрации | приема
-            смс онлайн | купить | получить sms бесплатно
-          </title>
+          <title>Бесплатный прием СМС на виртуальный номер</title>
           <link
             href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
             rel="stylesheet"
