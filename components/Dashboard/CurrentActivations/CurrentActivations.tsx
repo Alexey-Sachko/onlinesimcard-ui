@@ -168,7 +168,7 @@ type CurrentActivationsProps = {
 const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
   const classes = useStyles();
   const { data, refetch } = useMyCurrentActivationsQuery({
-    pollInterval: 3000,
+    pollInterval: 4000,
   });
   const [cancelActivation] = useCancelActivationMutation();
   const [finishActivation] = useFinishActivationMutation();

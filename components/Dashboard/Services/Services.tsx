@@ -48,7 +48,7 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
   const classes = useStyles();
   const { data } = useServicesQuery({
     variables: { countryCode },
-    pollInterval: 2000,
+    pollInterval: 4000,
   });
 
   return (
