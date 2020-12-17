@@ -44,12 +44,18 @@ type ServicesProps = {
   onBuy: (params: OnBuyParams) => Promise<void>;
 };
 
+const pollInterval = 4000
+
 const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
   const classes = useStyles();
-  const { data } = useServicesQuery({
+
+  const { data, startPolling } = useServicesQuery({
     variables: { countryCode },
-    pollInterval: 4000,
+    pollInterval: pollInterval,
+    onError: () => startPolling(pollInterval),
+    onCompleted: () => startPolling(pollInterval),
   });
+
 
   return (
     <Box height="100%">
