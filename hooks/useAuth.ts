@@ -38,8 +38,8 @@ export const useAuth = (): AuthData => {
     { data, loading, called, error, startPolling, stopPolling },
   ] = useMeLazyQuery({
     onError: () => stopPolling(),
-    onCompleted: () => startPolling(3500),
-    pollInterval: 3500,
+    onCompleted: () => startPolling(3000),
+    pollInterval: 3000,
     fetchPolicy: "cache-and-network",
   });
   const [logoutRequest] = useLogoutMutation();
