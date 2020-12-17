@@ -170,7 +170,7 @@ const pollInterval = 4000
 const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
   const classes = useStyles();
   const { data, refetch, startPolling } = useMyCurrentActivationsQuery({
-    pollInterval: pollInterval,
+    pollInterval,
     onError: () => startPolling(pollInterval),
     onCompleted: () => startPolling(pollInterval),
   });
