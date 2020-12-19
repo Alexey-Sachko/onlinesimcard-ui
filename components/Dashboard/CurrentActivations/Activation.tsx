@@ -68,11 +68,11 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
       [ActivationStatus.WaitAgain, ActivationStatus.WaitCode].includes(
         activation.status
       ) &&
-      activationTime - minute * 18 > currentTime
+      activationTime - minute * 19.5 > currentTime
     ) {
       enqueueSnackbar(
-        "Активацию можно завершить только спустя 2 минуты или после приёма смс",
-        { variant: "warning", autoHideDuration: 3000 }
+        "Активацию можно завершить только спустя 30 сукунд или после приёма смс",
+        { variant: "warning", autoHideDuration: 5000 }
       );
       return;
     }
