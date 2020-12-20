@@ -266,12 +266,18 @@ export type OrderType = {
   amount: Scalars['Float'];
   status: OrderStatus;
   createdAt: Scalars['DateTime'];
+  formVariant: PaymentVariant;
 };
 
 export enum OrderStatus {
   WaitPay = 'WAIT_PAY',
   Error = 'ERROR',
   Paid = 'PAID'
+}
+
+export enum PaymentVariant {
+  Freekassa = 'FREEKASSA',
+  BankCard = 'BANK_CARD'
 }
 
 export type Mutation = {
@@ -495,10 +501,6 @@ export type MakePaymentInput = {
   variant: PaymentVariant;
 };
 
-export enum PaymentVariant {
-  Freekassa = 'FREEKASSA'
-}
-
 export type MakePaymentResType = {
   __typename?: 'MakePaymentResType';
   orderId: Scalars['Float'];
@@ -614,7 +616,7 @@ export type MyOrdersQuery = (
   { __typename?: 'Query' }
   & { myOrders: Array<(
     { __typename?: 'OrderType' }
-    & Pick<OrderType, 'id' | 'paymentId' | 'amount' | 'status' | 'createdAt'>
+    & Pick<OrderType, 'id' | 'paymentId' | 'amount' | 'status' | 'createdAt' | 'formVariant'>
   )> }
 );
 
@@ -984,6 +986,7 @@ export const MyOrdersDocument = gql`
     amount
     status
     createdAt
+    formVariant
   }
 }
     `;

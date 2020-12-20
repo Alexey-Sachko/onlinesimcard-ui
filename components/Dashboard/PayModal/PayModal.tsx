@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   IconButton,
   makeStyles,
   Table,
@@ -20,8 +21,15 @@ import { Alert } from "@material-ui/lab";
 import CachedIcon from "@material-ui/icons/Cached";
 import { gql } from "@apollo/client";
 
+import freeKassaLogo from "./free-kassa.png";
+import cardLogo from "./card.png";
 import rubleIcon from "./ruble-icon.svg";
-import { OrderStatus, useMyOrdersQuery } from "../../../lib/types";
+import {
+  OrderStatus,
+  PaymentVariant,
+  useMyOrdersQuery,
+} from "../../../lib/types";
+import VariantItem from "./VariantItem";
 
 export const MY_ORDERS_QUERY = gql`
   query MyOrders {
@@ -31,6 +39,7 @@ export const MY_ORDERS_QUERY = gql`
       amount
       status
       createdAt
+      formVariant
     }
   }
 `;
@@ -41,7 +50,7 @@ const orderStatusMap: Record<OrderStatus, string> = {
   WAIT_PAY: "в обработке",
 };
 
-export type OnPayProps = { amount: number };
+export type OnPayProps = { amount: number; variant: PaymentVariant };
 
 export type PayModalProps = {
   open: boolean;
@@ -49,23 +58,58 @@ export type PayModalProps = {
   onPay?: (props: OnPayProps) => void | Promise<void>;
 };
 
+const formVariantText: Record<PaymentVariant, string> = {
+  [PaymentVariant.BankCard]: "Банковская карта",
+  [PaymentVariant.Freekassa]: "FreeKassa",
+};
+
+const factorMap: Record<PaymentVariant, number> = {
+  [PaymentVariant.BankCard]: 1.02,
+  [PaymentVariant.Freekassa]: 1.1,
+};
+
 const PayModal = ({ open, onClose, onPay }: PayModalProps) => {
   const { data, refetch } = useMyOrdersQuery();
   const classes = useStyles();
   const [amount, setAmount] = React.useState(100);
+  const [variant, setVariant] = React.useState(PaymentVariant.BankCard);
 
   const payHandler = async () => {
-    onPay && (await onPay({ amount }));
+    onPay && (await onPay({ amount, variant }));
     onClose();
   };
+
+  const sumWithComission = Math.round(amount * factorMap[variant] * 100) / 100;
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>Оплата</DialogTitle>
       <DialogContent dividers>
-        <div className={classes.kassaBox}>
-          <img src="https://www.free-kassa.ru/banner/logomail.png" />
-        </div>
+        <Box mb={2}>
+          <Typography>Выберите способ оплаты:</Typography>
+        </Box>
+
+        <Grid container className={classes.variants} spacing={3}>
+          <Grid item>
+            <VariantItem
+              name={"Банковская карта"}
+              comission={"~2%"}
+              imgUrl={cardLogo}
+              active={variant === PaymentVariant.BankCard}
+              onClick={() => setVariant(PaymentVariant.BankCard)}
+            />
+          </Grid>
+          <Grid item>
+            <VariantItem
+              name={"FreeKassa"}
+              comission={"~10%"}
+              imgUrl={freeKassaLogo}
+              active={variant === PaymentVariant.Freekassa}
+              onClick={() => setVariant(PaymentVariant.Freekassa)}
+            />
+          </Grid>
+        </Grid>
+
         <div>
           <TextField
             label="Сумма"
@@ -85,7 +129,7 @@ const PayModal = ({ open, onClose, onPay }: PayModalProps) => {
             variant="outlined"
             size="small"
             className={classes.field}
-            value={Math.round(amount * 1.1 * 100) / 100}
+            value={sumWithComission}
             InputProps={{
               endAdornment: <img src={rubleIcon} width="12" height="12" />,
             }}
@@ -117,6 +161,7 @@ const PayModal = ({ open, onClose, onPay }: PayModalProps) => {
             <TableRow>
               <TableCell>id</TableCell>
               <TableCell>Дата</TableCell>
+              <TableCell>Форма</TableCell>
               <TableCell>Сумма</TableCell>
               <TableCell>Статус</TableCell>
             </TableRow>
@@ -129,6 +174,7 @@ const PayModal = ({ open, onClose, onPay }: PayModalProps) => {
                   {new Date(order.createdAt).toLocaleDateString()}{" "}
                   {new Date(order.createdAt).toLocaleTimeString()}
                 </TableCell>
+                <TableCell>{formVariantText[order.formVariant]}</TableCell>
                 <TableCell>{order.amount} р.</TableCell>
                 <TableCell>{orderStatusMap[order.status]}</TableCell>
               </TableRow>
@@ -152,12 +198,8 @@ const useStyles = makeStyles(() => ({
     width: "200px",
     marginBottom: "30px",
   },
-  kassaBox: {
-    marginBottom: "10px",
-    width: "250px",
-    "& img": {
-      width: "100%",
-    },
+  variants: {
+    marginBottom: "25px",
   },
   payBtn: {
     marginTop: "20px",

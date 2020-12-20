@@ -40,10 +40,10 @@ const DashboardPage = () => {
 
   const [payModalOpen, setPayModalOpen] = useState(false);
 
-  const payHandler = async ({ amount }: OnPayProps) => {
+  const payHandler = async ({ amount, variant }: OnPayProps) => {
     const res = await makePayment({
       variables: {
-        makePaymentInput: { amount, variant: PaymentVariant.Freekassa },
+        makePaymentInput: { amount, variant },
       },
     });
     if (res.data) {
