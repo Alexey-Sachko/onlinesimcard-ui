@@ -43,7 +43,7 @@ const DashboardPage = () => {
   const payHandler = async ({ amount }: OnPayProps) => {
     const res = await makePayment({
       variables: {
-        makePaymentInput: { amount, variant: PaymentVariant.Interkassa },
+        makePaymentInput: { amount, variant: PaymentVariant.Freekassa },
       },
     });
     if (res.data) {

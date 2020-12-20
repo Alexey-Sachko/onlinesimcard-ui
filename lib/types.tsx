@@ -19,6 +19,7 @@ export type Query = {
   me: MeResponse;
   roles: Array<RoleType>;
   users: Array<UserType>;
+  usersStat: UsersStat;
   allPermissions: Array<Permissions>;
   myCurrentActivations: Array<ActivationType>;
   countries: Array<CountryType>;
@@ -104,7 +105,14 @@ export type UserType = {
   __typename?: 'UserType';
   id: Scalars['String'];
   email?: Maybe<Scalars['String']>;
-  role: RoleType;
+  role?: Maybe<RoleType>;
+  balance: Scalars['Float'];
+};
+
+export type UsersStat = {
+  __typename?: 'UsersStat';
+  totalBalance: Scalars['Float'];
+  usersCount: Scalars['Float'];
 };
 
 export type ActivationType = {
@@ -488,8 +496,7 @@ export type MakePaymentInput = {
 };
 
 export enum PaymentVariant {
-  Freekassa = 'FREEKASSA',
-  Interkassa = 'INTERKASSA'
+  Freekassa = 'FREEKASSA'
 }
 
 export type MakePaymentResType = {
