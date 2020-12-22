@@ -24,6 +24,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-jsx": "^2.2.8",
     "@types/yup": "^0.29.0",
+    "apollo-link-error": "^1.1.13",
     "await-to-ts": "^1.0.6",
     "axios": "^0.19.2",
     "clsx": "^1.1.0",

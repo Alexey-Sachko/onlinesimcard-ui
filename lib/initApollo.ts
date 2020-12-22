@@ -6,7 +6,7 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
+import { onError } from "apollo-link-error";
 import { NextPageContext } from "next";
 
 import { env } from "../env/env";
