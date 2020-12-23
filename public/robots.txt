@@ -1,15 +1,28 @@
 User-agent: Yandex
 Allow: /
+Disallow: /dashboard,
 Disallow: /verify/*
+Disallow: /verify
+Disallow: /forgot-password
+Disallow: /password-reset/*
+Disallow: /password-reset
 
 User-agent: Googlebot
 Allow: /
+Disallow: /dashboard,
 Disallow: /verify/*
+Disallow: /verify
 Disallow: /forgot-password
 Disallow: /password-reset/*
+Disallow: /password-reset
 
 User-agent: *
 Allow: /
+Disallow: /dashboard,
 Disallow: /verify/*
+Disallow: /verify
+Disallow: /forgot-password
+Disallow: /password-reset/*
+Disallow: /password-reset
 
 Host: https://virtualnum.ru/
