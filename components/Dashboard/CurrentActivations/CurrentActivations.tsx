@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
 import { gql } from "@apollo/client";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 import {
   ActivationStatus,
@@ -165,10 +166,13 @@ type CurrentActivationsProps = {
   buyLoading: boolean;
 };
 
-const pollInterval = 4000
+const pollInterval = 4000;
+
+const STORAGE_ALERT_POSSIBILITY_INFO_KEY = "POSSIBILITY_INFO";
 
 const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
   const classes = useStyles();
+  const [showAlert, setShowAlert] = React.useState(true);
   const { data, refetch, startPolling } = useMyCurrentActivationsQuery({
     pollInterval,
     onError: () => startPolling(pollInterval),
@@ -191,6 +195,26 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
     }
   }, [buyLoading]);
 
+  React.useEffect(() => {
+    const raw = localStorage.getItem(STORAGE_ALERT_POSSIBILITY_INFO_KEY);
+    try {
+      const value = JSON.parse(raw);
+      if (value === false) {
+        setShowAlert(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const closeAlert = () => {
+    setShowAlert(false);
+    localStorage.setItem(
+      STORAGE_ALERT_POSSIBILITY_INFO_KEY,
+      JSON.stringify(false)
+    );
+  };
+
   return (
     <Paper style={{ height: "100%" }}>
       <Box height="100%">
@@ -199,6 +223,22 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
         </Box>
 
         <Box height="calc(100% - 35px)" overflow="auto" px={2} py={2}>
+          {showAlert && (
+            <Box mb={2}>
+              <Alert severity="info" onClose={closeAlert}>
+                <AlertTitle>
+                  Если не приходит SMS - можно поменять номер бесплатно:
+                </AlertTitle>
+                <Typography variant="body2">
+                  1. Отмените операцию (деньги вернутся на счёт)
+                </Typography>
+                <Typography variant="body2">
+                  2. Закажите новый номер для нужного сервиса
+                </Typography>
+              </Alert>
+            </Box>
+          )}
+
           {data?.myCurrentActivations?.map((activation) => (
             <Box key={activation.id} mb={2}>
               <Activation
@@ -210,14 +250,10 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
           ))}
 
           {!data?.myCurrentActivations?.length && (
-            <Paper variant="outlined">
-              <Box px={2} py={3}>
-                <Typography>
-                  Нет операций. Закажите номер и используйте его для регистрации
-                  в выбранном сайте/приложении
-                </Typography>
-              </Box>
-            </Paper>
+            <Alert severity="warning">
+              Нет операций. Закажите номер и используйте его для регистрации в
+              выбранном сайте/приложении
+            </Alert>
           )}
         </Box>
       </Box>
