@@ -1,16 +1,16 @@
-import React, { ComponentProps } from "react";
-import { settings, settingsMedium, settingsSmall } from "./settings";
-import { useTheme, themeBasic } from "../../hooks/useTheme";
+import React, { ComponentProps } from 'react'
+import { settings, settingsMedium, settingsSmall } from './settings'
+import { useTheme, themeBasic } from '../../hooks/useTheme'
 
 type Props = {
-  variant?: keyof typeof settings;
-  className?: string;
-  color?: keyof typeof themeBasic["colors"];
-  align?: "left" | "center" | "right";
-  fontWeight?: "bold" | "normal" | "lighter";
-  letterSpacing?: string;
-  wordSpacing?: string;
-} & ComponentProps<"span">;
+  variant?: keyof typeof settings
+  className?: string
+  color?: keyof typeof themeBasic['colors']
+  align?: 'left' | 'center' | 'right'
+  fontWeight?: 'bold' | 'normal' | 'lighter'
+  letterSpacing?: string
+  wordSpacing?: string
+} & ComponentProps<'span'>
 
 const Typography: React.FC<Props> = ({
   children,
@@ -23,25 +23,25 @@ const Typography: React.FC<Props> = ({
   wordSpacing,
   ...props
 }) => {
-  const theme = useTheme();
+  const theme = useTheme()
   if (!variant) {
     return (
-      <span className={className ? className : ""} {...props}>
+      <span className={className ? className : ''} {...props}>
         {children}
       </span>
-    );
+    )
   }
 
-  const settingsItem = settings[variant];
-  const mediumSettingItem = settingsMedium[variant];
-  const settingsSmallItem = settingsSmall[variant];
+  const settingsItem = settings[variant]
+  const mediumSettingItem = settingsMedium[variant]
+  const settingsSmallItem = settingsSmall[variant]
 
   if (!settingsItem) {
     return (
-      <span className={className ? className : ""} {...props}>
+      <span className={className ? className : ''} {...props}>
         {children}
       </span>
-    );
+    )
   }
 
   return (
@@ -52,11 +52,11 @@ const Typography: React.FC<Props> = ({
           font-size: ${settingsItem.fontSize};
           font-weight: ${fontWeight ? fontWeight : settingsItem.fontWeight};
           line-height: ${settingsItem.lineHeight};
-          color: ${color ? theme.colors[color] : theme.colors.jetBasic};
-          text-align: ${align ? align : "initial"};
+          color: ${color ? theme.colors[color] : 'inherit'};
+          text-align: ${align ? align : 'initial'};
           word-break: break-word;
-          letter-spacing: ${letterSpacing ? letterSpacing : "initial"};
-          word-spacing: ${wordSpacing ? wordSpacing : "initial"};
+          letter-spacing: ${letterSpacing ? letterSpacing : 'initial'};
+          word-spacing: ${wordSpacing ? wordSpacing : 'initial'};
         }
         @media (max-width: 768px) {
           .typography {
@@ -67,7 +67,7 @@ const Typography: React.FC<Props> = ({
               : mediumSettingItem.fontWeight};
             line-height: ${mediumSettingItem.lineHeight};
             color: ${color ? theme.colors[color] : theme.colors.jetBasic};
-            text-align: ${align ? align : "initial"};
+            text-align: ${align ? align : 'initial'};
           }
         }
         @media (max-width: 576px) {
@@ -79,16 +79,16 @@ const Typography: React.FC<Props> = ({
               : settingsSmallItem.fontWeight};
             line-height: ${settingsSmallItem.lineHeight};
             color: ${color ? theme.colors[color] : theme.colors.jetBasic};
-            text-align: ${align ? align : "initial"};
+            text-align: ${align ? align : 'initial'};
           }
         }
       `}</style>
 
-      <span className={`typography ${className ? className : ""}`} {...props}>
+      <span className={`typography ${className ? className : ''}`} {...props}>
         {children}
       </span>
     </>
-  );
-};
+  )
+}
 
-export default Typography;
+export default Typography
