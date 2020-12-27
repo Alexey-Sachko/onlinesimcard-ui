@@ -1,8 +1,13 @@
-import React from "react";
+import { CSSProperties } from "@material-ui/core/styles/withStyles"
+import React from "react"
 
-const CustomContainer: React.FC = ({ children }) => {
+type Props = {
+  style?: CSSProperties
+}
+
+const CustomContainer: React.FC<Props> = ({ children, style }) => {
   return (
-    <div className="custom-container">
+    <div className="custom-container" style={style}>
       <style jsx>{`
         .custom-container {
           width: 1380px;
@@ -17,13 +22,13 @@ const CustomContainer: React.FC = ({ children }) => {
 
         @media (max-width: 576px) {
           .custom-container {
-            margin: 0 15px;
+            margin: 0 0;
           }
         }
       `}</style>
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default CustomContainer;
+export default CustomContainer

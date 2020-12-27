@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Box,
   Chip,
@@ -13,12 +13,12 @@ import {
   Paper,
   Tooltip,
   Typography,
-} from "@material-ui/core";
-import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
-import { gql } from "@apollo/client";
+} from '@material-ui/core'
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
+import { gql } from '@apollo/client'
 
-import { useServicesQuery } from "../../../lib/types";
-import { ServiceIcon } from "./ServiceIcon";
+import { useServicesQuery } from '../../../lib/types'
+import { ServiceIcon } from './ServiceIcon'
 
 export const SERVICES_QUERY = gql`
   query Services($countryCode: String!) {
@@ -30,32 +30,31 @@ export const SERVICES_QUERY = gql`
       count
     }
   }
-`;
+`
 
-export type OnBuyParams = { serviceCode: string };
+export type OnBuyParams = { serviceCode: string }
 
 export type LoadingMap = {
-  [serviceCode: string]: true;
-};
+  [serviceCode: string]: true
+}
 
 type ServicesProps = {
-  countryCode: string;
-  loadingMap: LoadingMap;
-  onBuy: (params: OnBuyParams) => Promise<void>;
-};
+  countryCode: string
+  loadingMap: LoadingMap
+  onBuy: (params: OnBuyParams) => Promise<void>
+}
 
 const pollInterval = 4000
 
 const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   const { data, startPolling } = useServicesQuery({
     variables: { countryCode },
-    pollInterval,
-    onError: () => startPolling(pollInterval),
-    onCompleted: () => startPolling(pollInterval),
-  });
-
+    // pollInterval,
+    // onError: () => startPolling(pollInterval),
+    // onCompleted: () => startPolling(pollInterval),
+  })
 
   return (
     <Box height="100%">
@@ -63,10 +62,10 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
         <Typography>Сервисы</Typography>
       </Box>
 
-      <Paper style={{ height: "calc(100% - 30px)" }}>
-        <List dense style={{ height: "100%", overflowY: "auto" }}>
+      <Paper style={{ height: 'calc(100% - 30px)' }}>
+        <List dense style={{ height: '100%', overflowY: 'auto' }}>
           {data?.services.map(({ id, name, code, priceAmount, count }, idx) => {
-            const loading = loadingMap[code];
+            const loading = loadingMap[code]
 
             return (
               <ListItem divider={idx < data?.services.length - 1} key={id}>
@@ -87,7 +86,7 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
                       label={<>{priceAmount}р.</>}
                     />
                   </Box>
-                  <Tooltip title={!loading ? "Купить" : ""} arrow>
+                  <Tooltip title={!loading ? 'Купить' : ''} arrow>
                     <IconButton
                       size="small"
                       color="primary"
@@ -103,19 +102,19 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
                   </Tooltip>
                 </ListItemSecondaryAction>
               </ListItem>
-            );
+            )
           })}
         </List>
       </Paper>
     </Box>
-  );
-};
+  )
+}
 
-export default Services;
+export default Services
 
 const useStyles = makeStyles((theme) => ({
   countCaption: {
     color: theme.palette.grey[400],
-    fontSize: "10px",
+    fontSize: '10px',
   },
-}));
+}))

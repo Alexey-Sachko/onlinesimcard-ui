@@ -1,37 +1,37 @@
-import axios from "axios";
+import axios from "axios"
+import { SetUseState } from "./NumberItem/NumberItem"
+import { FreeNumbers } from "./types"
 
-const HOST = "https://onlinesim.ru/api";
+const HOST = "https://onlinesim.ru/api"
 
-type GetPhoneList = {
-  selectedCountry: number;
-};
+type GetFreeList = {
+  page?: number | null
+  number?: number | string | null
+  subkey?: string | null
+  lang?: string
+  country?: number
+  setLoading?: SetUseState<boolean>
+}
 
-export const getPhoneList = async ({ selectedCountry }: GetPhoneList) => {
-  const numbersData = await axios.get(`${HOST}/getFreePhoneList`, {
+export const getFreeList = async ({
+  page = null,
+  number = null,
+  subkey = null,
+  country = null,
+  lang = "ru",
+  setLoading,
+}: GetFreeList): Promise<FreeNumbers> => {
+  setLoading?.(true)
+  const freeList = await axios.get<FreeNumbers>(`${HOST}/getFreeList`, {
     params: {
-      country: selectedCountry,
-      lang: "ru",
+      page,
+      number,
+      lang,
+      subkey,
+      country,
     },
-  });
-  return numbersData;
-};
+  })
+  setLoading?.(false)
 
-type GetMessagesList = {
-  selectedNumber: number | string;
-  page: number;
-};
-
-export const getMessagesList = async ({
-  selectedNumber,
-  page,
-}: GetMessagesList) => {
-  const messagesData = await axios.get(`${HOST}/getFreeMessageList`, {
-    params: {
-      page: page,
-      phone: selectedNumber,
-      lang: "ru",
-    },
-  });
-
-  return messagesData?.data;
-};
+  return freeList.data
+}

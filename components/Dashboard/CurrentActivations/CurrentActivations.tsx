@@ -1,6 +1,6 @@
-import React from "react";
-import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
-import { gql } from "@apollo/client";
+import React from 'react'
+import { Box, makeStyles, Paper, Typography } from '@material-ui/core'
+import { gql } from '@apollo/client'
 
 import {
   ActivationStatus,
@@ -8,23 +8,23 @@ import {
   useCancelActivationMutation,
   useMyCurrentActivationsQuery,
   useFinishActivationMutation,
-} from "../../../lib/types";
-import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from "./Activation";
+} from '../../../lib/types'
+import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from './Activation'
 
 const mock: ActivationType[] = [
   {
     cost: 100,
     id: 1,
     expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
+    phoneNum: '+7 (908) 924-88-27',
     status: ActivationStatus.SmsRecieved,
-    sourceActivationId: "12039810",
-    serviceCode: "vk",
-    countryCode: "0",
+    sourceActivationId: '12039810',
+    serviceCode: 'vk',
+    countryCode: '0',
     activationCodes: [
       {
         activationId: 1,
-        code: "23212424213",
+        code: '23212424213',
         id: 10,
       },
     ],
@@ -33,15 +33,15 @@ const mock: ActivationType[] = [
     cost: 100,
     id: 2,
     expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
+    phoneNum: '+7 (908) 924-88-27',
     status: ActivationStatus.SmsRecieved,
-    sourceActivationId: "12039810",
-    serviceCode: "vk",
-    countryCode: "1",
+    sourceActivationId: '12039810',
+    serviceCode: 'vk',
+    countryCode: '1',
     activationCodes: [
       {
         activationId: 1,
-        code: "23212424213",
+        code: '23212424213',
         id: 10,
       },
     ],
@@ -50,15 +50,15 @@ const mock: ActivationType[] = [
     cost: 100,
     id: 2,
     expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
+    phoneNum: '+7 (908) 924-88-27',
     status: ActivationStatus.SmsRecieved,
-    sourceActivationId: "12039810",
-    serviceCode: "vk",
-    countryCode: "0",
+    sourceActivationId: '12039810',
+    serviceCode: 'vk',
+    countryCode: '0',
     activationCodes: [
       {
         activationId: 1,
-        code: "23212424213",
+        code: '23212424213',
         id: 10,
       },
     ],
@@ -67,15 +67,15 @@ const mock: ActivationType[] = [
     cost: 100,
     id: 2,
     expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
+    phoneNum: '+7 (908) 924-88-27',
     status: ActivationStatus.SmsRecieved,
-    sourceActivationId: "12039810",
-    serviceCode: "vk",
-    countryCode: "0",
+    sourceActivationId: '12039810',
+    serviceCode: 'vk',
+    countryCode: '0',
     activationCodes: [
       {
         activationId: 1,
-        code: "23212424213",
+        code: '23212424213',
         id: 10,
       },
     ],
@@ -84,15 +84,15 @@ const mock: ActivationType[] = [
     cost: 100,
     id: 2,
     expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
+    phoneNum: '+7 (908) 924-88-27',
     status: ActivationStatus.SmsRecieved,
-    sourceActivationId: "12039810",
-    serviceCode: "vk",
-    countryCode: "0",
+    sourceActivationId: '12039810',
+    serviceCode: 'vk',
+    countryCode: '0',
     activationCodes: [
       {
         activationId: 1,
-        code: "23212424213",
+        code: '23212424213',
         id: 10,
       },
     ],
@@ -101,15 +101,15 @@ const mock: ActivationType[] = [
     cost: 100,
     id: 2,
     expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
+    phoneNum: '+7 (908) 924-88-27',
     status: ActivationStatus.SmsRecieved,
-    sourceActivationId: "12039810",
-    serviceCode: "vk",
-    countryCode: "0",
+    sourceActivationId: '12039810',
+    serviceCode: 'vk',
+    countryCode: '0',
     activationCodes: [
       {
         activationId: 1,
-        code: "23212424213",
+        code: '23212424213',
         id: 10,
       },
     ],
@@ -118,20 +118,20 @@ const mock: ActivationType[] = [
     cost: 100,
     id: 2,
     expiresAt: new Date(new Date().getTime() + 1000 * 60 * 20).toISOString(),
-    phoneNum: "+7 (908) 924-88-27",
+    phoneNum: '+7 (908) 924-88-27',
     status: ActivationStatus.SmsRecieved,
-    sourceActivationId: "12039810",
-    serviceCode: "vk",
-    countryCode: "0",
+    sourceActivationId: '12039810',
+    serviceCode: 'vk',
+    countryCode: '0',
     activationCodes: [
       {
         activationId: 1,
-        code: "23212424213",
+        code: '23212424213',
         id: 10,
       },
     ],
   },
-];
+]
 
 export const MY_CURRENT_ACTIVATIONS_QUERY = gql`
   query MyCurrentActivations {
@@ -141,7 +141,7 @@ export const MY_CURRENT_ACTIVATIONS_QUERY = gql`
   }
 
   ${DISPLAY_ACTIVATION_FRAGMENT}
-`;
+`
 
 export const CANCEL_ACTIVATION_MUTATION = gql`
   mutation CancelActivation($activationId: Int!) {
@@ -150,7 +150,7 @@ export const CANCEL_ACTIVATION_MUTATION = gql`
       message
     }
   }
-`;
+`
 
 export const FINISH_ACTIVATION_MUTATION = gql`
   mutation FinishActivation($activationId: Int!) {
@@ -159,40 +159,40 @@ export const FINISH_ACTIVATION_MUTATION = gql`
       message
     }
   }
-`;
+`
 
 type CurrentActivationsProps = {
-  buyLoading: boolean;
-};
+  buyLoading: boolean
+}
 
 const pollInterval = 4000
 
 const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
-  const classes = useStyles();
+  const classes = useStyles()
   const { data, refetch, startPolling } = useMyCurrentActivationsQuery({
-    pollInterval,
-    onError: () => startPolling(pollInterval),
-    onCompleted: () => startPolling(pollInterval),
-  });
-  const [cancelActivation] = useCancelActivationMutation();
-  const [finishActivation] = useFinishActivationMutation();
+    // pollInterval,
+    // onError: () => startPolling(pollInterval),
+    // onCompleted: () => startPolling(pollInterval),
+  })
+  const [cancelActivation] = useCancelActivationMutation()
+  const [finishActivation] = useFinishActivationMutation()
 
   const onCancelActivation = (activationId: number) => {
-    cancelActivation({ variables: { activationId } }).finally(() => refetch());
-  };
+    cancelActivation({ variables: { activationId } }).finally(() => refetch())
+  }
 
   const onFinishActivation = (activationId: number) => {
-    finishActivation({ variables: { activationId } }).finally(() => refetch());
-  };
+    finishActivation({ variables: { activationId } }).finally(() => refetch())
+  }
 
   React.useEffect(() => {
     if (!buyLoading) {
-      refetch && refetch();
+      refetch && refetch()
     }
-  }, [buyLoading]);
+  }, [buyLoading])
 
   return (
-    <Paper style={{ height: "100%" }}>
+    <Paper style={{ height: '100%' }}>
       <Box height="100%">
         <Box px={3} py={1} className={classes.header}>
           <Typography variant="body2">Операции:</Typography>
@@ -222,15 +222,15 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
         </Box>
       </Box>
     </Paper>
-  );
-};
+  )
+}
 
-export default CurrentActivations;
+export default CurrentActivations
 
 const useStyles = makeStyles(() => ({
   header: {
-    background: "#eee",
-    borderTopLeftRadius: "5px",
-    borderTopRightRadius: "5px",
+    background: '#eee',
+    borderTopLeftRadius: '5px',
+    borderTopRightRadius: '5px',
   },
-}));
+}))

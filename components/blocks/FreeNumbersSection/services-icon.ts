@@ -1,0 +1,15 @@
+export default {
+  DEFAULT: "static/icons/ot.png",
+  ВКОНТАКТЕ: "static/icons/vk.png",
+  "DISCORD@": "static/icons/ds.png",
+  LENTA: "static/icons/rd.png",
+  DODOPIZZA: "static/icons/sd.png",
+  IMO: "static/icons/im.png",
+  "OZON.RU@": "static/icons/sg.png",
+  STEAM: "static/icons/mt.png",
+  GOOGLE: "static/icons/go.png",
+  TINDER: "static/icons/oi.png",
+  MAILRU: "static/icons/ma.png",
+  BLIZZARD: "static/icons/bz.png",
+  FACEBOOK: "static/icons/fb.png",
+}
