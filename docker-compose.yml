@@ -5,5 +5,5 @@ services:
     build: ./
     image: 23091996/onlinesim_uuitfdsssmlcjkfjjdjnrjhhdu
     ports:
-      - "3000:3000"
+      - "3000:80"
     restart: unless-stopped

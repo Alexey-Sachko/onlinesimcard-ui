@@ -1,6 +1,8 @@
 FROM node:12.3.1-alpine
 
-EXPOSE 3000
+RUN apk update && apk add nginx
+
+EXPOSE 80
 
 RUN mkdir -p /usr/bin/front
 WORKDIR /usr/bin/front
@@ -14,4 +16,13 @@ COPY . /usr/bin/front/
 
 RUN yarn build
 
-CMD [ "yarn", "start" ]
+# Remove any existing config files
+RUN rm /etc/nginx/conf.d/*
+
+# Copy config files
+# *.conf files in conf.d/ dir get included in main config
+COPY ./nginx/default.conf /etc/nginx/conf.d/
+
+RUN mkdir -p /run/nginx
+
+CMD nginx && yarn start
