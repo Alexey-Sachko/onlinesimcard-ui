@@ -1,7 +1,7 @@
-import React from "react";
-import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
-import { gql } from "@apollo/client";
-import { Alert, AlertTitle } from "@material-ui/lab";
+import React from "react"
+import { Box, makeStyles, Paper, Typography } from "@material-ui/core"
+import { gql } from "@apollo/client"
+import { Alert, AlertTitle } from "@material-ui/lab"
 
 import {
   ActivationStatus,
@@ -9,8 +9,8 @@ import {
   useCancelActivationMutation,
   useMyCurrentActivationsQuery,
   useFinishActivationMutation,
-} from "../../../lib/types";
-import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from "./Activation";
+} from "../../../lib/types"
+import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from "./Activation"
 
 const mock: ActivationType[] = [
   {
@@ -132,7 +132,7 @@ const mock: ActivationType[] = [
       },
     ],
   },
-];
+]
 
 export const MY_CURRENT_ACTIVATIONS_QUERY = gql`
   query MyCurrentActivations {
@@ -142,7 +142,7 @@ export const MY_CURRENT_ACTIVATIONS_QUERY = gql`
   }
 
   ${DISPLAY_ACTIVATION_FRAGMENT}
-`;
+`
 
 export const CANCEL_ACTIVATION_MUTATION = gql`
   mutation CancelActivation($activationId: Int!) {
@@ -151,7 +151,7 @@ export const CANCEL_ACTIVATION_MUTATION = gql`
       message
     }
   }
-`;
+`
 
 export const FINISH_ACTIVATION_MUTATION = gql`
   mutation FinishActivation($activationId: Int!) {
@@ -160,60 +160,60 @@ export const FINISH_ACTIVATION_MUTATION = gql`
       message
     }
   }
-`;
+`
 
 type CurrentActivationsProps = {
-  buyLoading: boolean;
-};
+  buyLoading: boolean
+}
 
-const pollInterval = 4000;
+const pollInterval = 4000
 
-const STORAGE_ALERT_POSSIBILITY_INFO_KEY = "POSSIBILITY_INFO";
+const STORAGE_ALERT_POSSIBILITY_INFO_KEY = "POSSIBILITY_INFO"
 
 const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
-  const classes = useStyles();
-  const [showAlert, setShowAlert] = React.useState(true);
+  const classes = useStyles()
+  const [showAlert, setShowAlert] = React.useState(true)
   const { data, refetch, startPolling } = useMyCurrentActivationsQuery({
     pollInterval,
-    onError: () => startPolling(pollInterval),
-    onCompleted: () => startPolling(pollInterval),
-  });
-  const [cancelActivation] = useCancelActivationMutation();
-  const [finishActivation] = useFinishActivationMutation();
+    // onError: () => startPolling(pollInterval),
+    // onCompleted: () => startPolling(pollInterval),
+  })
+  const [cancelActivation] = useCancelActivationMutation()
+  const [finishActivation] = useFinishActivationMutation()
 
   const onCancelActivation = (activationId: number) => {
-    cancelActivation({ variables: { activationId } }).finally(() => refetch());
-  };
+    cancelActivation({ variables: { activationId } }).finally(() => refetch())
+  }
 
   const onFinishActivation = (activationId: number) => {
-    finishActivation({ variables: { activationId } }).finally(() => refetch());
-  };
+    finishActivation({ variables: { activationId } }).finally(() => refetch())
+  }
 
   React.useEffect(() => {
     if (!buyLoading) {
-      refetch && refetch();
+      refetch && refetch()
     }
-  }, [buyLoading]);
+  }, [buyLoading])
 
   React.useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_ALERT_POSSIBILITY_INFO_KEY);
+    const raw = localStorage.getItem(STORAGE_ALERT_POSSIBILITY_INFO_KEY)
     try {
-      const value = JSON.parse(raw);
+      const value = JSON.parse(raw)
       if (value === false) {
-        setShowAlert(false);
+        setShowAlert(false)
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  }, []);
+  }, [])
 
   const closeAlert = () => {
-    setShowAlert(false);
+    setShowAlert(false)
     localStorage.setItem(
       STORAGE_ALERT_POSSIBILITY_INFO_KEY,
       JSON.stringify(false)
-    );
-  };
+    )
+  }
 
   return (
     <Paper style={{ height: "100%" }}>
@@ -258,10 +258,10 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
         </Box>
       </Box>
     </Paper>
-  );
-};
+  )
+}
 
-export default CurrentActivations;
+export default CurrentActivations
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -269,4 +269,4 @@ const useStyles = makeStyles(() => ({
     borderTopLeftRadius: "5px",
     borderTopRightRadius: "5px",
   },
-}));
+}))

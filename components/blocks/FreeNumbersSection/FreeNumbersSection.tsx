@@ -27,7 +27,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
     ;(async () => {
       const freeNumbers = await getFreeList({
         page: currentPage,
-        number: freeData?.messages?.number,
+        number: selectedNumber,
         country: selectedCountry,
         setLoading,
       })
