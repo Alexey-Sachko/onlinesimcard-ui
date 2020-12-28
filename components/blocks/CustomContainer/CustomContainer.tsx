@@ -3,26 +3,33 @@ import React from "react"
 
 type Props = {
   style?: CSSProperties
+  width?: string
+  margin?: string
 }
 
-const CustomContainer: React.FC<Props> = ({ children, style }) => {
+const CustomContainer: React.FC<Props> = ({
+  children,
+  style,
+  width = "1380px",
+  margin = "0 30px",
+}) => {
   return (
     <div className="custom-container" style={style}>
       <style jsx>{`
         .custom-container {
-          width: 1380px;
+          width: ${width};
           margin: 0 auto;
         }
         @media (max-width: 1440px) {
           .custom-container {
-            margin: 0 30px;
+            margin: ${margin ? margin : "0 30px"};
             width: auto;
           }
         }
 
         @media (max-width: 576px) {
           .custom-container {
-            margin: 0 0;
+            margin: ${margin ? "0 15px" : "0 0"};
           }
         }
       `}</style>

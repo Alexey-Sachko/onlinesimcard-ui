@@ -13,7 +13,7 @@ const MainSection = () => {
   const theme = useTheme()
 
   return (
-    <CustomContainer style={{ margin: "0 10px" }}>
+    <CustomContainer margin="0 30px" width="1380px">
       <style jsx>
         {`
           .title-text {
