@@ -52,8 +52,8 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
   const { data, startPolling } = useServicesQuery({
     variables: { countryCode },
     pollInterval,
-    // onError: () => startPolling(pollInterval),
-    // onCompleted: () => startPolling(pollInterval),
+    onError: () => startPolling(pollInterval),
+    onCompleted: () => startPolling(pollInterval),
   })
 
   return (

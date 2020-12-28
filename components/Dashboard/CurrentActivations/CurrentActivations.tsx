@@ -175,8 +175,8 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
   const [showAlert, setShowAlert] = React.useState(true)
   const { data, refetch, startPolling } = useMyCurrentActivationsQuery({
     pollInterval,
-    // onError: () => startPolling(pollInterval),
-    // onCompleted: () => startPolling(pollInterval),
+    onError: () => startPolling(pollInterval),
+    onCompleted: () => startPolling(pollInterval),
   })
   const [cancelActivation] = useCancelActivationMutation()
   const [finishActivation] = useFinishActivationMutation()

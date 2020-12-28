@@ -37,8 +37,8 @@ export const useAuth = (): AuthData => {
     execute,
     { data, loading, called, error, startPolling, stopPolling },
   ] = useMeLazyQuery({
-    // onError: () => stopPolling(),
-    // onCompleted: () => startPolling(3000),
+    onError: () => stopPolling(),
+    onCompleted: () => startPolling(3000),
     pollInterval: 3000,
     fetchPolicy: "cache-and-network",
   })
