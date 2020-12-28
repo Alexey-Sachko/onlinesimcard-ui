@@ -1,86 +1,91 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react"
 
-import Typography from "../../layout/Typography";
-import CountryBlock from "./CountryBlock";
-import CustomContainer from "../CustomContainer";
-import ProductCard from "../ProductCard";
-import NumbersList from "./NumbersList";
-import MessageList from "./MessageList";
-import countryData from "./country-data";
-import Pagination from "../Pagination";
-import { getPhoneList, getMessagesList } from "./utils";
-import { useTheme } from "../../hooks/useTheme";
+import Typography from "../../layout/Typography"
+import CountryItem from "./CountryItem"
+import CustomContainer from "../CustomContainer"
+import ProductCard from "../ProductCard"
+import NumbersList from "./NumbersList"
+import MessageList from "./MessageList"
+import countryFlags from "./country-settings"
+import { getFreeList } from "./utils"
+import { useTheme } from "../../hooks/useTheme"
+import { FreeNumbers } from "./types"
 
 type Props = {
-  setIsShowNotify: (prev: boolean) => void;
-};
+  setIsShowNotify: (prev: boolean) => void
+}
 
 const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
-  const theme = useTheme();
-  const [selectedCountry, setSelectedCountry] = useState(7);
-  const [dataNumbers, setDataNumbers] = useState<any>([]);
-  const [dataMessages, setDataMessages] = useState<any>({});
-  const [selectedNumber, setSelectedNumber] = useState<string | number>(0);
-  const [currentPage, setPage] = useState(1);
-  const [reloadNumbers, setReloadNumbers] = useState(false);
-  const [reloadMessages, setReloadMessages] = useState(false);
+  const theme = useTheme()
+  const [selectedCountry, setSelectedCountry] = useState(7)
+  const [freeData, setFreeData] = useState<FreeNumbers>(null)
+  const [selectedNumber, setSelectedNumber] = useState<string | number>(0)
+  const [currentPage, setPage] = useState(1)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    ;(async () => {
+      const freeNumbers = await getFreeList({
+        page: currentPage,
+        number: freeData?.messages?.number,
+        country: selectedCountry,
+        setLoading,
+      })
+      setFreeData(freeNumbers)
+    })()
+  }, [selectedCountry, selectedNumber])
+
+  useEffect(() => {
+    ;(async () => {
+      const freeNumbers = await getFreeList({
+        page: currentPage,
+        number: freeData?.messages?.number,
+        country: selectedCountry,
+        setLoading,
+      })
+      setFreeData({
+        ...freeNumbers,
+        messages: {
+          ...(freeNumbers?.messages || {}),
+          data: [
+            ...(freeData?.messages?.data || []),
+            ...(freeNumbers.messages.data || []),
+          ],
+        },
+      })
+    })()
+  }, [currentPage])
 
   const onSelectCountry = useCallback(
     (code: number) => {
       if (selectedCountry !== code) {
-        setSelectedCountry(code);
+        setSelectedCountry(code)
       }
     },
     [selectedCountry]
-  );
+  )
 
   useEffect(() => {
-    (async () => {
-      const numbersData = await getPhoneList({ selectedCountry });
-      const messagesData = await getMessagesList({
-        page: currentPage,
-        selectedNumber,
-      });
-
-      setDataNumbers(numbersData?.data?.numbers);
-      setSelectedNumber(numbersData?.data?.numbers?.[0]?.number);
-      setDataMessages(messagesData?.messages);
-    })();
-  }, [selectedCountry, reloadNumbers]);
-
-  useEffect(() => {
-    (async () => {
-      const messagesData = await getMessagesList({
-        page: currentPage,
-        selectedNumber,
-      });
-      //@ts-ignore
-      setDataMessages(messagesData?.messages);
-    })();
-  }, [currentPage, selectedNumber, reloadMessages]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [selectedCountry, selectedNumber, reloadMessages]);
+    setPage(1)
+  }, [selectedCountry, selectedNumber])
 
   const onSelectNumber = useCallback(
     (number: number | string) => {
-      setSelectedNumber(number);
+      setSelectedNumber(number)
     },
     [selectedNumber]
-  );
+  )
 
-  const onReloadMessages = useCallback(() => {
-    setReloadMessages((prev) => !prev);
-  }, []);
-  const onReloadNumbers = useCallback(() => {
-    setReloadNumbers((prev) => !prev);
-  }, []);
-  const onChangePage = (page: number) => {
-    if (page !== currentPage) {
-      setPage(page);
-    }
-  };
+  const onReloadFreeNumbers = async () => {
+    const freeNumbers = await getFreeList({
+      page: 1,
+      number: selectedNumber,
+      country: selectedCountry,
+      setLoading,
+    })
+    setPage(1)
+    setFreeData(freeNumbers)
+  }
 
   return (
     <div className="wrapper">
@@ -97,60 +102,76 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
             margin-bottom: 50px;
           }
 
+          .header__underline {
+            position: relative;
+          }
           .content-container {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            grid-gap: 4vw;
+            grid-template-columns: repeat(12, 0.5fr);
+            grid-gap: 2vw;
             grid-auto-flow: dense;
-            grid-template-areas:
-              "a a a a a a"
-              "b c c c c c";
+            grid-template-areas: "a a a b b b b b b b b b";
           }
-          .country-block-wrapper {
+
+          .country-numbers {
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px 0;
             grid-area: a;
-            display: flex;
-            justify-content: center;
+            margin-right: 30px;
+            height: max-content;
           }
-          .numbers-list-container {
-            grid-area: b;
+
+          .header__underline:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 8px;
+            height: 10px;
+            width: 100%;
+            background: #ffd028;
           }
+
+          .header__underline-text {
+            position: relative;
+            z-index: 900;
+          }
+
           .message-list-container {
-            grid-area: c;
+            grid-area: b;
             margin-bottom: 50px;
           }
-          .country-block-container {
-            margin: 0 auto 0 auto;
+          .numbers-seperator {
+            padding-top: 10px;
+            margin: 0 20px 10px 20px;
+            border-bottom: 1px solid #dedede;
           }
-          .country-block-inner {
-            box-shadow: ${theme.shadows.usualShadow};
-            border-radius: 5px;
-            display: flex;
+
+          @media (max-width: 1276px) {
+            .content-container {
+              grid-template-columns: repeat(12, 0.5fr);
+              grid-template-areas: "a a a a b b b b b b b b";
+            }
+
+            .country-numbers {
+              margin-right: 0;
+            }
           }
 
           @media (max-width: 1024px) {
             .content-container {
-              grid-template-areas:
-                "b b b b a a"
-                "c c c c c c";
+              grid-template-columns: repeat(1, 1fr);
+              grid-template-areas: "a" "b";
             }
-            .country-block-wrapper {
-              margin-left: auto;
-            }
-            .country-block-container {
-              margin: 42px auto auto;
-            }
-            .country-block-inner {
-              flex-direction: column;
+
+            .country-numbers {
+              margin-right: 0;
             }
           }
           @media (max-width: 768px) {
             .content-container {
-              grid-template-areas:
-                "b b b b b a"
-                "c c c c c c";
-            }
-            .country-block-container {
-              margin: 39px auto auto;
+              grid-template-columns: repeat(1, 1fr);
+              grid-template-areas: "a" "b";
             }
           }
 
@@ -158,81 +179,56 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
             .message-list-container {
               margin-top: 15px;
             }
-            .country-block-inner {
-              flex-direction: row;
-            }
-            .content-container {
-              grid-template-areas:
-                "a a a a a a"
-                "b b b b b b"
-                "c c c c c c";
-            }
-            .country-block-wrapper {
-              margin-left: 0;
-            }
-            .country-block-container {
-              margin: 0 auto;
-            }
-            .country-block-container {
-              width: 100%;
-            }
-            .country-block-inner {
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
-            }
           }
         `}
       </style>
 
       <CustomContainer>
         <div className="header">
-          <Typography variant="h3">
-            Прием СМС на бесплатные виртуальные номера
+          <Typography color="textPrimary" variant="h2">
+            Попробуйте наши{" "}
+            <span className="header__underline">
+              <span className="header__underline-text">бесплатные</span>
+            </span>{" "}
+            <br />
+            виртуальные номера
           </Typography>
         </div>
         <div className="content-container">
-          <div className="country-block-wrapper">
-            <div className="country-block-container">
-              <div className="country-block-inner">
-                {countryData.map(({ label, image, code }) => (
-                  <CountryBlock
-                    key={code}
-                    label={label}
-                    image={image}
-                    code={code}
-                    selected={selectedCountry === code}
-                    onSelectCountry={onSelectCountry}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="numbers-list-container">
+          <div className="country-numbers">
+            {Object.values(freeData?.countries || {}).map(
+              ({ country, country_text }) => (
+                <CountryItem
+                  key={country}
+                  label={country_text}
+                  image={countryFlags[country]?.flagSrc}
+                  code={country}
+                  selected={selectedCountry === country}
+                  onSelectCountry={onSelectCountry}
+                />
+              )
+            )}
+            <div className="numbers-seperator"></div>
             <NumbersList
-              data={dataNumbers}
+              data={freeData?.numbers || {}}
               onSelectNumber={onSelectNumber}
-              selectedNumber={selectedNumber}
-              onReloadNumbers={onReloadNumbers}
+              selectedNumber={selectedNumber || freeData?.messages?.number}
               setIsShowNotify={setIsShowNotify}
             />
           </div>
 
           <div className="message-list-container">
             <MessageList
-              data={dataMessages?.data}
-              onReloadMessages={onReloadMessages}
-            />
-            <Pagination
-              currentPage={currentPage}
-              onChange={onChangePage}
-              totalCount={dataMessages?.last_page || 0}
+              freeNumbers={freeData}
+              onReloadFreeNumbers={onReloadFreeNumbers}
+              setPage={setPage}
+              loading={loading}
             />
           </div>
         </div>
       </CustomContainer>
     </div>
-  );
-};
+  )
+}
 
-export default FreeNumbersSection;
+export default FreeNumbersSection

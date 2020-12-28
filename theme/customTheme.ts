@@ -20,8 +20,11 @@ export const themeBasic = {
     jetLight: "#757575",
     jetExtraLight: "#E0E0E0",
     greenBasic: "#0CF574",
+    textPrimary: "#232628",
+    backgroundMedium: "#E9E8F1",
+    primary: "#F74874",
   },
   transition: {
     hover: "0.2s ease-out",
   },
-};
+}

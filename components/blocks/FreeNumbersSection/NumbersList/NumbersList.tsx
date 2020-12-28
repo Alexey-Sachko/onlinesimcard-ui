@@ -1,29 +1,27 @@
-import React from "react";
+import React from "react"
 
-import Typography from "../../../layout/Typography";
-import IconButton from "../../../layout/IconButton";
-
-import NumberItem from "../NumberItem";
-import { useTheme } from "../../../hooks/useTheme";
+import NumberItem from "../NumberItem"
+import { useTheme } from "../../../hooks/useTheme"
+import { Numbers } from "../types"
 
 type Props = {
-  data: any;
-  onSelectNumber: (number: string | number) => void;
-  selectedNumber: number | string;
-  onReloadNumbers: () => void;
-  setIsShowNotify: SetUseState<boolean>;
-};
+  data: Record<string, Numbers>
+  onSelectNumber: (number: string | number) => void
+  selectedNumber: number | string
+  setIsShowNotify: SetUseState<boolean>
+}
 
-export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void;
+export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void
 
 const NumbersList: React.FC<Props> = ({
   data,
   onSelectNumber,
   selectedNumber,
-  onReloadNumbers,
   setIsShowNotify,
 }) => {
-  const theme = useTheme();
+  const theme = useTheme()
+
+  const numbersData = Object.entries(data)
   return (
     <>
       <style jsx>
@@ -43,50 +41,26 @@ const NumbersList: React.FC<Props> = ({
             margin-left: 15px;
           }
           .numbers-container {
-            margin-top: 15px;
-            background: ${theme.colors.whiteBasic};
-            border-radius: 5px;
-            box-shadow: ${theme.shadows.usualShadow};
-          }
-
-          @media (max-width: 576px) {
-            .numbers-list-title {
-              margin-top: 20px;
-              align-items: center;
-            }
-            .numbers-container {
-              margin-top: 10px;
-            }
+            margin-top: 10px;
           }
         `}
       </style>
-      <div className="numbers-list-title">
-        <span>
-          <Typography variant="h5">СПИСОК НОМЕРОВ</Typography>
-        </span>
-        <div className="reset-button-container">
-          <IconButton onClick={onReloadNumbers}>
-            <img
-              className="reset-button-img"
-              src="/static/reset-alternative.svg"
-            />
-          </IconButton>
-        </div>
-      </div>
+
       <div className="numbers-container">
-        {data?.map(({ full_number, number }, idx) => (
+        {numbersData?.map(([pureNumber, numberData], idx) => (
           <NumberItem
             key={idx}
             onSelectNumber={onSelectNumber}
-            full_number={full_number}
-            number={number}
-            selected={selectedNumber === number}
+            full_number={numberData.full_number}
+            number={pureNumber}
+            country={numberData.country}
+            selected={selectedNumber === pureNumber}
             setIsShowNotify={setIsShowNotify}
           />
         ))}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default NumbersList;
+export default NumbersList

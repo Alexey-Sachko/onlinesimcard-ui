@@ -1,19 +1,21 @@
-import React from "react";
+import React from "react"
 
-import Typography from "../../../layout/Typography";
-import CopyIcon from "../../../icons/CopyIcon";
-import MessageIcon from "../../../icons/MessageIcon";
-import { useTheme } from "../../../hooks/useTheme";
+import Typography from "../../../layout/Typography"
+import CopyIcon from "../../../icons/CopyIcon"
+import { useTheme } from "../../../hooks/useTheme"
+import prepareNumber from "../../../../helpers/prepareNumber"
+import countrySettings from "../country-settings"
 
 type Props = {
-  number: string | number;
-  full_number: string;
-  selected: boolean;
-  onSelectNumber: (number: string | number) => void;
-  setIsShowNotify: SetUseState<boolean>;
-};
+  number: string | number
+  full_number: string
+  selected: boolean
+  onSelectNumber: (number: string | number) => void
+  setIsShowNotify: SetUseState<boolean>
+  country: number | null
+}
 
-export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void;
+export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void
 
 const NumberItem: React.FC<Props> = ({
   number,
@@ -21,34 +23,29 @@ const NumberItem: React.FC<Props> = ({
   selected,
   onSelectNumber,
   setIsShowNotify,
+  country,
 }) => {
-  const theme = useTheme();
+  const theme = useTheme()
   const onClickNumber = () => {
-    onSelectNumber(number);
-  };
+    onSelectNumber(number)
+  }
 
   const onCopyNumber = () => {
-    navigator.clipboard.writeText(full_number);
-    setIsShowNotify((prev) => !prev);
-  };
+    navigator.clipboard.writeText(full_number)
+    setIsShowNotify((prev) => !prev)
+  }
+
+  const countrySetting = countrySettings[country]
 
   return (
     <div className="container" onClick={onClickNumber}>
       <style jsx>
         {`
           .container {
-            padding: 17px 20px;
+            padding: 10px 20px;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid ${theme.colors.jetExtraLight};
             transition: background ${theme.transition.hover};
-          }
-          .container:last-child {
-            border-bottom: none;
-            border-radius: 0 0 5px 5px;
-          }
-          .container:first-child {
-            border-radius: 5px 5px 0 0;
           }
           .number-icon {
             display: flex;
@@ -56,6 +53,8 @@ const NumberItem: React.FC<Props> = ({
           }
           .number-body {
             margin: auto 0 auto 15px;
+            font-size: 16px;
+            line-height: 19.36px;
           }
           .copy-number-icon {
             display: flex;
@@ -72,33 +71,33 @@ const NumberItem: React.FC<Props> = ({
       <style jsx>
         {`
           .container {
-            background: ${selected ? theme.colors.jetExtraLight : "initial"};
+            background: ${selected ? theme.colors.backgroundMedium : "#fff"};
             cursor: ${selected ? "initial" : "pointer"};
           }
           .container:hover {
-            background: ${selected ? theme.colors.jetExtraLight : "#f0f0f0"};
+            background: ${selected ? theme.colors.backgroundMedium : "#f0f0f0"};
           }
           .number-text {
-            color: ${selected ? theme.colors.blueBasic : "initial"};
+            color: #000;
           }
         `}
       </style>
       <div className="number-icon">
-        <MessageIcon color={selected ? "blueBasic" : "jetBasic"} />
+        <img src="/static/telephone.svg" alt="telephone-ic" />
       </div>
       <div className="number-body">
-        <Typography
-          color={selected ? "blueBasic" : "jetBasic"}
-          variant="usualParagraph"
-        >
-          {full_number}
-        </Typography>
+        +{country}{" "}
+        {prepareNumber(
+          number.toString(),
+          countrySetting?.regexp,
+          countrySetting?.mask
+        )}
       </div>
       <div onClick={onCopyNumber} className="copy-number-icon">
-        <CopyIcon color={selected ? "blueBasic" : "jetLight"} />
+        <img src="/static/right-arrow.svg" alt="right-arrow" />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NumberItem;
+export default NumberItem

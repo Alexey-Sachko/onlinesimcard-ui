@@ -1,19 +1,19 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { Box, CssBaseline, Grid } from "@material-ui/core";
-import ym from "react-yandex-metrika";
+import React from "react"
+import { useRouter } from "next/router"
+import { Box, CssBaseline, Grid } from "@material-ui/core"
+import ym from "react-yandex-metrika"
 
-import CustomContainer from "../CustomContainer";
-import ProductCard from "../ProductCard";
-import Typography from "../../layout/Typography";
-import { useTheme } from "../../hooks/useTheme";
+import CustomContainer from "../CustomContainer"
+import ProductCard from "../ProductCard"
+import Typography from "../../layout/Typography"
+import { useTheme } from "../../hooks/useTheme"
 
 const MainSection = () => {
-  const router = useRouter();
-  const theme = useTheme();
+  const router = useRouter()
+  const theme = useTheme()
 
   return (
-    <CustomContainer>
+    <CustomContainer margin="0 30px" width="1380px">
       <style jsx>
         {`
           .title-text {
@@ -108,8 +108,8 @@ const MainSection = () => {
                 "более 20 стран в наличии",
               ]}
               onActionClick={() => {
-                router.push("/signup");
-                ym("reachGoal", "GET_ONE_TIME_NUMBER");
+                router.push("/signup")
+                ym("reachGoal", "GET_ONE_TIME_NUMBER")
               }}
             />
           </Grid>
@@ -123,8 +123,8 @@ const MainSection = () => {
                 "срок аренды до 180 дней и продление",
               ]}
               onActionClick={() => {
-                router.push("/signup");
-                ym("reachGoal", "GET_RENT_NUMBER");
+                router.push("/signup")
+                ym("reachGoal", "GET_RENT_NUMBER")
               }}
             />
           </Grid>
@@ -157,7 +157,7 @@ const MainSection = () => {
             </Grid> */}
       {/* </Grid> */}
     </CustomContainer>
-  );
-};
+  )
+}
 
-export default MainSection;
+export default MainSection
