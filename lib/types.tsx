@@ -21,21 +21,36 @@ export type Query = {
   users: Array<UserType>;
   usersStat: UsersStat;
   allPermissions: Array<Permissions>;
-  myCurrentActivations: Array<ActivationType>;
+  myActivations: Array<ActivationType>;
+  myActivationsCount: Scalars['Float'];
+  activations: Array<ActivationType>;
   countries: Array<CountryType>;
   services: Array<ServiceType>;
   prices: Array<PriceType>;
   allServices: Array<ServiceDictionaryItemType>;
   apiServices: Array<ServiceFromApi>;
   transactions: Array<TransactionGqlType>;
-  freeCountries: Array<FreeCountryType>;
-  freeNumbers: Array<FreeNumType>;
-  freeNumber: FreeNumType;
-  freeMessages: FreeMessagesType;
   articles: Array<ArticleType>;
   articlesCount: Scalars['Float'];
   article?: Maybe<ArticleType>;
   myOrders: Array<OrderType>;
+};
+
+
+export type QueryMyActivationsArgs = {
+  isCurrent?: Maybe<Scalars['Boolean']>;
+  pagination: PaginationGqlInput;
+};
+
+
+export type QueryMyActivationsCountArgs = {
+  isCurrent?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type QueryActivationsArgs = {
+  getActivationsInput?: Maybe<GetActivationsInput>;
+  pagination: PaginationGqlInput;
 };
 
 
@@ -51,17 +66,6 @@ export type QueryServicesArgs = {
 
 export type QueryApiServicesArgs = {
   servicesApiQueryInput: ServicesApiQueryInput;
-};
-
-
-export type QueryFreeNumberArgs = {
-  num: Scalars['String'];
-};
-
-
-export type QueryFreeMessagesArgs = {
-  page?: Maybe<Scalars['Int']>;
-  number: Scalars['String'];
 };
 
 
@@ -115,6 +119,11 @@ export type UsersStat = {
   usersCount: Scalars['Float'];
 };
 
+export type PaginationGqlInput = {
+  limit: Scalars['Float'];
+  offset: Scalars['Float'];
+};
+
 export type ActivationType = {
   __typename?: 'ActivationType';
   id: Scalars['Float'];
@@ -131,7 +140,6 @@ export type ActivationType = {
 export enum ActivationStatus {
   WaitCode = 'WAIT_CODE',
   WaitAgain = 'WAIT_AGAIN',
-  SendingConfirmed = 'SENDING_CONFIRMED',
   SmsRecieved = 'SMS_RECIEVED',
   Cancelled = 'CANCELLED',
   Finished = 'FINISHED',
@@ -144,6 +152,11 @@ export type ActivationCodeType = {
   id: Scalars['Float'];
   code: Scalars['String'];
   activationId: Scalars['Float'];
+};
+
+export type GetActivationsInput = {
+  isCurrent?: Maybe<Scalars['Boolean']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type CountriesQueryInput = {
@@ -212,45 +225,6 @@ export enum TransactionType {
   Buy = 'Buy'
 }
 
-export type FreeCountryType = {
-  __typename?: 'FreeCountryType';
-  country: Scalars['Int'];
-  country_text?: Maybe<Scalars['String']>;
-  numbers: Array<FreeNumType>;
-};
-
-export type FreeNumType = {
-  __typename?: 'FreeNumType';
-  maxdate?: Maybe<Scalars['String']>;
-  number: Scalars['String'];
-  country: Scalars['Int'];
-  updated_at: Scalars['String'];
-  data_humans: Scalars['String'];
-  full_number: Scalars['String'];
-  country_text: Scalars['String'];
-  messages: FreeMessagesType;
-};
-
-
-export type FreeNumTypeMessagesArgs = {
-  page?: Maybe<Scalars['Int']>;
-};
-
-export type FreeMessagesType = {
-  __typename?: 'FreeMessagesType';
-  current_page: Scalars['Int'];
-  from?: Maybe<Scalars['Int']>;
-  to?: Maybe<Scalars['Int']>;
-  per_page: Scalars['Int'];
-  total: Scalars['Int'];
-  data: Array<FreeMessageType>;
-};
-
-export type FreeMessageType = {
-  __typename?: 'FreeMessageType';
-  text: Scalars['String'];
-};
-
 export type ArticleType = {
   __typename?: 'ArticleType';
   id: Scalars['ID'];
@@ -305,6 +279,7 @@ export type Mutation = {
   updateArticle?: Maybe<Array<ErrorType>>;
   deleteArticle?: Maybe<ErrorType>;
   makePayment: MakePaymentResType;
+  forceConfirmOrder?: Maybe<ErrorType>;
 };
 
 
@@ -419,6 +394,12 @@ export type MutationDeleteArticleArgs = {
 
 export type MutationMakePaymentArgs = {
   makePaymenInput: MakePaymentInput;
+};
+
+
+export type MutationForceConfirmOrderArgs = {
+  paymentId: Scalars['String'];
+  orderId: Scalars['Float'];
 };
 
 export type AuthCredentialsDto = {
@@ -555,12 +536,15 @@ export type DisplayActivationFragment = (
   )>> }
 );
 
-export type MyCurrentActivationsQueryVariables = Exact<{ [key: string]: never; }>;
+export type MyActivationsQueryVariables = Exact<{
+  pagination: PaginationGqlInput;
+}>;
 
 
-export type MyCurrentActivationsQuery = (
+export type MyActivationsQuery = (
   { __typename?: 'Query' }
-  & { myCurrentActivations: Array<(
+  & Pick<Query, 'myActivationsCount'>
+  & { myActivations: Array<(
     { __typename?: 'ActivationType' }
     & DisplayActivationFragment
   )> }
@@ -607,6 +591,29 @@ export type MakePaymentMutation = (
       & Pick<PayFormField, 'name' | 'value'>
     )> }
   ) }
+);
+
+export type HistoryDisplayActivationFragment = (
+  { __typename?: 'ActivationType' }
+  & Pick<ActivationType, 'id' | 'status' | 'phoneNum' | 'cost' | 'serviceCode' | 'countryCode'>
+  & { activationCodes?: Maybe<Array<(
+    { __typename?: 'ActivationCodeType' }
+    & Pick<ActivationCodeType, 'code' | 'id'>
+  )>> }
+);
+
+export type MyHistoryActivationsQueryVariables = Exact<{
+  pagination: PaginationGqlInput;
+}>;
+
+
+export type MyHistoryActivationsQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'myActivationsCount'>
+  & { myActivations: Array<(
+    { __typename?: 'ActivationType' }
+    & HistoryDisplayActivationFragment
+  )> }
 );
 
 export type MyOrdersQueryVariables = Exact<{ [key: string]: never; }>;
@@ -775,6 +782,20 @@ export const DisplayActivationFragmentDoc = gql`
   }
 }
     `;
+export const HistoryDisplayActivationFragmentDoc = gql`
+    fragment HistoryDisplayActivation on ActivationType {
+  id
+  status
+  phoneNum
+  cost
+  serviceCode
+  countryCode
+  activationCodes {
+    code
+    id
+  }
+}
+    `;
 export const CreateActivationDocument = gql`
     mutation CreateActivation($createActivationInput: CreateActivationInput!) {
   createActivation(createActivationInput: $createActivationInput) {
@@ -842,38 +863,40 @@ export function useCountriesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHo
 export type CountriesQueryHookResult = ReturnType<typeof useCountriesQuery>;
 export type CountriesLazyQueryHookResult = ReturnType<typeof useCountriesLazyQuery>;
 export type CountriesQueryResult = ApolloReactCommon.QueryResult<CountriesQuery, CountriesQueryVariables>;
-export const MyCurrentActivationsDocument = gql`
-    query MyCurrentActivations {
-  myCurrentActivations {
+export const MyActivationsDocument = gql`
+    query MyActivations($pagination: PaginationGqlInput!) {
+  myActivationsCount(isCurrent: true)
+  myActivations(pagination: $pagination, isCurrent: true) {
     ...DisplayActivation
   }
 }
     ${DisplayActivationFragmentDoc}`;
 
 /**
- * __useMyCurrentActivationsQuery__
+ * __useMyActivationsQuery__
  *
- * To run a query within a React component, call `useMyCurrentActivationsQuery` and pass it any options that fit your needs.
- * When your component renders, `useMyCurrentActivationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMyActivationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyActivationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMyCurrentActivationsQuery({
+ * const { data, loading, error } = useMyActivationsQuery({
  *   variables: {
+ *      pagination: // value for 'pagination'
  *   },
  * });
  */
-export function useMyCurrentActivationsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>) {
-        return ApolloReactHooks.useQuery<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>(MyCurrentActivationsDocument, baseOptions);
+export function useMyActivationsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyActivationsQuery, MyActivationsQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyActivationsQuery, MyActivationsQueryVariables>(MyActivationsDocument, baseOptions);
       }
-export function useMyCurrentActivationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>(MyCurrentActivationsDocument, baseOptions);
+export function useMyActivationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyActivationsQuery, MyActivationsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyActivationsQuery, MyActivationsQueryVariables>(MyActivationsDocument, baseOptions);
         }
-export type MyCurrentActivationsQueryHookResult = ReturnType<typeof useMyCurrentActivationsQuery>;
-export type MyCurrentActivationsLazyQueryHookResult = ReturnType<typeof useMyCurrentActivationsLazyQuery>;
-export type MyCurrentActivationsQueryResult = ApolloReactCommon.QueryResult<MyCurrentActivationsQuery, MyCurrentActivationsQueryVariables>;
+export type MyActivationsQueryHookResult = ReturnType<typeof useMyActivationsQuery>;
+export type MyActivationsLazyQueryHookResult = ReturnType<typeof useMyActivationsLazyQuery>;
+export type MyActivationsQueryResult = ApolloReactCommon.QueryResult<MyActivationsQuery, MyActivationsQueryVariables>;
 export const CancelActivationDocument = gql`
     mutation CancelActivation($activationId: Int!) {
   cancelActivation(activationId: $activationId) {
@@ -978,6 +1001,40 @@ export function useMakePaymentMutation(baseOptions?: ApolloReactHooks.MutationHo
 export type MakePaymentMutationHookResult = ReturnType<typeof useMakePaymentMutation>;
 export type MakePaymentMutationResult = ApolloReactCommon.MutationResult<MakePaymentMutation>;
 export type MakePaymentMutationOptions = ApolloReactCommon.BaseMutationOptions<MakePaymentMutation, MakePaymentMutationVariables>;
+export const MyHistoryActivationsDocument = gql`
+    query MyHistoryActivations($pagination: PaginationGqlInput!) {
+  myActivationsCount(isCurrent: false)
+  myActivations(pagination: $pagination, isCurrent: false) {
+    ...HistoryDisplayActivation
+  }
+}
+    ${HistoryDisplayActivationFragmentDoc}`;
+
+/**
+ * __useMyHistoryActivationsQuery__
+ *
+ * To run a query within a React component, call `useMyHistoryActivationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyHistoryActivationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyHistoryActivationsQuery({
+ *   variables: {
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useMyHistoryActivationsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyHistoryActivationsQuery, MyHistoryActivationsQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyHistoryActivationsQuery, MyHistoryActivationsQueryVariables>(MyHistoryActivationsDocument, baseOptions);
+      }
+export function useMyHistoryActivationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyHistoryActivationsQuery, MyHistoryActivationsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyHistoryActivationsQuery, MyHistoryActivationsQueryVariables>(MyHistoryActivationsDocument, baseOptions);
+        }
+export type MyHistoryActivationsQueryHookResult = ReturnType<typeof useMyHistoryActivationsQuery>;
+export type MyHistoryActivationsLazyQueryHookResult = ReturnType<typeof useMyHistoryActivationsLazyQuery>;
+export type MyHistoryActivationsQueryResult = ApolloReactCommon.QueryResult<MyHistoryActivationsQuery, MyHistoryActivationsQueryVariables>;
 export const MyOrdersDocument = gql`
     query MyOrders {
   myOrders {

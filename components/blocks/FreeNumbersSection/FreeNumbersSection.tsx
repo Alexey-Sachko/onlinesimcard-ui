@@ -1,80 +1,82 @@
-import React, { useState, useCallback, useEffect } from "react"
+import React, { useState, useCallback, useEffect } from "react";
 
-import Typography from "../../layout/Typography"
-import CountryItem from "./CountryItem"
-import CustomContainer from "../CustomContainer"
-import ProductCard from "../ProductCard"
-import NumbersList from "./NumbersList"
-import MessageList from "./MessageList"
-import countryFlags from "./country-settings"
-import { getFreeList } from "./utils"
-import { useTheme } from "../../hooks/useTheme"
-import { FreeNumbers } from "./types"
+import Typography from "../../layout/Typography";
+import CountryItem from "./CountryItem";
+import CustomContainer from "../CustomContainer";
+import NumbersList from "./NumbersList";
+import MessageList from "./MessageList";
+import countryFlags from "./country-settings";
+import { getFreeList } from "./utils";
+import { useTheme } from "../../hooks/useTheme";
+import { FreeNumbers } from "./types";
 
 type Props = {
-  setIsShowNotify: (prev: boolean) => void
-}
+  setIsShowNotify: (prev: boolean) => void;
+};
 
 const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
-  const theme = useTheme()
-  const [selectedCountry, setSelectedCountry] = useState(7)
-  const [freeData, setFreeData] = useState<FreeNumbers>(null)
-  const [selectedNumber, setSelectedNumber] = useState<string | number>(0)
-  const [currentPage, setPage] = useState(1)
-  const [loading, setLoading] = useState(false)
+  const theme = useTheme();
+  const [selectedCountry, setSelectedCountry] = useState(7);
+  const [freeData, setFreeData] = useState<FreeNumbers>(null);
+  const [selectedNumber, setSelectedNumber] = useState<string | number>(0);
+  const [currentPage, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       const freeNumbers = await getFreeList({
         page: currentPage,
         number: selectedNumber,
         country: selectedCountry,
         setLoading,
-      })
-      setFreeData(freeNumbers)
-    })()
-  }, [selectedCountry, selectedNumber])
+      });
+      setFreeData(freeNumbers);
+    })();
+  }, [selectedCountry, selectedNumber]);
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       const freeNumbers = await getFreeList({
         page: currentPage,
         number: freeData?.messages?.number,
         country: selectedCountry,
         setLoading,
-      })
-      setFreeData({
-        ...freeNumbers,
-        messages: {
-          ...(freeNumbers?.messages || {}),
-          data: [
-            ...(freeData?.messages?.data || []),
-            ...(freeNumbers.messages.data || []),
-          ],
-        },
-      })
-    })()
-  }, [currentPage])
+      });
+
+      if (freeNumbers?.messages) {
+        setFreeData({
+          ...freeNumbers,
+          messages: {
+            ...freeNumbers?.messages,
+            data: [
+              ...(freeData?.messages?.data || []),
+              ...(freeNumbers.messages.data || []),
+            ],
+          },
+        });
+      }
+    })();
+  }, [currentPage]);
 
   const onSelectCountry = useCallback(
     (code: number) => {
       if (selectedCountry !== code) {
-        setSelectedCountry(code)
+        setSelectedCountry(code);
       }
     },
     [selectedCountry]
-  )
+  );
 
   useEffect(() => {
-    setPage(1)
-  }, [selectedCountry, selectedNumber])
+    setPage(1);
+  }, [selectedCountry, selectedNumber]);
 
   const onSelectNumber = useCallback(
     (number: number | string) => {
-      setSelectedNumber(number)
+      setSelectedNumber(number);
     },
     [selectedNumber]
-  )
+  );
 
   const onReloadFreeNumbers = async () => {
     const freeNumbers = await getFreeList({
@@ -82,10 +84,10 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
       number: selectedNumber,
       country: selectedCountry,
       setLoading,
-    })
-    setPage(1)
-    setFreeData(freeNumbers)
-  }
+    });
+    setPage(1);
+    setFreeData(freeNumbers);
+  };
 
   return (
     <div className="wrapper">
@@ -228,7 +230,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
         </div>
       </CustomContainer>
     </div>
-  )
-}
+  );
+};
 
-export default FreeNumbersSection
+export default FreeNumbersSection;

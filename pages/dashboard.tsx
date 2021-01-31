@@ -1,9 +1,14 @@
-import React from "react";
+import React from "react"
 
-import DashboardPage from "../components/Dashboard/DashboardPage";
+import DashboardPage from "../components/Dashboard/DashboardPage"
+import { isServer } from "../utils/isServer"
 
 const Dashboard = () => {
-  return <DashboardPage />;
-};
+  if (isServer()) {
+    return <>Loading</>
+  }
 
-export default Dashboard;
+  return <DashboardPage />
+}
+
+export default Dashboard

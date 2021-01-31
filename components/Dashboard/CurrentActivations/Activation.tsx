@@ -85,7 +85,6 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
 
   let actionsJSX: React.ReactNode = null;
   switch (activation.status) {
-    case ActivationStatus.SendingConfirmed:
     case ActivationStatus.SmsRecieved:
       actionsJSX = (
         <Tooltip title="Закончить работу с номером" arrow>
@@ -153,11 +152,9 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
         </Box>
 
         <Box ml={1} className={classes.serviceBox}>
-          {[
-            ActivationStatus.SmsRecieved,
-            ActivationStatus.WaitAgain,
-            ActivationStatus.SendingConfirmed,
-          ].includes(activation.status) ? (
+          {[ActivationStatus.SmsRecieved, ActivationStatus.WaitAgain].includes(
+            activation.status
+          ) ? (
             <Box className={classes.codeBox}>
               <Box mr={1}>
                 <Typography key={lastCode.id} variant="caption">

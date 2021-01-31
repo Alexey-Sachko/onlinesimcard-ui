@@ -1,15 +1,12 @@
-import React from "react"
-
-import Typography from "../../../layout/Typography"
-import { useTheme } from "../../../hooks/useTheme"
+import React from "react";
 
 type Props = {
-  image: string
-  label: string
-  selected: boolean
-  code: number
-  onSelectCountry: (code: number) => void
-}
+  image: string;
+  label: string;
+  selected: boolean;
+  code: number;
+  onSelectCountry: (code: number) => void;
+};
 
 const CountryItem: React.FC<Props> = ({
   image,
@@ -18,7 +15,6 @@ const CountryItem: React.FC<Props> = ({
   onSelectCountry,
   code,
 }) => {
-  const theme = useTheme()
   return (
     <div className="country" onClick={() => onSelectCountry(code)}>
       <style jsx>{`
@@ -26,7 +22,7 @@ const CountryItem: React.FC<Props> = ({
           display: flex;
           align-items: center;
           color: #000;
-          padding: 10px 20px;
+          padding: 7px 20px;
         }
 
         .country img {
@@ -57,7 +53,7 @@ const CountryItem: React.FC<Props> = ({
       <div className="country__label">{label}</div>
       <div className="country__code">{code ? `+${code}` : ""}</div>
     </div>
-  )
-}
+  );
+};
 
-export default CountryItem
+export default CountryItem;

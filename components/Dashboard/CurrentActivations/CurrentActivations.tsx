@@ -1,16 +1,24 @@
-import React from "react"
-import { Box, makeStyles, Paper, Typography } from "@material-ui/core"
-import { gql } from "@apollo/client"
-import { Alert, AlertTitle } from "@material-ui/lab"
+import React from "react";
+import {
+  Box,
+  createStyles,
+  makeStyles,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import { gql } from "@apollo/client";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import { Link } from "react-router-dom";
 
 import {
   ActivationStatus,
   ActivationType,
   useCancelActivationMutation,
-  useMyCurrentActivationsQuery,
+  useMyActivationsQuery,
   useFinishActivationMutation,
-} from "../../../lib/types"
-import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from "./Activation"
+} from "../../../lib/types";
+import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from "./Activation";
+import Pagination from "./Pagination";
 
 const mock: ActivationType[] = [
   {
@@ -132,17 +140,18 @@ const mock: ActivationType[] = [
       },
     ],
   },
-]
+];
 
 export const MY_CURRENT_ACTIVATIONS_QUERY = gql`
-  query MyCurrentActivations {
-    myCurrentActivations {
+  query MyActivations($pagination: PaginationGqlInput!) {
+    myActivationsCount(isCurrent: true)
+    myActivations(pagination: $pagination, isCurrent: true) {
       ...DisplayActivation
     }
   }
 
   ${DISPLAY_ACTIVATION_FRAGMENT}
-`
+`;
 
 export const CANCEL_ACTIVATION_MUTATION = gql`
   mutation CancelActivation($activationId: Int!) {
@@ -151,7 +160,7 @@ export const CANCEL_ACTIVATION_MUTATION = gql`
       message
     }
   }
-`
+`;
 
 export const FINISH_ACTIVATION_MUTATION = gql`
   mutation FinishActivation($activationId: Int!) {
@@ -160,66 +169,71 @@ export const FINISH_ACTIVATION_MUTATION = gql`
       message
     }
   }
-`
+`;
 
 type CurrentActivationsProps = {
-  buyLoading: boolean
-}
+  buyLoading: boolean;
+};
 
-const pollInterval = 4000
+const ACTIVATIONS_PERPAGE = 10;
+const pollInterval = 4000;
 
-const STORAGE_ALERT_POSSIBILITY_INFO_KEY = "POSSIBILITY_INFO"
+const STORAGE_ALERT_POSSIBILITY_INFO_KEY = "POSSIBILITY_INFO_V1";
 
 const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
-  const classes = useStyles()
-  const [showAlert, setShowAlert] = React.useState(true)
-  const { data, refetch, startPolling } = useMyCurrentActivationsQuery({
+  const classes = useStyles();
+  const [showAlert, setShowAlert] = React.useState(true);
+  const [offset, setOffset] = React.useState(0);
+  const limit = ACTIVATIONS_PERPAGE;
+  const { data, refetch, startPolling } = useMyActivationsQuery({
+    variables: { pagination: { limit, offset } },
     pollInterval,
     onError: () => startPolling(pollInterval),
     onCompleted: () => startPolling(pollInterval),
-  })
-  const [cancelActivation] = useCancelActivationMutation()
-  const [finishActivation] = useFinishActivationMutation()
+  });
+  const [cancelActivation] = useCancelActivationMutation();
+  const [finishActivation] = useFinishActivationMutation();
 
   const onCancelActivation = (activationId: number) => {
-    cancelActivation({ variables: { activationId } }).finally(() => refetch())
-  }
+    cancelActivation({ variables: { activationId } }).finally(() => refetch());
+  };
 
   const onFinishActivation = (activationId: number) => {
-    finishActivation({ variables: { activationId } }).finally(() => refetch())
-  }
+    finishActivation({ variables: { activationId } }).finally(() => refetch());
+  };
 
   React.useEffect(() => {
     if (!buyLoading) {
-      refetch && refetch()
+      refetch && refetch();
     }
-  }, [buyLoading])
+  }, [buyLoading]);
 
   React.useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_ALERT_POSSIBILITY_INFO_KEY)
+    const raw = localStorage.getItem(STORAGE_ALERT_POSSIBILITY_INFO_KEY);
     try {
-      const value = JSON.parse(raw)
+      const value = JSON.parse(raw);
       if (value === false) {
-        setShowAlert(false)
+        setShowAlert(false);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }, [])
+  }, []);
 
   const closeAlert = () => {
-    setShowAlert(false)
+    setShowAlert(false);
     localStorage.setItem(
       STORAGE_ALERT_POSSIBILITY_INFO_KEY,
       JSON.stringify(false)
-    )
-  }
+    );
+  };
 
   return (
     <Paper style={{ height: "100%" }}>
       <Box height="100%">
         <Box px={3} py={1} className={classes.header}>
           <Typography variant="body2">Операции:</Typography>
+          <Link to="/history">История</Link>
         </Box>
 
         <Box height="calc(100% - 35px)" overflow="auto" px={2} py={2}>
@@ -227,19 +241,14 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
             <Box mb={2}>
               <Alert severity="info" onClose={closeAlert}>
                 <AlertTitle>
-                  Если не приходит SMS - можно поменять номер бесплатно:
+                  Вк и некоторые другие сервисы не отправляют первое СМС!!!
                 </AlertTitle>
-                <Typography variant="body2">
-                  1. Отмените операцию (деньги вернутся на счёт)
-                </Typography>
-                <Typography variant="body2">
-                  2. Закажите новый номер для нужного сервиса
-                </Typography>
+                <Typography variant="body2">Высылайте код повторно</Typography>
               </Alert>
             </Box>
           )}
 
-          {data?.myCurrentActivations?.map((activation) => (
+          {data?.myActivations?.map((activation) => (
             <Box key={activation.id} mb={2}>
               <Activation
                 activation={activation}
@@ -249,24 +258,37 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
             </Box>
           ))}
 
-          {!data?.myCurrentActivations?.length && (
+          {!data?.myActivations?.length && (
             <Alert severity="warning">
               Нет операций. Закажите номер и используйте его для регистрации в
               выбранном сайте/приложении
             </Alert>
           )}
+
+          {data?.myActivationsCount > limit && (
+            <Pagination
+              onChangeOffset={setOffset}
+              limit={limit}
+              offset={offset}
+              allCount={data.myActivationsCount}
+            />
+          )}
         </Box>
       </Box>
     </Paper>
-  )
-}
+  );
+};
 
-export default CurrentActivations
+export default CurrentActivations;
 
-const useStyles = makeStyles(() => ({
-  header: {
-    background: "#eee",
-    borderTopLeftRadius: "5px",
-    borderTopRightRadius: "5px",
-  },
-}))
+const useStyles = makeStyles(() =>
+  createStyles({
+    header: {
+      display: "flex",
+      justifyContent: "space-between",
+      background: "#eee",
+      borderTopLeftRadius: "5px",
+      borderTopRightRadius: "5px",
+    },
+  })
+);

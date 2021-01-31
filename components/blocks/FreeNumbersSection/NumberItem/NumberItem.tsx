@@ -1,21 +1,19 @@
-import React from "react"
+import React from "react";
 
-import Typography from "../../../layout/Typography"
-import CopyIcon from "../../../icons/CopyIcon"
-import { useTheme } from "../../../hooks/useTheme"
-import prepareNumber from "../../../../helpers/prepareNumber"
-import countrySettings from "../country-settings"
+import { useTheme } from "../../../hooks/useTheme";
+import prepareNumber from "../../../../helpers/prepareNumber";
+import countrySettings from "../country-settings";
 
 type Props = {
-  number: string | number
-  full_number: string
-  selected: boolean
-  onSelectNumber: (number: string | number) => void
-  setIsShowNotify: SetUseState<boolean>
-  country: number | null
-}
+  number: string | number;
+  full_number: string;
+  selected: boolean;
+  onSelectNumber: (number: string | number) => void;
+  setIsShowNotify: SetUseState<boolean>;
+  country: number | null;
+};
 
-export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void
+export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void;
 
 const NumberItem: React.FC<Props> = ({
   number,
@@ -25,24 +23,24 @@ const NumberItem: React.FC<Props> = ({
   setIsShowNotify,
   country,
 }) => {
-  const theme = useTheme()
+  const theme = useTheme();
   const onClickNumber = () => {
-    onSelectNumber(number)
-  }
+    onSelectNumber(number);
+  };
 
   const onCopyNumber = () => {
-    navigator.clipboard.writeText(full_number)
-    setIsShowNotify((prev) => !prev)
-  }
+    navigator.clipboard.writeText(full_number);
+    setIsShowNotify((prev) => !prev);
+  };
 
-  const countrySetting = countrySettings[country]
+  const countrySetting = countrySettings[country];
 
   return (
     <div className="container" onClick={onClickNumber}>
       <style jsx>
         {`
           .container {
-            padding: 10px 20px;
+            padding: 5px 20px;
             display: flex;
             align-items: center;
             transition: background ${theme.transition.hover};
@@ -97,7 +95,7 @@ const NumberItem: React.FC<Props> = ({
         <img src="/static/right-arrow.svg" alt="right-arrow" />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NumberItem
+export default NumberItem;

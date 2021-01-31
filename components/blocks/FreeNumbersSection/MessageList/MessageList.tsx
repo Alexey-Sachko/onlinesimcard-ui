@@ -1,21 +1,21 @@
-import React, { useEffect, useRef, MouseEvent } from "react"
+import React, { useRef } from "react";
 
-import MessageItem from "../MessageItem"
+import MessageItem from "../MessageItem";
 
-import countrySettings from "../country-settings"
+import countrySettings from "../country-settings";
 
-import { FreeNumbers } from "../types"
-import prepareNumber from "../../../../helpers/prepareNumber"
-import { useTheme } from "../../../hooks/useTheme"
-import { SetUseState } from "../NumberItem/NumberItem"
-import BackdropLoader from "../../../layout/BackdropLoader"
+import { FreeNumbers } from "../types";
+import prepareNumber from "../../../../helpers/prepareNumber";
+import { useTheme } from "../../../hooks/useTheme";
+import { SetUseState } from "../NumberItem/NumberItem";
+import BackdropLoader from "../../../layout/BackdropLoader";
 
 type Props = {
-  freeNumbers: FreeNumbers
-  onReloadFreeNumbers: () => void
-  setPage?: SetUseState<number>
-  loading?: boolean
-}
+  freeNumbers: FreeNumbers;
+  onReloadFreeNumbers: () => void;
+  setPage?: SetUseState<number>;
+  loading?: boolean;
+};
 
 const MessageList: React.FC<Props> = ({
   freeNumbers,
@@ -23,27 +23,27 @@ const MessageList: React.FC<Props> = ({
   setPage,
   loading,
 }) => {
-  const messagesBodyRef = useRef<HTMLDivElement>(null)
+  const messagesBodyRef = useRef<HTMLDivElement>(null);
   const scrollHandler = (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
     if (
       messagesBodyRef.current.scrollHeight ===
       messagesBodyRef.current.scrollTop + 550
     ) {
-      setPage((prevPage) => (prevPage += 1))
+      setPage((prevPage) => (prevPage += 1));
     }
-  }
+  };
 
-  const theme = useTheme()
-  const { messages, numbers } = freeNumbers || {}
-  const { number = "", country, data } = messages || {}
-  const dataSelectedNumber = numbers?.[number || ""]
-  const { data_humans = "" } = dataSelectedNumber || {}
+  const theme = useTheme();
+  const { messages, numbers } = freeNumbers || {};
+  const { number = "", country, data } = messages || {};
+  const dataSelectedNumber = numbers?.[number || ""];
+  const { data_humans = "" } = dataSelectedNumber || {};
 
-  const countrySetting = countrySettings[country]
+  const countrySetting = countrySettings[country];
 
   const onCopy = () => {
-    navigator.clipboard.writeText(dataSelectedNumber?.full_number || "")
-  }
+    navigator.clipboard.writeText(dataSelectedNumber?.full_number || "");
+  };
 
   return (
     <>
@@ -274,7 +274,7 @@ const MessageList: React.FC<Props> = ({
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default MessageList
+export default MessageList;

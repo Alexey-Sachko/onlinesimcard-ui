@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Box } from "@material-ui/core";
 import { gql } from "@apollo/client";
 import { useSnackbar } from "notistack";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
-import { PaymentVariant, useMakePaymentMutation } from "../../../lib/types";
+import { useMakePaymentMutation } from "../../../lib/types";
 import { useAuth } from "../../../hooks/useAuth";
 import Header from "../../Header";
-import Activations from "../Activations";
 import Balance from "./Balance";
 import PayModal, { OnPayProps } from "../PayModal";
 import UserMenu from "./UserMenu";
+import HistoryScreen from "../HistoryScreen/HistoryScreen";
+import Activations from "../Activations";
 
 export const MAKE_PAYMENT_MUTATION = gql`
   mutation MakePayment($makePaymentInput: MakePaymentInput!) {
@@ -25,18 +27,10 @@ export const MAKE_PAYMENT_MUTATION = gql`
   }
 `;
 
-const screens = {
-  Activations,
-};
-
-export type ScreenKey = keyof typeof screens;
-
 const DashboardPage = () => {
   const [makePayment] = useMakePaymentMutation();
   const { displayName, me, logout } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
-  const [activeScreen, setActiveScreen] = useState<ScreenKey>("Activations");
-  const ActiveScreen = screens[activeScreen];
 
   const [payModalOpen, setPayModalOpen] = useState(false);
 
@@ -71,7 +65,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <>
+    <HashRouter>
       <Header
         secondaryAction={
           <Box display="flex">
@@ -85,13 +79,20 @@ const DashboardPage = () => {
           </Box>
         }
       />
-      <ActiveScreen />
+      <Switch>
+        <Route path="/" exact>
+          <Activations />
+        </Route>
+        <Route path="/history" exact>
+          <HistoryScreen />
+        </Route>
+      </Switch>
       <PayModal
         open={payModalOpen}
         onClose={() => setPayModalOpen(false)}
         onPay={payHandler}
       />
-    </>
+    </HashRouter>
   );
 };
 

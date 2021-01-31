@@ -72,7 +72,9 @@ const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
       for (let err of graphQLErrors) {
         switch (err.extensions.code) {
           case "UNAUTHENTICATED":
-            return fromPromise(refresh()).flatMap(() => forward(operation));
+            return fromPromise(refresh()).flatMap(
+              () => forward(operation) as any
+            ) as any;
         }
       }
     }
@@ -81,7 +83,7 @@ const create = (initialState: NormalizedCacheObject, ctx?: NextPageContext) => {
   const client = new ApolloClient({
     connectToDevTools: isBrowser,
     ssrMode: !isBrowser, // Выключаем forceFetch на сервере, так что все запросы выполнятся один раз
-    link: ApolloLink.from([errorLink, httpLink]),
+    link: ApolloLink.from([errorLink as any, httpLink]),
     cache: new InMemoryCache().restore(initialState),
   });
 

@@ -1,17 +1,16 @@
-import React from "react"
+import React from "react";
 
-import NumberItem from "../NumberItem"
-import { useTheme } from "../../../hooks/useTheme"
-import { Numbers } from "../types"
+import NumberItem from "../NumberItem";
+import { Numbers } from "../types";
 
 type Props = {
-  data: Record<string, Numbers>
-  onSelectNumber: (number: string | number) => void
-  selectedNumber: number | string
-  setIsShowNotify: SetUseState<boolean>
-}
+  data: Record<string, Numbers>;
+  onSelectNumber: (number: string | number) => void;
+  selectedNumber: number | string;
+  setIsShowNotify: SetUseState<boolean>;
+};
 
-export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void
+export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void;
 
 const NumbersList: React.FC<Props> = ({
   data,
@@ -19,9 +18,7 @@ const NumbersList: React.FC<Props> = ({
   selectedNumber,
   setIsShowNotify,
 }) => {
-  const theme = useTheme()
-
-  const numbersData = Object.entries(data)
+  const numbersData = Object.entries(data);
   return (
     <>
       <style jsx>
@@ -60,7 +57,7 @@ const NumbersList: React.FC<Props> = ({
         ))}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default NumbersList
+export default NumbersList;

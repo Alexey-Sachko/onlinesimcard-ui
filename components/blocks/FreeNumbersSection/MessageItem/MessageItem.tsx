@@ -1,28 +1,26 @@
-import React, { useMemo } from "react"
+import React, { useMemo } from "react";
 
-import Typography from "../../../layout/Typography"
-import { useTheme } from "../../../hooks/useTheme"
-import CopyIcon from "../../../icons/CopyIcon"
-import servicesIcon from "../services-icon"
+import { useTheme } from "../../../hooks/useTheme";
+import servicesIcon from "../services-icon";
 
 type Props = {
-  text: string
-  data_humans: string
-  in_number: string
-}
+  text: string;
+  data_humans: string;
+  in_number: string;
+};
 
 const MessageItem: React.FC<Props> = ({ text, data_humans, in_number }) => {
-  const theme = useTheme()
+  const theme = useTheme();
 
   const newText = useMemo(() => {
-    const regex = /\d/
-    const codeMessage = text.split(/\s/)?.filter((el) => el.match(regex)) || []
-    return codeMessage.join(" ")?.replace(/[.,!]/, "")
-  }, [text])
+    const regex = /\d/;
+    const codeMessage = text.split(/\s/)?.filter((el) => el.match(regex)) || [];
+    return codeMessage.join(" ")?.replace(/[.,!]/, "");
+  }, [text]);
 
   const onCopy = () => {
-    navigator.clipboard.writeText(newText)
-  }
+    navigator.clipboard.writeText(newText);
+  };
 
   return (
     <div className="container">
@@ -168,7 +166,7 @@ const MessageItem: React.FC<Props> = ({ text, data_humans, in_number }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MessageItem
+export default MessageItem;
