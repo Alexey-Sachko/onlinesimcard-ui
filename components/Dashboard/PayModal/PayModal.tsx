@@ -150,7 +150,7 @@ const PayModal = ({ open, onClose, onPay }: PayModalProps) => {
         <Box mt={3}>
           <Typography variant="h6">
             История заказов:{" "}
-            <IconButton onClick={() => refetch()}>
+            <IconButton onClick={() => refetch?.()}>
               <CachedIcon />
             </IconButton>
           </Typography>

@@ -22,6 +22,7 @@ import CurrentActivations from "../CurrentActivations";
 import Services from "../Services";
 import { LoadingMap, OnBuyParams } from "../Services";
 import { TabIndex } from "./tab-index.enum";
+import ReceivingSmsHint from "../ReceivingSmsHint";
 
 export const CREATE_ACTIVATION_MUTATION = gql`
   mutation CreateActivation($createActivationInput: CreateActivationInput!) {
@@ -32,8 +33,7 @@ export const CREATE_ACTIVATION_MUTATION = gql`
   }
 `;
 
-const Activations = () => {
-  const classes = useStyles();
+const Activations: React.FC = () => {
   const tabsClasses = useTabsStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { auth, loading } = useAuth();
@@ -102,40 +102,117 @@ const Activations = () => {
     }
   };
 
-  const servicesJSX = (
-    <>
-      <Box mb={1}>
-        <Countries countryCode={countryCode} setCountryCode={setCountryCode} />
-      </Box>
-      <Box height="calc(100% - 55px)">
-        <Services
-          countryCode={countryCode}
-          onBuy={onBuyHandler}
-          loadingMap={loadingMap}
-        />
-      </Box>
-    </>
-  );
-
-  const currentActivationsJSX = (
-    <CurrentActivations buyLoading={createActivationLoading} />
-  );
-
   return (
-    <Container className={classes.container}>
-      <Box height="4px">{loading && !auth && <LinearProgress />}</Box>
-      <Hidden smDown>
-        <Grid container spacing={3} style={{ height: "100%" }}>
-          <Grid item xs={12} sm={4} md={4} lg={3} style={{ height: "100%" }}>
-            {servicesJSX}
-          </Grid>
+    <>
+      <style jsx>{`
+        .tab {
+          padding: 0;
+          min-height: 0px;
+        }
+        .reveiving-sms-container {
+          display: grid;
+          width: 100%;
+          grid-gap: 15px;
+          grid-template-areas:
+            "hint hint hint"
+            "services activations activations"
+            "services activations activations";
+          max-height: calc(100vh - 50px);
+          grid-template-columns: 320px 1fr 1fr;
+          grid-template-rows: 40px 0.5fr 0.5fr;
+          padding-bottom: 20px;
+        }
+        .hint {
+          grid-area: hint;
+        }
 
-          <Grid item xs={12} sm={8} md={8} lg={9} style={{ height: "100%" }}>
-            {currentActivationsJSX}
-          </Grid>
-        </Grid>
-      </Hidden>
-      <Hidden mdUp>
+        .services {
+          grid-area: services;
+          display: flex;
+          flex-direction: column;
+        }
+        .current-activations {
+          grid-area: activations;
+        }
+        .hidden-xl {
+          display: none;
+        }
+        .countries {
+          margin-bottom: 10px;
+        }
+
+        @media (max-width: 1140px) {
+          .reveiving-sms-container {
+            grid-gap: 10px;
+          }
+        }
+
+        @media (max-width: 760px) {
+          .hidden-sm {
+            display: none;
+          }
+          .hidden-xl {
+            display: flex;
+            flex-direction: column;
+          }
+
+          .reveiving-sms-container {
+            grid-template-areas:
+              "hint hint hint"
+              "services services services"
+              "services services services";
+          }
+
+          .current-activations {
+            height: calc(100% - 70px);
+            overflow: auto;
+          }
+        }
+      `}</style>
+      <style jsx>{`
+        @media (max-width: 760px) {
+          .reveiving-sms-container {
+            grid-template-areas: ${tabIndex === TabIndex.Services
+              ? `
+              "services services services"
+              "services services services"`
+              : ` 
+              "activations activations activations"
+              "activations activations activations"`};
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 75px 1fr;
+          }
+          .hint {
+            display: none;
+          }
+        }
+      `}</style>
+      {loading && !auth && <LinearProgress />}
+      <div className="hidden-sm">
+        <div className="reveiving-sms-container">
+          <div className="hint">
+            <ReceivingSmsHint />
+          </div>
+
+          <div className="services">
+            <div className="countries">
+              <Countries
+                countryCode={countryCode}
+                setCountryCode={setCountryCode}
+              />
+            </div>
+            <Services
+              countryCode={countryCode}
+              onBuy={onBuyHandler}
+              loadingMap={loadingMap}
+            />
+          </div>
+          <div className="current-activations">
+            <CurrentActivations buyLoading={createActivationLoading} />
+          </div>
+        </div>
+      </div>
+      <div className="hidden-xl">
         <Tabs
           classes={tabsClasses}
           value={tabIndex}
@@ -147,7 +224,7 @@ const Activations = () => {
           aria-label="disabled tabs example"
         >
           <Tab
-            className={classes.tab}
+            className="tab"
             label={
               <Box display="flex" alignItems="center">
                 <PublicIcon />{" "}
@@ -156,7 +233,7 @@ const Activations = () => {
             }
           />
           <Tab
-            className={classes.tab}
+            className="tab"
             label={
               <Box display="flex" alignItems="center">
                 <MessageIcon />{" "}
@@ -166,30 +243,40 @@ const Activations = () => {
           />
         </Tabs>
         <Box mt={2} height="calc(100% - 55px)">
-          {tabIndex === TabIndex.Services && servicesJSX}
-          {tabIndex === TabIndex.Activations && currentActivationsJSX}
+          {tabIndex === TabIndex.Services && (
+            <div className="reveiving-sms-container">
+              <div className="hint">
+                <ReceivingSmsHint />
+              </div>
+
+              <div className="services">
+                <div className="countries">
+                  <Countries
+                    countryCode={countryCode}
+                    setCountryCode={setCountryCode}
+                  />
+                </div>
+                <Services
+                  countryCode={countryCode}
+                  onBuy={onBuyHandler}
+                  loadingMap={loadingMap}
+                />
+              </div>
+            </div>
+          )}
+
+          {tabIndex === TabIndex.Activations && (
+            <div className="current-activations">
+              <CurrentActivations buyLoading={createActivationLoading} />
+            </div>
+          )}
         </Box>
-      </Hidden>
-    </Container>
+      </div>
+    </>
   );
 };
 
 export default Activations;
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: theme.spacing(2),
-    height: "calc(100% - 80px)",
-
-    [theme.breakpoints.down("sm")]: {
-      marginTop: theme.spacing(1),
-    },
-  },
-  tab: {
-    padding: 0,
-    minHeight: "0px",
-  },
-}));
 
 const useTabsStyles = makeStyles(() => ({
   root: {

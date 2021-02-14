@@ -43,12 +43,8 @@ class MyApp extends App<AppInitialProps & WithApollo> {
           <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
           <title>Бесплатный прием СМС на виртуальный номер</title>
           <link
-            href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Roboto:300,400,500,700&family=Inter:wght@300;400;500;700&family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
             rel="stylesheet"
-          />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
 
           <script

@@ -40,6 +40,7 @@ const Balance = ({ amount, onPay }: BalanceProps) => {
           vertical: "bottom",
           horizontal: "center",
         }}
+        getContentAnchorEl={null} //https://github.com/mui-org/material-ui/issues/7961
         transformOrigin={{
           vertical: "top",
           horizontal: "center",

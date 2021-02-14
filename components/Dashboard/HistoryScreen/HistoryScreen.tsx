@@ -65,7 +65,7 @@ const HistoryScreen = () => {
   };
 
   return (
-    <Box py={2} px={3} height="calc(100% - 65px)" width="100%">
+    <Box py={2} px={3} height="100%" width="100%">
       <Box display="flex" alignItems="center" mb={1}>
         <IconButton size="small" onClick={onGoBack}>
           <ArrowBack />

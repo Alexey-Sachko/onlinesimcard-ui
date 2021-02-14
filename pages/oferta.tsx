@@ -40,7 +40,7 @@ const Rules = () => {
 
   return (
     <>
-      <Header secondaryAction={<DefaultAction />} />
+      <Header fullWidth="1380px" secondaryAction={<DefaultAction />} />
       <Box py={2} px={3}>
         <Typography variant="h4">Пользовательское соглашение</Typography>
         {loading ? (

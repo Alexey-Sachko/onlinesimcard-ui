@@ -7,7 +7,7 @@ import Typography from "../../layout/Typography";
 const Forbidden = () => {
   return (
     <>
-      <Header />
+      <Header fullWidth="1380px" />
       <div>
         <div>
           <Typography variant="h1" align="center">

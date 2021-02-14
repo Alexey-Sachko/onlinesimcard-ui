@@ -55,7 +55,7 @@ const Verify = () => {
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
       </Head>
-      <Header secondaryAction={<DefaultAction />} />
+      <Header fullWidth="1380px" secondaryAction={<DefaultAction />} />
       <Box pt={5}>
         <Container>
           <Grid container justify="center">

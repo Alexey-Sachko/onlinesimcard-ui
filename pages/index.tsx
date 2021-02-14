@@ -24,7 +24,7 @@ const Home = () => {
             content="Приём смс на виртуальные номера для регистрации вк, инстаграм, whatsapp, телеграм, delivery club и других сайтов"
           />
         </Head>
-        <Header secondaryAction={<DefaultAction />} />
+        <Header fullWidth="1380px" secondaryAction={<DefaultAction />} />
 
         <MainSection />
         <FreeNumbersSection setIsShowNotify={setIsShowNotify} />

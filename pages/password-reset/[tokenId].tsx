@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -19,13 +19,15 @@ const ResetPassword = () => {
     <>
       <Header
         secondaryAction={
-          <Button
-            color="secondary"
-            variant="outlined"
-            onClick={() => router.push("/signup")}
-          >
-            Регистрация
-          </Button>
+          <Box ml="auto">
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={() => router.push("/signup")}
+            >
+              Регистрация
+            </Button>
+          </Box>
         }
       />
       <ResetPasswordPage tokenId={tokenId} />

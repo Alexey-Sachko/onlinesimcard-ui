@@ -108,6 +108,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
             position: relative;
           }
           .content-container {
+            padding-bottom: 40px;
             display: grid;
             grid-template-columns: repeat(12, 0.5fr);
             grid-gap: 2vw;
@@ -141,7 +142,6 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
 
           .message-list-container {
             grid-area: b;
-            margin-bottom: 50px;
           }
           .numbers-seperator {
             padding-top: 10px;
@@ -203,7 +203,10 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
                 <CountryItem
                   key={country}
                   label={country_text}
-                  image={countryFlags[country]?.flagSrc}
+                  image={
+                    countryList[country]?.flagComp ||
+                    countryList.default.flagComp
+                  }
                   code={country}
                   selected={selectedCountry === country}
                   onSelectCountry={onSelectCountry}

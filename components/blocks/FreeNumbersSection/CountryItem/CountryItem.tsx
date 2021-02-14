@@ -42,6 +42,13 @@ const CountryItem: React.FC<Props> = ({
           line-height: 18.75px;
           color: #f74874;
         }
+
+        .country__flag {
+          display: flex;
+          align-items: center;
+          width: 27px;
+          margin-right: 10px;
+        }
       `}</style>
       <style jsx>{`
         .country {
@@ -49,7 +56,7 @@ const CountryItem: React.FC<Props> = ({
           cursor: ${selected ? "initial" : "pointer"};
         }
       `}</style>
-      <img src={image} alt="flag" />{" "}
+      <div className="country__flag">{image}</div>
       <div className="country__label">{label}</div>
       <div className="country__code">{code ? `+${code}` : ""}</div>
     </div>

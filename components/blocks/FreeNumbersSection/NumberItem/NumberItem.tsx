@@ -2,7 +2,7 @@ import React from "react";
 
 import { useTheme } from "../../../hooks/useTheme";
 import prepareNumber from "../../../../helpers/prepareNumber";
-import countrySettings from "../country-settings";
+import countryList from "../../../blocks/FreeNumbersSection/country-list";
 
 type Props = {
   number: string | number;
@@ -33,7 +33,7 @@ const NumberItem: React.FC<Props> = ({
     setIsShowNotify((prev) => !prev);
   };
 
-  const countrySetting = countrySettings[country];
+  const countryItem = countryList[country] || countryList.default;
 
   return (
     <div className="container" onClick={onClickNumber}>
@@ -43,7 +43,7 @@ const NumberItem: React.FC<Props> = ({
             padding: 5px 20px;
             display: flex;
             align-items: center;
-            transition: background ${theme.transition.hover};
+            transition: background-color ${theme.transition.hover};
           }
           .number-icon {
             display: flex;
@@ -87,8 +87,8 @@ const NumberItem: React.FC<Props> = ({
         +{country}{" "}
         {prepareNumber(
           number.toString(),
-          countrySetting?.regexp,
-          countrySetting?.mask
+          countryItem?.regexp,
+          countryItem?.mask
         )}
       </div>
       <div onClick={onCopyNumber} className="copy-number-icon">

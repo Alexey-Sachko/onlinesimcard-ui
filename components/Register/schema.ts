@@ -1,11 +1,11 @@
-import * as Yup from "yup";
+import * as Yup from "yup"
 
 export type RegisterFormState = {
-  email: string;
-  password: string;
-  repassword: string;
-  agreeTerms: boolean;
-};
+  email: string
+  password: string
+  repassword: string
+  agreeTerms: boolean
+}
 
 export const RegisterSchema = Yup.object().shape<RegisterFormState>({
   email: Yup.string().email("Некорректный Email").required("Поле обязательное"),
@@ -18,7 +18,7 @@ export const RegisterSchema = Yup.object().shape<RegisterFormState>({
   repassword: Yup.string()
     // .required("Пароли должны совпадать")
     .test("passwords-match", "Пароли должны совпадать", function (value) {
-      return this.parent.password === value;
+      return this.parent.password === value
     }),
   agreeTerms: Yup.boolean().oneOf([true], "Вы должны принять правила"),
-});
+})

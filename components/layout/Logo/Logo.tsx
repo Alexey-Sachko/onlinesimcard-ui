@@ -1,12 +1,17 @@
 import React from "react";
 import Link from "next/link";
 
-const Logo = () => {
+export type LogoProps = {
+  iconUrl: string;
+};
+
+const Logo = ({ iconUrl }: LogoProps) => {
   return (
     <>
       <style jsx>{`
         .logo-img {
-          max-height: 35px;
+          width: 120px;
+          min-width: 120px;
         }
         .link {
           text-decoration: none;
@@ -20,7 +25,7 @@ const Logo = () => {
       `}</style>
       <Link href="/">
         <a className="link">
-          <img className="logo-img" src="/static/logo.svg" alt="VirtualNUM" />
+          <img className="logo-img" src={iconUrl} alt="VirtualNUM" />
         </a>
       </Link>
     </>

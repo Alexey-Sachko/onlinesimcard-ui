@@ -9,7 +9,7 @@ export const DefaultAction = () => {
   const { auth } = useAuth();
 
   return (
-    <Box display="flex">
+    <Box display="flex" ml="auto">
       {auth ? (
         <Button
           color="secondary"

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import { useRouter } from "next/router";
 
 import LoginPage from "../components/Login/LoginPage";
@@ -12,13 +12,15 @@ export default function SigninPage() {
     <>
       <Header
         secondaryAction={
-          <Button
-            color="secondary"
-            variant="outlined"
-            onClick={() => router.push("/signup")}
-          >
-            Регистрация
-          </Button>
+          <Box ml="auto">
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={() => router.push("/signup")}
+            >
+              Регистрация
+            </Button>
+          </Box>
         }
       />
       <LoginPage />
