@@ -126,7 +126,7 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
             {existMessages ? (
               activation.activationCodes?.map(({ code }, idx) => (
                 <div className="body_message" key={idx}>
-                  <div className="body_message_date">11:34</div>
+                  <div className="body_message_date">1</div>
                   <div className="body_message_text">
                     {code}{" "}
                     <div className="body_message_text_copy-button">
@@ -148,9 +148,10 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
         <div className="actions">
           {existMessages ? (
             <>
-              <button className="button get-more-sms-button">
+              <div />
+              {/* <button className="button get-more-sms-button">
                 Получить {mobileBreakpointActivation && <br />} ещё СМС
-              </button>
+              </button> */}
               <button
                 onClick={() => onFinish(activation.id)}
                 className="button over-use-button"
