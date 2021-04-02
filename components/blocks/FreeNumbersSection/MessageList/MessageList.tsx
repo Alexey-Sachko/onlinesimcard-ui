@@ -51,7 +51,7 @@ const MessageList: React.FC<Props> = ({
         <BackdropLoader open={loading} />
         <div className="messages-header" onClick={onCopy}>
           <div className="messages-header__flag-icon">
-            {countrySetting?.flagComp}
+            <img src={countrySetting?.flagSrc} />
           </div>
           <div className="messages-header__number">
             +{country}{" "}

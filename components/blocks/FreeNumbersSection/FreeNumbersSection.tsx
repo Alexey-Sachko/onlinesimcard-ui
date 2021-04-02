@@ -203,10 +203,7 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
                 <CountryItem
                   key={country}
                   label={country_text}
-                  image={
-                    countryList[country]?.flagComp ||
-                    countryList.default.flagComp
-                  }
+                  image={countryFlags[country]?.flagSrc}
                   code={country}
                   selected={selectedCountry === country}
                   onSelectCountry={onSelectCountry}

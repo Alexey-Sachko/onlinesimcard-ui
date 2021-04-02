@@ -56,7 +56,9 @@ const CountryItem: React.FC<Props> = ({
           cursor: ${selected ? "initial" : "pointer"};
         }
       `}</style>
-      <div className="country__flag">{image}</div>
+      <div className="country__flag">
+        <img src={image} />
+      </div>
       <div className="country__label">{label}</div>
       <div className="country__code">{code ? `+${code}` : ""}</div>
     </div>
