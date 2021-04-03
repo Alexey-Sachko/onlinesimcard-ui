@@ -166,6 +166,7 @@ export type CountriesQueryInput = {
 export type CountryType = {
   __typename?: 'CountryType';
   code: Scalars['String'];
+  alpha2Code: Scalars['String'];
   name?: Maybe<Scalars['String']>;
 };
 
@@ -523,7 +524,7 @@ export type CountriesQuery = (
   { __typename?: 'Query' }
   & { countries: Array<(
     { __typename?: 'CountryType' }
-    & Pick<CountryType, 'code' | 'name'>
+    & Pick<CountryType, 'code' | 'name' | 'alpha2Code'>
   )> }
 );
 
@@ -834,6 +835,7 @@ export const CountriesDocument = gql`
   countries(countriesQueryInput: $countriesQueryInput) {
     code
     name
+    alpha2Code
   }
 }
     `;

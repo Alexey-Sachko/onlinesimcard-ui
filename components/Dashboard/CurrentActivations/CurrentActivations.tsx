@@ -6,6 +6,7 @@ import {
   useCancelActivationMutation,
   useMyActivationsQuery,
   useFinishActivationMutation,
+  useCountriesQuery,
 } from "../../../lib/types";
 import Activation, { DISPLAY_ACTIVATION_FRAGMENT } from "./Activation";
 import Pagination from "./Pagination";
@@ -56,6 +57,9 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
     pollInterval,
     onError: () => startPolling(pollInterval),
     onCompleted: () => startPolling(pollInterval),
+  });
+  const { data: countriesData } = useCountriesQuery({
+    fetchPolicy: "cache-first",
   });
   const [cancelActivation] = useCancelActivationMutation();
   const [finishActivation] = useFinishActivationMutation();
@@ -117,6 +121,7 @@ const CurrentActivations = ({ buyLoading }: CurrentActivationsProps) => {
                 activation={activation}
                 onCancel={onCancelActivation}
                 onFinish={onFinishActivation}
+                countries={countriesData?.countries}
               />
             </div>
           ))}

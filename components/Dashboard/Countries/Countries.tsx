@@ -3,12 +3,14 @@ import React, { ChangeEvent, useState, useEffect } from "react";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 import { useCountriesQuery } from "../../../lib/types";
+import { CountryIcon } from "../../layout/CountryIcon";
 
 export const COUNTRIES_QUERY = gql`
   query Countries($countriesQueryInput: CountriesQueryInput) {
     countries(countriesQueryInput: $countriesQueryInput) {
       code
       name
+      alpha2Code
     }
   }
 `;
@@ -37,10 +39,11 @@ const Countries = ({ countryCode, setCountryCode }: CountriesProps) => {
   const selectHandler = (event: ChangeEvent<HTMLInputElement>) =>
     setCountryCode(event.target.value);
 
-  const countryIconUrl = `/static/flags/${countryCode}.png`;
+  const selectedCountry = data?.countries.find(
+    ({ code }) => code === countryCode
+  );
 
-  const selectedCountryName =
-    data?.countries.find(({ code }) => code === countryCode).name || "";
+  const selectedCountryName = selectedCountry?.name || "";
 
   return (
     <>
@@ -58,7 +61,12 @@ const Countries = ({ countryCode, setCountryCode }: CountriesProps) => {
               {selectedCountryName}
             </div>
             <div className="menu-item-icon">
-              <img src={countryIconUrl} />
+              {selectedCountry && (
+                <CountryIcon
+                  alpha2Code={selectedCountry.alpha2Code}
+                  width={20}
+                />
+              )}
             </div>
             <div className="custom-select__label_toggle-button">
               <img src="/static/eva_arrow-ios-downward-fill.svg" alt="" />
@@ -68,8 +76,7 @@ const Countries = ({ countryCode, setCountryCode }: CountriesProps) => {
 
         {openSelectOptions && (
           <div className="custom-select__options-list">
-            {data?.countries.map(({ code, name }) => {
-              const countryIconUrl = `/static/flags/${code}.png`;
+            {data?.countries.map(({ code, name, alpha2Code }) => {
               return (
                 <div
                   key={code}
@@ -78,7 +85,7 @@ const Countries = ({ countryCode, setCountryCode }: CountriesProps) => {
                 >
                   <div className="menu-item-text">{name}</div>
                   <div className="menu-item-icon">
-                    <img src={countryIconUrl} />
+                    <CountryIcon alpha2Code={alpha2Code} width={22} />
                   </div>
                 </div>
               );

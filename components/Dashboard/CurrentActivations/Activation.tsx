@@ -6,12 +6,14 @@ import { useSnackbar } from "notistack";
 
 import {
   ActivationStatus,
+  CountryType,
   DisplayActivationFragment,
 } from "../../../lib/types";
 import { toTimeString } from "./utils";
 import CopyButton from "./CopyButton";
 import { useServiceName } from "../Services/hooks";
 import { ServiceIcon } from "../Services/ServiceIcon";
+import { CountryIcon } from "../../layout/CountryIcon";
 
 export const DISPLAY_ACTIVATION_FRAGMENT = gql`
   fragment DisplayActivation on ActivationType {
@@ -31,11 +33,17 @@ export const DISPLAY_ACTIVATION_FRAGMENT = gql`
 
 type ActivationProps = {
   activation: DisplayActivationFragment;
+  countries: CountryType[] | undefined;
   onCancel: (activationId: number) => Promise<void> | void;
   onFinish: (activationId: number) => Promise<void> | void;
 };
 
-const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
+const Activation = ({
+  activation,
+  onCancel,
+  onFinish,
+  countries,
+}: ActivationProps) => {
   const [expires, setExpires] = useState("");
   const serviceName = useServiceName(activation.serviceCode);
   const { enqueueSnackbar } = useSnackbar();
@@ -76,7 +84,9 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
     ActivationStatus.WaitAgain,
   ].includes(activation.status);
 
-  const countryIconUrl = `/static/flags/${activation.countryCode}.png`;
+  const country = countries?.find(
+    ({ code }) => code === activation.countryCode
+  );
 
   const mobileBreakpointActivation = activationRef.current?.clientWidth <= 450;
 
@@ -85,7 +95,7 @@ const Activation = ({ activation, onCancel, onFinish }: ActivationProps) => {
       <div ref={activationRef} className="activation-container">
         <div className="title">
           <div className="title_country">
-            <img src={countryIconUrl} />
+            <CountryIcon alpha2Code={country?.alpha2Code} width={24} />
           </div>
           {activation.phoneNum && (
             <>
