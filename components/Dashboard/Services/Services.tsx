@@ -1,18 +1,13 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import {
-  Box,
-  Chip,
   CircularProgress,
   IconButton,
   List,
   ListItem,
   ListItemIcon,
-  ListItemSecondaryAction,
   ListItemText,
   makeStyles,
-  Paper,
   Tooltip,
-  Typography,
 } from "@material-ui/core";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { gql } from "@apollo/client";
@@ -53,10 +48,8 @@ type ServicesExtend = (ServicesQuery["services"][0] & {
 })[];
 
 const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
-  const [value, setValue] = useState("");
-  const [servicesList, setServicesList] = useState([]);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
-  const [filteredServices, setFilteredSerfices] = useState([]);
+  const [filterValue, setFilterValue] = useState("");
+  const [starredServices, setStarredServices] = useState<string[]>([]);
   const classes = useStyles();
 
   const { data, startPolling } = useServicesQuery({
@@ -66,109 +59,77 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
     onCompleted: () => startPolling(pollInterval),
   });
 
-  useEffect(() => {
-    const starServiceLocalStorage =
-      JSON.parse(localStorage.getItem("starsServices")) || [];
-
-    setSelectedServices(starServiceLocalStorage);
-  }, []);
-
-  useEffect(() => {
+  const servicesList = React.useMemo(() => {
     const newData: ServicesExtend =
-      data?.services?.map((servise) => {
-        if (selectedServices.includes(servise.name)) {
-          return { ...servise, isStar: true };
+      data?.services?.map((service) => {
+        if (starredServices.includes(service.code)) {
+          return { ...service, isStar: true };
         } else {
-          return servise;
+          return service;
         }
       }) || [];
 
-    setServicesList([
-      ...newData.filter((service) => Boolean(service?.isStar)),
-      ...newData.filter((service) => !Boolean(service?.isStar)),
-    ]);
-  }, [data]);
-
-  useEffect(() => {
-    if (value) {
-      setFilteredSerfices(() =>
-        servicesList.filter(({ name = "" }) => {
-          const upperName = name.toUpperCase();
-          const upperValue = value.toUpperCase();
-          return upperName?.includes(upperValue);
-        })
-      );
-    }
-  }, [value]);
-
-  const onStarService = async (nameService?: string) => {
-    const isStaredService = selectedServices.includes(nameService);
-
-    setServicesList((prevState) => {
-      const newServisecList = prevState.map((servise) => {
-        if (servise.name === nameService) {
-          return { ...servise, isStar: !isStaredService };
-        } else {
-          return servise;
+    const filtered = newData
+      .filter(({ name = "" }) => {
+        const upperName = name.toUpperCase();
+        const upperValue = filterValue.toUpperCase();
+        return upperName?.includes(upperValue);
+      })
+      .sort((a, b) => {
+        if (a.isStar && b.isStar) {
+          return 0;
+        } else if (a.isStar) {
+          return -1;
+        } else if (b.isStar) {
+          return 1;
         }
       });
 
-      return [
-        ...newServisecList.filter((service) => Boolean(service?.isStar)),
-        ...newServisecList.filter((service) => !Boolean(service?.isStar)),
-      ];
+    return filtered;
+  }, [filterValue, data, starredServices]);
+
+  const onStarService = async (code: string) => {
+    setStarredServices((prev) => {
+      const isStarred = prev.some((item) => item === code);
+      if (isStarred) {
+        return prev.filter((item) => item !== code);
+      }
+
+      return [...prev, code];
     });
-
-    setFilteredSerfices((prevState) => {
-      const newServisecList = prevState.map((servise) => {
-        if (servise.name === nameService) {
-          return { ...servise, isStar: !isStaredService };
-        } else {
-          return servise;
-        }
-      });
-
-      return [
-        ...newServisecList.filter((service) => Boolean(service?.isStar)),
-        ...newServisecList.filter((service) => !Boolean(service?.isStar)),
-      ];
-    });
-
-    if (!isStaredService) {
-      const newStarService = [...(selectedServices || []), nameService];
-      setSelectedServices(newStarService);
-      localStorage.setItem("starsServices", JSON.stringify(newStarService));
-    } else {
-      const newStarService =
-        selectedServices.filter((service) => service !== nameService) || [];
-      setSelectedServices(newStarService);
-      localStorage.setItem("starsServices", JSON.stringify(newStarService));
-    }
   };
 
   const filterHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setValue(value);
+    setFilterValue(value);
   };
+
+  React.useEffect(() => {
+    const fromPersist = getFromPersistServices();
+    setStarredServices(fromPersist);
+  }, []);
+
+  React.useEffect(() => {
+    setPersistServices(starredServices);
+  }, [starredServices]);
 
   return (
     <>
-      {/* <div className="services-title">Сервисы</div> */}
       <div className="services-filter">
         <input
           className="services-filter-input"
-          value={value}
+          value={filterValue}
           onChange={filterHandler}
           placeholder="Сервисы"
           width="24px"
           height="24px"
         />
 
-        {value ? (
+        {filterValue ? (
           <img
             className="services-filter-icon"
             style={{ cursor: "pointer", marginRight: "7px" }}
-            onClick={() => setValue("")}
+            onClick={() => setFilterValue("")}
             src="/static/reset-icon.svg"
             alt="reset-filter"
           />
@@ -188,7 +149,7 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
             paddingBottom: 0,
           }}
         >
-          {(value ? filteredServices : servicesList)?.map(
+          {servicesList.map(
             ({ id, name, code, priceAmount, count, isStar }, idx) => {
               const loading = loadingMap[code];
 
@@ -199,7 +160,7 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
                   className={classes.listItem}
                 >
                   <div
-                    onClick={() => onStarService(name)}
+                    onClick={() => onStarService(code)}
                     className="star-icon"
                   >
                     {isStar ? <StarFilled /> : <Star />}
@@ -327,3 +288,19 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "10px",
   },
 }));
+
+const SERVICES_PERSIST_KEY = "starredServices2";
+
+function setPersistServices(codes: string[]) {
+  const str = JSON.stringify(codes);
+  localStorage.setItem(SERVICES_PERSIST_KEY, str);
+}
+
+function getFromPersistServices(): string[] {
+  try {
+    return JSON.parse(localStorage.getItem(SERVICES_PERSIST_KEY)) || [];
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
