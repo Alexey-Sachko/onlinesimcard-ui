@@ -112,6 +112,7 @@ const Activations: React.FC = () => {
         .reveiving-sms-container {
           display: grid;
           width: 100%;
+          height: 100%;
           grid-gap: 15px;
           grid-template-areas:
             "hint hint hint"
@@ -120,7 +121,7 @@ const Activations: React.FC = () => {
           max-height: calc(100vh - 50px);
           grid-template-columns: 320px 1fr 1fr;
           grid-template-rows: 40px 0.5fr 0.5fr;
-          padding-bottom: 20px;
+          padding-bottom: 5px;
         }
         .hint {
           grid-area: hint;
@@ -188,31 +189,29 @@ const Activations: React.FC = () => {
         }
       `}</style>
       {loading && !auth && <LinearProgress />}
-      <div className="hidden-sm">
-        <div className="reveiving-sms-container">
-          <div className="hint">
-            <ReceivingSmsHint />
-          </div>
+      <div className="reveiving-sms-container hidden-sm">
+        <div className="hint">
+          <ReceivingSmsHint />
+        </div>
 
-          <div className="services">
-            <div className="countries">
-              <Countries
-                countryCode={countryCode}
-                setCountryCode={setCountryCode}
-              />
-            </div>
-            <Services
+        <div className="services">
+          <div className="countries">
+            <Countries
               countryCode={countryCode}
-              onBuy={onBuyHandler}
-              loadingMap={loadingMap}
+              setCountryCode={setCountryCode}
             />
           </div>
-          <div className="current-activations">
-            <CurrentActivations buyLoading={createActivationLoading} />
-          </div>
+          <Services
+            countryCode={countryCode}
+            onBuy={onBuyHandler}
+            loadingMap={loadingMap}
+          />
+        </div>
+        <div className="current-activations">
+          <CurrentActivations buyLoading={createActivationLoading} />
         </div>
       </div>
-      <div className="hidden-xl">
+      <div className="hidden-xl" style={{ height: "100%" }}>
         <Tabs
           classes={tabsClasses}
           value={tabIndex}

@@ -255,7 +255,7 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
 
         .services-filter {
           position: relative;
-          margin-bottom: 0px;
+          margin-bottom: 3px;
         }
 
         .services-filter-input {
@@ -279,7 +279,6 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
 
         @media (max-width: 760px) {
           .number-list {
-            height: calc(100% - 150px);
             max-height: initial;
           }
         }
