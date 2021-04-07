@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import { gql } from "@apollo/client";
+import Cyrillic from "cyrillic-to-translit-js";
 
 import { ServicesQuery, useServicesQuery } from "../../../lib/types";
 import { ServiceIcon } from "./ServiceIcon";
@@ -47,6 +48,8 @@ type ServicesExtend = (ServicesQuery["services"][0] & {
   isStar?: boolean;
 })[];
 
+const cyrillic = new Cyrillic();
+
 const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
   const [filterValue, setFilterValue] = useState("");
   const [starredServices, setStarredServices] = useState<string[]>([]);
@@ -69,11 +72,18 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
         }
       }) || [];
 
+    const upperValue = filterValue.toUpperCase();
+
     const filtered = newData
       .filter(({ name = "" }) => {
         const upperName = name.toUpperCase();
-        const upperValue = filterValue.toUpperCase();
-        return upperName?.includes(upperValue);
+        return (
+          upperName.includes(upperValue) ||
+          upperName.includes(cyrillic.transform(upperValue)) ||
+          upperName.includes(cyrillic.reverse(upperValue)) ||
+          cyrillic.transform(upperName).includes(upperValue) ||
+          cyrillic.reverse(upperName).includes(upperValue)
+        );
       })
       .sort((a, b) => {
         if (a.isStar && b.isStar) {
