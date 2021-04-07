@@ -71,27 +71,26 @@ const Countries = ({ countryCode, setCountryCode }: CountriesProps) => {
             <div className="custom-select__label_toggle-button">
               <img src="/static/eva_arrow-ios-downward-fill.svg" alt="" />
             </div>
+            {openSelectOptions && (
+              <div className="custom-select__options-list">
+                {data?.countries.map(({ code, name, alpha2Code }) => {
+                  return (
+                    <div
+                      key={code}
+                      className="menu-item"
+                      onClick={() => onSelectMenuItem(code)}
+                    >
+                      <div className="menu-item-text">{name}</div>
+                      <div className="menu-item-icon">
+                        <CountryIcon alpha2Code={alpha2Code} width={22} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </ClickAwayListener>
-
-        {openSelectOptions && (
-          <div className="custom-select__options-list">
-            {data?.countries.map(({ code, name, alpha2Code }) => {
-              return (
-                <div
-                  key={code}
-                  className="menu-item"
-                  onClick={() => onSelectMenuItem(code)}
-                >
-                  <div className="menu-item-text">{name}</div>
-                  <div className="menu-item-icon">
-                    <CountryIcon alpha2Code={alpha2Code} width={22} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
       <style jsx>{`
         .custom-select {
@@ -143,11 +142,13 @@ const Countries = ({ countryCode, setCountryCode }: CountriesProps) => {
         }
         .custom-select__options-list {
           position: absolute;
+          top: 35px;
+          left: 0;
           width: 100%;
           z-index: 22;
           background: #fff;
           border-radius: 6px;
-          max-height: 200px;
+          max-height: 700px;
           overflow: auto;
           box-shadow: 0px 54px 74px rgba(0, 0, 0, 0.13),
             0px 34px 34px rgba(0, 0, 0, 0.02), 0px 17px 22px rgba(0, 0, 0, 0.05);
