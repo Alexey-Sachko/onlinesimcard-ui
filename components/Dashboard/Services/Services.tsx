@@ -55,7 +55,7 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
   const [starredServices, setStarredServices] = useState<string[]>([]);
   const classes = useStyles();
 
-  const { data, startPolling } = useServicesQuery({
+  const { data, startPolling, fetchMore } = useServicesQuery({
     variables: { countryCode },
     pollInterval,
     onError: () => startPolling(pollInterval),
@@ -126,6 +126,10 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
   React.useEffect(() => {
     setPersistServices(starredServices);
   }, [starredServices]);
+
+  React.useEffect(() => {
+    fetchMore({ variables: { countryCode } });
+  }, [fetchMore, countryCode]);
 
   return (
     <>
