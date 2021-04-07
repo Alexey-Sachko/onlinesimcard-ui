@@ -75,7 +75,11 @@ const Services = ({ countryCode, onBuy, loadingMap }: ServicesProps) => {
     const upperValue = filterValue.toUpperCase();
 
     const filtered = newData
-      .filter(({ name = "" }) => {
+      .filter(({ name = "", code }) => {
+        if (code === "ot") {
+          return true;
+        }
+
         const upperName = name.toUpperCase();
         return (
           upperName.includes(upperValue) ||
