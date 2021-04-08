@@ -133,26 +133,23 @@ const Activation = ({
         <div className={`body${existMessages ? "" : " body--empty"}`}>
           <div className="body_title">
             Сообщения:
-            {existMessages ? (
-              activation.activationCodes?.map(({ code }, idx) => (
-                <div className="body_message" key={idx}>
-                  <div className="body_message_date">1</div>
-                  <div className="body_message_text">
-                    {code}{" "}
-                    <div className="body_message_text_copy-button">
-                      <CopyButton value={code} />
-                    </div>
+            {activation.activationCodes?.map(({ code }, idx) => (
+              <div className="body_message" key={idx}>
+                <div className="body_message_date">{idx + 1}</div>
+                <div className="body_message_text">
+                  {code}{" "}
+                  <div className="body_message_text_copy-button">
+                    <CopyButton value={code} />
                   </div>
                 </div>
-              ))
-            ) : (
-              <>
-                <div className="body_message-empty">
-                  Ожидаем сообщение от {serviceName}...
-                </div>
-                <LinearProgress />
-              </>
-            )}
+              </div>
+            ))}
+            <>
+              <div className="body_message-empty">
+                Ожидаем сообщение от {serviceName}...
+              </div>
+              <LinearProgress />
+            </>
           </div>
         </div>
         <div className="actions">
