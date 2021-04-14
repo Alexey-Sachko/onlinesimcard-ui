@@ -10,11 +10,7 @@ import { getFreeList } from "./utils";
 import { useTheme } from "../../hooks/useTheme";
 import { FreeNumbers } from "./types";
 
-type Props = {
-  setIsShowNotify: (prev: boolean) => void;
-};
-
-const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
+const FreeNumbersSection = () => {
   const theme = useTheme();
   const [selectedCountry, setSelectedCountry] = useState(7);
   const [freeData, setFreeData] = useState<FreeNumbers>(null);
@@ -215,7 +211,6 @@ const FreeNumbersSection: React.FC<Props> = ({ setIsShowNotify }) => {
               data={freeData?.numbers || {}}
               onSelectNumber={onSelectNumber}
               selectedNumber={selectedNumber || freeData?.messages?.number}
-              setIsShowNotify={setIsShowNotify}
             />
           </div>
 

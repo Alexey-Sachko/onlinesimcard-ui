@@ -7,7 +7,6 @@ type Props = {
   data: Record<string, Numbers>;
   onSelectNumber: (number: string | number) => void;
   selectedNumber: number | string;
-  setIsShowNotify: SetUseState<boolean>;
 };
 
 export type SetUseState<T> = (value: T | ((prevVal: T) => T)) => void;
@@ -16,7 +15,6 @@ const NumbersList: React.FC<Props> = ({
   data,
   onSelectNumber,
   selectedNumber,
-  setIsShowNotify,
 }) => {
   const numbersData = Object.entries(data);
   return (
@@ -52,7 +50,6 @@ const NumbersList: React.FC<Props> = ({
             number={pureNumber}
             country={numberData.country}
             selected={selectedNumber === pureNumber}
-            setIsShowNotify={setIsShowNotify}
           />
         ))}
       </div>

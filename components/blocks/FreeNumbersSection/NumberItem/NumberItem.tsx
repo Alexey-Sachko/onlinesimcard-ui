@@ -9,7 +9,6 @@ type Props = {
   full_number: string;
   selected: boolean;
   onSelectNumber: (number: string | number) => void;
-  setIsShowNotify: SetUseState<boolean>;
   country: number | null;
 };
 
@@ -20,7 +19,6 @@ const NumberItem: React.FC<Props> = ({
   full_number,
   selected,
   onSelectNumber,
-  setIsShowNotify,
   country,
 }) => {
   const theme = useTheme();
@@ -30,7 +28,6 @@ const NumberItem: React.FC<Props> = ({
 
   const onCopyNumber = () => {
     navigator.clipboard.writeText(full_number);
-    setIsShowNotify((prev) => !prev);
   };
 
   const countryItem = countryList[country] || countryList.default;
