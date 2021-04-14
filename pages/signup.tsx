@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 
 import Header from "../components/Header";
 import RegisterPage from "../components/Register/RegisterPage";
@@ -12,13 +12,15 @@ export default function SignUp() {
     <>
       <Header
         secondaryAction={
-          <Button
-            color="secondary"
-            variant="outlined"
-            onClick={() => router.push("/signin")}
-          >
-            Войти
-          </Button>
+          <Box ml="auto">
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={() => router.push("/signin")}
+            >
+              Войти
+            </Button>
+          </Box>
         }
       />
       <RegisterPage />
