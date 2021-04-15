@@ -2,13 +2,13 @@ import React, { useState, useCallback, useEffect } from "react";
 
 import Typography from "../../layout/Typography";
 import CountryItem from "./CountryItem";
-import CustomContainer from "../CustomContainer";
 import NumbersList from "./NumbersList";
 import MessageList from "./MessageList";
 import countryFlags from "./country-settings";
 import { getFreeList } from "./utils";
 import { useTheme } from "../../hooks/useTheme";
 import { FreeNumbers } from "./types";
+import { Container } from "../../layout/Container";
 
 const FreeNumbersSection = () => {
   const theme = useTheme();
@@ -86,11 +86,10 @@ const FreeNumbersSection = () => {
   };
 
   return (
-    <div className="wrapper">
+    <div className="wrapper" id="free">
       <style jsx>
         {`
           .wrapper {
-            margin-top: 70px;
             padding-top: 50px;
             background: ${theme.colors.blueBackground};
           }
@@ -106,10 +105,10 @@ const FreeNumbersSection = () => {
           .content-container {
             padding-bottom: 40px;
             display: grid;
-            grid-template-columns: repeat(12, 0.5fr);
-            grid-gap: 2vw;
+            grid-template-columns: repeat(14, 0.5fr);
+            grid-gap: 30px;
             grid-auto-flow: dense;
-            grid-template-areas: "a a a b b b b b b b b b";
+            grid-template-areas: "a a a a b b b b b b b b b b";
           }
 
           .country-numbers {
@@ -117,7 +116,6 @@ const FreeNumbersSection = () => {
             border-radius: 10px;
             padding: 15px 0;
             grid-area: a;
-            margin-right: 30px;
             height: max-content;
           }
 
@@ -168,8 +166,11 @@ const FreeNumbersSection = () => {
           }
           @media (max-width: 768px) {
             .content-container {
-              grid-template-columns: repeat(1, 1fr);
-              grid-template-areas: "a" "b";
+              display: block;
+            }
+
+            .country-numbers {
+              margin-bottom: 20px;
             }
           }
 
@@ -181,7 +182,7 @@ const FreeNumbersSection = () => {
         `}
       </style>
 
-      <CustomContainer>
+      <Container>
         <div className="header">
           <Typography color="textPrimary" variant="h2">
             Попробуйте наши{" "}
@@ -223,7 +224,7 @@ const FreeNumbersSection = () => {
             />
           </div>
         </div>
-      </CustomContainer>
+      </Container>
     </div>
   );
 };

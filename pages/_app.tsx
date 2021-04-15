@@ -27,6 +27,8 @@ class MyApp extends App<AppInitialProps & WithApollo> {
           {`
             body {
               margin: 0px;
+              font-family: "Inter", sans-serif !important;
+              background-color: #fff !important;
             }
 
             html,
@@ -46,6 +48,11 @@ class MyApp extends App<AppInitialProps & WithApollo> {
             href="https://fonts.googleapis.com/css2?family=Roboto:300,400,500,700&family=Inter:wght@300;400;500;700&family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
             rel="stylesheet"
           />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+          ></link>
 
           <script
             type="text/javascript"

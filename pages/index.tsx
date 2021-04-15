@@ -1,13 +1,9 @@
 import React from "react";
 import Head from "next/head";
 
-import Header from "../components/Header";
-import MainSection from "../components/blocks/MainSection";
-import Footer from "../components/blocks/Footer";
-import FreeNumbersSection from "../components/blocks/FreeNumbersSection";
 import { themeBasic } from "../theme/customTheme";
 import ThemeContext from "../theme/ThemeContext";
-import { DefaultAction } from "../components/Header/actions";
+import { MainPage } from "../components/MainPage/MainPage";
 
 const Home = () => (
   <div>
@@ -19,11 +15,7 @@ const Home = () => (
           content="Приём смс на виртуальные номера для регистрации вк, инстаграм, whatsapp, телеграм, delivery club и других сайтов"
         />
       </Head>
-      <Header fullWidth="1380px" secondaryAction={<DefaultAction />} />
-      <MainSection />
-      <FreeNumbersSection />
-
-      <Footer />
+      <MainPage />
     </ThemeContext.Provider>
 
     <style jsx global>{`

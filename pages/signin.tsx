@@ -1,28 +1,12 @@
 import React from "react";
-import { Box, Button } from "@material-ui/core";
-import { useRouter } from "next/router";
-
 import LoginPage from "../components/Login/LoginPage";
-import Header from "../components/Header";
+import { HeaderLight } from "../components/HeaderLight";
+import { DefaultAction } from "../components/Header/actions";
 
 export default function SigninPage() {
-  const router = useRouter();
-
   return (
     <>
-      <Header
-        secondaryAction={
-          <Box ml="auto">
-            <Button
-              color="secondary"
-              variant="outlined"
-              onClick={() => router.push("/signup")}
-            >
-              Регистрация
-            </Button>
-          </Box>
-        }
-      />
+      <HeaderLight navbarContent={<DefaultAction />} />
       <LoginPage />
     </>
   );

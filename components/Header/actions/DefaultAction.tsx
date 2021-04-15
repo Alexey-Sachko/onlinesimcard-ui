@@ -1,18 +1,18 @@
 import React from "react";
-import { Box, Button } from "@material-ui/core";
 import { useRouter } from "next/router";
 
 import { useAuth } from "../../../hooks/useAuth";
+import { Button } from "../../atoms/Button";
 
 export const DefaultAction = () => {
   const router = useRouter();
   const { auth } = useAuth();
 
   return (
-    <Box display="flex" ml="auto">
+    <>
       {auth ? (
         <Button
-          color="secondary"
+          color="primary"
           variant="outlined"
           onClick={() => router.push("/dashboard")}
         >
@@ -20,22 +20,18 @@ export const DefaultAction = () => {
         </Button>
       ) : (
         <>
-          <Button
-            color="primary"
-            onClick={() => router.push("/signin")}
-            style={{ marginRight: "5px" }}
-          >
+          <Button color="primary" onClick={() => router.push("/signin")}>
             Войти
           </Button>
           <Button
-            color="secondary"
-            variant="outlined"
+            color="primary"
+            variant="contained"
             onClick={() => router.push("/signup")}
           >
             Регистрация
           </Button>
         </>
       )}
-    </Box>
+    </>
   );
 };

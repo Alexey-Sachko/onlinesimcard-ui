@@ -1,26 +1,18 @@
 import React from "react";
-import { Box, Button } from "@material-ui/core";
-
-import Header from "../components/Header";
 import RegisterPage from "../components/Register/RegisterPage";
-import { useRouter } from "next/router";
+import { HeaderLight } from "../components/HeaderLight";
+import { LoginButton } from "../components/atoms/LoginButton";
+import { RegisterButton } from "../components/atoms/RegisterButton";
 
 export default function SignUp() {
-  const router = useRouter();
-
   return (
     <>
-      <Header
-        secondaryAction={
-          <Box ml="auto">
-            <Button
-              color="secondary"
-              variant="outlined"
-              onClick={() => router.push("/signin")}
-            >
-              Войти
-            </Button>
-          </Box>
+      <HeaderLight
+        navbarContent={
+          <>
+            <LoginButton />
+            <RegisterButton />
+          </>
         }
       />
       <RegisterPage />

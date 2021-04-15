@@ -1,8 +1,8 @@
 import React from "react";
 
 import Header from "../../Header/Header";
-import Footer from "../Footer";
 import Typography from "../../layout/Typography";
+import { Footer } from "../../MainPage/sections/Footer";
 
 const Forbidden = () => {
   return (

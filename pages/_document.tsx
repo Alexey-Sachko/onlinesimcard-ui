@@ -1,5 +1,5 @@
 import React from "react";
-import NextDocument from "next/document";
+import NextDocument, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets as MaterialUiServerStyleSheets } from "@material-ui/core/styles";
 import { ServerStyleSheet } from "styled-components";
 export default class Document extends NextDocument {
@@ -16,13 +16,25 @@ export default class Document extends NextDocument {
     const initialProps = await NextDocument.getInitialProps(ctx);
     return {
       ...initialProps,
-      styles: [
+      styles: (
         <React.Fragment key="styles">
           {initialProps.styles}
           {materialUiSheets.getStyleElement()}
           {sheet.getStyleElement()}
-        </React.Fragment>,
-      ],
+        </React.Fragment>
+      ),
     };
+  }
+
+  render() {
+    return (
+      <Html lang="ru">
+        <Head />
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
