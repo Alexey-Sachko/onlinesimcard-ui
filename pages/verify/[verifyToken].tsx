@@ -42,6 +42,7 @@ const Verify = () => {
 
       if (!_verifyUserError) {
         setIsVerified(true);
+        router.push("/dashboard");
       }
     })();
   }, []);
