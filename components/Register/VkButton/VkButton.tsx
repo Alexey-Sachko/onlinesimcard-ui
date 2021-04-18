@@ -6,10 +6,12 @@ import VkIcon from "./VkIcon";
 
 type VkButtonProps = {
   className?: string;
+  onClick?: () => void;
 };
 
-const VkButton = ({ className }: VkButtonProps) => {
+const VkButton = ({ className, onClick }: VkButtonProps) => {
   const vkOauthHandler = () => {
+    onClick?.();
     window.location.href = `${env.apiBaseUrl}/auth/vkontakte?redirect_uri=${location.origin}/dashboard`;
   };
 

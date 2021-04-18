@@ -36,12 +36,14 @@ type RegisterFormProps = {
   onStartSubmit?: () => void;
   onCompleteSubmit?: () => void;
   onErrorSubmit?: (type: "VALIDATION_ERROR" | "APP_ERROR") => void;
+  onClickVk: () => void;
 };
 
 const RegisterForm = ({
   onStartSubmit,
   onCompleteSubmit,
   onErrorSubmit,
+  onClickVk,
 }: RegisterFormProps) => {
   const classes = useRegisterFormStyles();
   const [register] = useRegisterMutation();
@@ -96,7 +98,7 @@ const RegisterForm = ({
     >
       {({ errors, isSubmitting, values }) => (
         <Form className={classes.form} noValidate>
-          <VkButton className={classes.submit} />
+          <VkButton className={classes.submit} onClick={onClickVk} />
           <Box>
             <Typography align="center">Или</Typography>
           </Box>

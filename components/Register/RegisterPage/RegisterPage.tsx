@@ -49,6 +49,9 @@ const RegisterPage = () => {
                 setComplete(true);
                 ym("reachGoal", "SIGNUPPED");
               }}
+              onClickVk={() => {
+                ym("reachGoal", "SIGNUP_VK");
+              }}
               onErrorSubmit={(errType) => {
                 if (errType === "APP_ERROR") {
                   setAppError(true);
