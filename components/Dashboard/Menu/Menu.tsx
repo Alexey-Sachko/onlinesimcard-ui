@@ -9,7 +9,6 @@ import MenuItem from "./MenuItem";
 type Props = { setOpenMenu?: SetUseState<boolean> };
 
 const Menu: React.FC<Props> = ({ setOpenMenu }) => {
-  const [innerHeight, setInnerHeight] = useState(0);
   const { logout } = useAuth();
 
   const history = useHistory();
@@ -18,12 +17,6 @@ const Menu: React.FC<Props> = ({ setOpenMenu }) => {
     history.push(to);
     setOpenMenu(false);
   };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setInnerHeight(window.innerHeight - 70);
-    }
-  }, []);
 
   return (
     <>
@@ -77,6 +70,7 @@ const Menu: React.FC<Props> = ({ setOpenMenu }) => {
         </MenuItem>
         <MenuItem onClick={navigate("/")}>Приём СМС</MenuItem>
         <MenuItem onClick={navigate("/history")}>История</MenuItem>
+        <MenuItem onClick={navigate("/pay")}>Оплата</MenuItem>
 
         {/* <div className="menu__title">Аккаунт</div> */}
 
